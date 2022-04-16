@@ -45,7 +45,7 @@ def main():
 
     while True:
         currentPos = mouse.get_position()
-        print(currentPos)
+        # print(currentPos)
 
         if keyboard.is_pressed("F1"):
             print("True", currentPos)
