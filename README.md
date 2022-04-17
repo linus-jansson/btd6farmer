@@ -7,7 +7,7 @@ This python bot will farm dark castle on chimps mode in BTD 6. It uses tesseract
 *Currently only supports 1440p screen resolutions*\
 *Should work on linux using proton but the bot is made for Windows*
 
-Feel free to make a pull request if you find any improvements
+Feel free to make a pull request if you find any improvements or create a issue if something isn't working correctly
 ## Requrements
 - Tesseract v5.0+
 - Python 3.10+
