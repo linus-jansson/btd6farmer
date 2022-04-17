@@ -466,7 +466,7 @@ def main_game(instructions):
             if time.time()-prev >= 5:
                 # Leta efter Defeat
 
-                if current_round >= 40:
+                if current_round >= 39:
                     click(button_positions["ABILLITY_ONE"])
                 
                 if current_round >= 51:
