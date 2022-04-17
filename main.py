@@ -512,8 +512,6 @@ def main_game(instructions):
                 ability_two_timer = time.time()
                 # click(button_positions["ABILLITY_TWO"])
 
-                prev_time = time.time()
-
             # Check for finished or failed game
             if defeat_check():
                 print("Defeat detected on round {}; exiting level".format(current_round))
@@ -523,8 +521,6 @@ def main_game(instructions):
                 print("Victory detected.. exiting level")
                 exit_level()
                 return 0
-
-            # print("waiting:", inst['ROUND'], "current_round:", current_round)
 
             continue
         else:
