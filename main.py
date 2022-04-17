@@ -1,7 +1,3 @@
-from dis import Instruction
-import queue
-from turtle import position
-from PIL import Image
 import pytesseract
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
@@ -10,14 +6,9 @@ import numpy as np
 import pyautogui
 import time
 import csv
-
-import threading
 import re
 
 import mouse, keyboard
-from collections import defaultdict
-
-from pprint import pprint
 
 
 
@@ -450,9 +441,14 @@ def main_game(instructions):
             else:
                 current_round = -1
 
+
             # Insta monkey popup check
             if insta_monkey_check():
                 mouse.click(button='left')
+                mouse.click(button='left')
+            
+            # Check for levelup
+            check_levelup()
 
             # Check for finished or failed game
             if defeat_check() or victory_check():
