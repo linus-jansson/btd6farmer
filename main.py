@@ -206,12 +206,12 @@ def button_click(btn):
     time.sleep(0.5)
 
 def press_key(key):
-    keyboard.press_and_release(key)
+    keyboard.send(key)
     time.sleep(0.1)
 
 def getRound():
-    top, left = scaling([1880, 35])
-    width, height = scaling([195, 65])
+    top, left = scaling([1850, 35])
+    width, height = scaling([225, 65])
     img = pyautogui.screenshot(region=(top, left, width, height))
     
     numpyImage = np.array(img)
@@ -521,20 +521,22 @@ def main_game(instructions):
             if check_levelup():
                 w, h = pyautogui.size()
                 middle_of_screen = w//2, h//2
-                click(middle_of_screen)
-                click(middle_of_screen)
+                click(scaling(middle_of_screen))
+                click(scaling(middle_of_screen))
                 #press_key("space") # Fast forward the game
 
 
-            # Saftey net; use abilites every two seconds
-            if time.time() - prev_time >= 2:
+            # Saftey net; use abilites every second
+            if time.time() - prev_time >= 1.0:
                 # Leta efter Defeat
 
-                if current_round >= 39:
-                    click(button_positions["ABILLITY_ONE"])
+                if current_round >= 40:
+                    press_key("1")
+                    # click(button_positions["ABILLITY_ONE"])
                 
                 if current_round >= 51:
-                    click(button_positions["ABILLITY_TWO"])
+                    press_key("2")
+                    # click(button_positions["ABILLITY_TWO"])
 
                 prev_time = time.time()
 
