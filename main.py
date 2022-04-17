@@ -180,7 +180,8 @@ def press_key(key):
 
 def getRound():
     top, left = scaling([1880, 35])
-    img = pyautogui.screenshot(region=(top, left, 195, 65))
+    width, height = scaling([195, 65])
+    img = pyautogui.screenshot(region=(top, left, width, height))
     
     numpyImage = np.array(img)
 
