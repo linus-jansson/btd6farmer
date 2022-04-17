@@ -18,7 +18,7 @@ defeat_path = current_directory + "Support_Files\\" + str(height) + "_defeat.png
 menu_path = current_directory + "Support_Files\\" + str(height) + "_menu.png"
 easter_path = current_directory + "Support_Files\\" + str(height) + "_easter.png"
 obyn_hero_path = current_directory + "Support_Files\\" + str(height) + "_obyn.png"
-insta_monkey = current_directory + "Support_Files\\1440_instamonkey.png"
+insta_monkey = current_directory + "Support_Files\\" +str(height) + "_instamonkey.png"
 
 button_positions = { # Creates a dictionary of all positions needed for monkeys (positions mapped to 2160 x 1440 resolution)
     "HOME_MENU_START" : [1123, 1248],
@@ -196,6 +196,7 @@ def getRound():
 
     # regex to look for format [[:digit:]]/[[:digit:]] if not its not round, return None
     if re.search(r"(\d+/\d+)", text):
+        print(text)
         text = text.split("/")
         text = tuple(map(int, text))
         return text
@@ -256,7 +257,7 @@ def handleInstruction(instruction):
             press_key(upgrade_keybinds["bottom"])
 
         
-        print("Upgrading ", instruction["MONKEY"], "to ", instruction["UPGRADE"], "diff -", instruction["UPGRADE_DIFF"])
+        print(instruction["MONKEY"], instruction["UPGRADE"], "diff -", instruction["UPGRADE_DIFF"])
 
         press_key("esc")
 
@@ -535,11 +536,7 @@ def main():
     fixed_instructions = formatData()
     while True:
         print("selecting map")
-        
-        # Prevent alt+tab bug from happening
-        press_key("alt")
-
-        # Choose map
+        # choose map
         select_map()   
 
         print("Game start")
