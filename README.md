@@ -45,10 +45,3 @@ Press f11 to get printed infromation on how the bot is doing
 ## Issues
 Currently there is a bug in BTD 6 where the keybinds stop working if alt+tab is pressed. If by some reason this bug occurs. Please press alt ingame after starting the script otherwise the script wont be able to place towers.
 
-
-# Todo:
-- Docker support
-- resolution scaling
-- Fix auto selecting OBYN if other hero is chosen (broken since last update)
-- logging
-- code cleanup
