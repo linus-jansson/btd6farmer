@@ -1,30 +1,16 @@
+import os, csv, re, time
 import pytesseract
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 import cv2
 import numpy as np
-import pyautogui
-import time
-import csv
-import re
 
-import mouse, keyboard
+import pyautogui, mouse, keyboard
 
 
-
-"""
-Bloons td 6 bot which farms datk castle on chimps mode
-
-Made for 2560x1440
-
-TODO: 
-- 1080p support
-
-"""
-import os
 current_directory = os.getcwd() + "\\"
 width, height = pyautogui.size()
-path = current_directory + "Support_Files\\" + str(height) + "_levelup.png"
+levelup_path = current_directory + "Support_Files\\" + str(height) + "_levelup.png"
 victory_path = current_directory + "Support_Files\\" + str(height) + "_victory.png"
 defeat_path = current_directory + "Support_Files\\" + str(height) + "_defeat.png"
 menu_path = current_directory + "Support_Files\\" + str(height) + "_menu.png"
@@ -265,33 +251,14 @@ def handleInstruction(instruction):
 
 def check_levelup():
 
-    found = pyautogui.locateOnScreen(path, confidence=0.9)
+    found = pyautogui.locateOnScreen(levelup_path, confidence=0.9)
 
-    if found != None:
-        print("level upp")
-
-        button_click("LEFT_INSTA") # Accept lvl
-        time.sleep(1)
-        button_click("LEFT_INSTA") # Accept knoledge
-        time.sleep(1)
-
-        button_click("LEFT_INSTA") # unlock insta
-        time.sleep(1)
-        button_click("LEFT_INSTA") # collect insta
-        time.sleep(1)
-
-        button_click("MID_INSTA") # unlock insta
-        time.sleep(1)
-        button_click("MID_INSTA") # collect insta
-        time.sleep(1)
-
-        button_click("RIGHT_INSTA") # unlock r insta
-        time.sleep(1)
-        button_click("RIGHT_INSTA") # collect r insta
-        time.sleep(2)  
-        press_key("space") # Start the game
-        time.sleep(1)
-        #press_key("space") # Fast forward the game
+    if found:
+        print("level up detected")
+        return True
+    else:
+        return False
+        
     
 
 def easter_event_check():
@@ -354,9 +321,6 @@ def defeat_check():
         return False
 
 def exit_level():
-
-    defeat_check()
-    victory_check()
     
     button_click("VICTORY_CONTINUE")
     time.sleep(2)
@@ -448,7 +412,26 @@ def main_game(instructions):
                 mouse.click(button='left')
             
             # Check for levelup
-            check_levelup()
+            if check_levelup():
+                button_click("LEFT_INSTA") # Accept lvl
+                time.sleep(1)
+                button_click("LEFT_INSTA") # Accept knoledge
+                time.sleep(1)
+
+                button_click("LEFT_INSTA") # unlock insta
+                time.sleep(1)
+                button_click("LEFT_INSTA") # collect insta
+                time.sleep(1)
+
+                button_click("MID_INSTA") # unlock insta
+                time.sleep(1)
+                button_click("MID_INSTA") # collect insta
+                time.sleep(1)
+
+                button_click("RIGHT_INSTA") # unlock r insta
+                time.sleep(1)
+                button_click("RIGHT_INSTA") # collect r insta
+                #press_key("space") # Fast forward the game
 
             # Check for finished or failed game
             if defeat_check() or victory_check():
