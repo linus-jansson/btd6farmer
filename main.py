@@ -196,7 +196,6 @@ def getRound():
 
     # regex to look for format [[:digit:]]/[[:digit:]] if not its not round, return None
     if re.search(r"(\d+/\d+)", text):
-        print(text)
         text = text.split("/")
         text = tuple(map(int, text))
         return text
