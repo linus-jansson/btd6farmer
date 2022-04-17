@@ -464,39 +464,14 @@ def insta_monkey_check():
     else:
         return False
 
+def abilityAvaliabe(last_used, cooldown):
+    return (time.time() - last_used) >= (cooldown / 3)
+
 def main_game(instructions):
-    # uppdelade_upgrades_per_apa = defaultdict(dict)
-    # # delar upp alla upgraderingar för sig per apa
-    # for idx, instruction in enumerate(instructions):
-    #     if instruction["UPGRADE"] != "-":
-    #         if len(uppdelade_upgrades_per_apa[instruction["MONKEY"]]) > 0:
-    #             uppdelade_upgrades_per_apa[instruction["MONKEY"]].append(instruction["UPGRADE"])
-                
-    #         else: 
-    #             uppdelade_upgrades_per_apa[instruction["MONKEY"]] = [ instruction["UPGRADE"] ]
-
-    # # För varje upgrade per apa
-    # for monkey_upgrade in uppdelade_upgrades_per_apa.values():
-    #     if len(monkey_upgrade) > 1: # Hoppa ifall det bara är en upgrade på den apan
-    #         for index in range(len(monkey_upgrade)): # ifall index av listan är 0 hoppa
-    #             if index != 0:
-    #                 # Senaste och nuvarande uppgradeing splitar ut alla -
-    #                 last_upgrade = monkey_upgrade[index -1].split("-")
-    #                 upgrade = monkey_upgrade[index].split("-")
-
-    #                 # mappar om str till int i upgrade listorna
-    #                 top_last, middle_last, bottom_last = tuple(map(int, last_upgrade))
-    #                 top, middle, bottom = tuple(map(int, upgrade))
-
-    #                 # Hittar diffen mellan förra uppgradering och nuvarande uppgraderingen
-    #                 diff = "{}-{}-{}".format(abs(top-top_last), abs(middle-middle_last), abs(bottom-bottom_last))
-                    
-    #                 print(last_upgrade, upgrade, diff)
-                    
-    #                 # Ändrar monkey_upgrade
-    #                 monkey_upgrade[index] = diff
+    
     current_round = None
-    prev_time = time.time()
+    ability_one_timer = time.time()
+    ability_two_timer = time.time()
 
     # VÄLDIGT VIKTIGT https://stackoverflow.com/questions/10665591/how-to-remove-list-elements-in-a-for-loop-in-python#10665602 
     for inst in instructions[:]:
@@ -526,23 +501,22 @@ def main_game(instructions):
                 #press_key("space") # Fast forward the game
 
 
-            # Saftey net; use abilites every second
-            if time.time() - prev_time >= 1:
-                # Leta efter Defeat
-
-                if current_round >= 39:
-                    press_key("1")
-                    # click(button_positions["ABILLITY_ONE"])
-                
-                if current_round >= 51:
-                    press_key("2")
-                    # click(button_positions["ABILLITY_TWO"])
+            # Saftey net; use abilites
+            if current_round >= 39 and abilityAvaliabe(ability_one_timer, 35):
+                press_key("1")
+                ability_one_timer = time.time()
+                # click(button_positions["ABILLITY_ONE"])
+            
+            if current_round >= 51 and abilityAvaliabe(ability_two_timer, 90):
+                press_key("2")
+                ability_two_timer = time.time()
+                # click(button_positions["ABILLITY_TWO"])
 
                 prev_time = time.time()
 
             # Check for finished or failed game
             if defeat_check():
-                print("Defeat detected.. exiting level")
+                print("Defeat detected on round {}; exiting level".format(current_round))
                 exit_level()
                 return 0
             if victory_check():
