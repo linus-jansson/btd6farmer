@@ -29,7 +29,7 @@ default path:
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 ```
 
-After installing tesseractthe python requirments can be installed with\
+After installing tesseract the python requirments can be installed with\
 `python -m pip install -r requirements.txt`
 
 ## Running the bot
