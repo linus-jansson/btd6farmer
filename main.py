@@ -1,4 +1,6 @@
+from ast import arg
 import os, csv, re, time
+from pstats import Stats
 from pydoc import cli
 import pytesseract
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
@@ -20,6 +22,10 @@ menu_path = current_directory + "Support_Files\\" + str(height) + "_menu.png"
 easter_path = current_directory + "Support_Files\\" + str(height) + "_easter.png"
 obyn_hero_path = current_directory + "Support_Files\\" + str(height) + "_obyn.png"
 insta_monkey = current_directory + "Support_Files\\" + str(height) + "_instamonkey.png"
+
+DEBUG = False
+start_time = time.time()
+running = True
 
 button_positions = { # Creates a dictionary of all positions needed for monkeys (positions mapped to 2160 x 1440 resolution)
     "HOME_MENU_START" : [1123, 1248],
@@ -108,6 +114,29 @@ reso_16 = [
     }
 ]
 
+statDict = {
+    "Current_Round": None,
+    "Last_Upgraded": None,
+    "Last_Target_Change": None,
+    "Last_Placement": None,
+    "Uptime": 0
+}
+
+
+
+def printStats(stats):
+    os.system("cls")
+    print("="*6)
+    if round(time.time() - start_time, 2) >= 60.0:
+        stats["Uptime"] = "{} minutes".format(round( (time.time() - start_time) / 60, 2)  )
+    elif round(time.time() - start_time, 2) / 60 >= 60.0:
+        stats["Uptime"] = "{} hours".format(round( (time.time() - start_time) / 60 / 60, 2) )
+    else:
+        stats["Uptime"] = "{} seconds".format(round(time.time() - start_time, 2))
+    
+    for key, value in stats.items():
+        print(f"{key.replace('_', ' ')}\t{value}")
+    print("="*6)
 
 def padding():
 # Get's width and height of current resolution
@@ -127,6 +156,7 @@ def padding():
             pad = (width - x['width'])/2
     #print("I have been padding -- " + str(pad))
 
+    # DEBBUGGING
     return pad
 
 def scaling(pos_list):
@@ -241,6 +271,7 @@ def handleInstruction(instruction):
         press_key(keybind)
 
         click(monkey_position)
+        statDict["Last_Placement"] = instruction["MONKEY"]
         # press_key("esc")
     else:
         click(monkey_position)
@@ -255,9 +286,8 @@ def handleInstruction(instruction):
 
         for _ in range(bottom):
             press_key(upgrade_keybinds["bottom"])
-
         
-        print("Upgrading ", instruction["MONKEY"], "to ", instruction["UPGRADE"], "diff -", instruction["UPGRADE_DIFF"])
+        statDict["Last_Upgraded"] = "Upgrading {} to {}; change {}".format(instruction['MONKEY'], instruction['UPGRADE'], instruction['UPGRADE_DIFF'])
 
         press_key("esc")
 
@@ -292,6 +322,9 @@ def handleInstruction(instruction):
 
         press_key("esc")
 
+        # Print info
+        statDict["Last_Target_Change"] = instruction["MONKEY"]
+
     if instruction["ROUND_START"] == "TRUE":
         press_key("space")
         press_key("space")
@@ -317,6 +350,9 @@ def handleInstruction(instruction):
             click(monkey_position)
             press_key("tab")            
             press_key("esc")
+        
+        # Print info
+        statDict["Last_Target_Change"] = instruction["MONKEY"]
 
 
 def check_levelup():
@@ -466,11 +502,12 @@ def main_game(instructions):
     for inst in instructions[:]:
         # Check for levelup
 
-        while int(inst['ROUND']) != current_round:
+        while int(inst['ROUND']) != current_round and not DEBUG:
             time.sleep(0.2)
 
             if getRound():
-                    current_round, _ = getRound()
+                current_round, _ = getRound()
+                statDict["Current_Round"] = current_round
             else:
                 current_round = -1
 
@@ -489,11 +526,11 @@ def main_game(instructions):
                 #press_key("space") # Fast forward the game
 
 
-            # Saftey net; use abilites every five seconds
-            if time.time()-prev_time >= 2.5:
+            # Saftey net; use abilites every two seconds
+            if time.time() - prev_time >= 2:
                 # Leta efter Defeat
 
-                if current_round >= 35:
+                if current_round >= 39:
                     click(button_positions["ABILLITY_ONE"])
                 
                 if current_round >= 51:
@@ -502,16 +539,27 @@ def main_game(instructions):
                 prev_time = time.time()
 
             # Check for finished or failed game
-            if defeat_check() or victory_check():
-                print("finished detected.. exiting level")
+            if defeat_check():
+                print("Defeat detected.. exiting level")
                 exit_level()
-                return 1
+                return 0
+            if victory_check():
+                print("Victory detected.. exiting level")
+                exit_level()
+                return 0
 
             # print("waiting:", inst['ROUND'], "current_round:", current_round)
 
             continue
         else:
             handleInstruction(inst)
+
+def exit_bot():
+    global running
+    print("Exit key pressed. Goodbye!")
+    printStats(statDict)
+    running = False
+    exit()
 
 
 def main():
@@ -520,18 +568,27 @@ def main():
     time.sleep(5)
     # Check for obyn
     fixed_instructions = formatData()
-    while True:
-        print("selecting map")
-        
-        # Prevent alt+tab bug from happening
-        press_key("alt")
 
-        # Choose map
-        select_map()   
+    keyboard.add_hotkey("f11", printStats, args=[statDict])
+    keyboard.add_hotkey("ctrl+q", exit_bot)
 
-        print("Game start")
-        # main game
-        main_game(fixed_instructions)
+    while running:
+        if not DEBUG:
+            print("selecting map")
+            
+            # Prevent alt+tab bug from happening
+            press_key("alt")
+
+            # Choose map
+            select_map()   
+
+            print("Game start")
+            # main game
+            main_game(fixed_instructions)
+            # statDict["Won_Games"] += won
+            # statDict["Lost_Games"] += lost
+        else:
+            main_game(fixed_instructions)
 
     # print(getRound())
 
