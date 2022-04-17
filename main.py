@@ -16,7 +16,7 @@ defeat_path = current_directory + "Support_Files\\" + str(height) + "_defeat.png
 menu_path = current_directory + "Support_Files\\" + str(height) + "_menu.png"
 easter_path = current_directory + "Support_Files\\" + str(height) + "_easter.png"
 obyn_hero_path = current_directory + "Support_Files\\" + str(height) + "_obyn.png"
-insta_monkey = current_directory + "Support_Files\\" + str(height) + "_instamonkey.png"
+insta_monkey = current_directory + "Support_Files\\1440_instamonkey.png"
 
 button_positions = { # Creates a dictionary of all positions needed for monkeys (positions mapped to 2160 x 1440 resolution)
     "HOME_MENU_START" : [1123, 1248],
