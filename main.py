@@ -1,4 +1,5 @@
 import os, csv, re, time
+from pydoc import cli
 import pytesseract
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
@@ -18,7 +19,7 @@ defeat_path = current_directory + "Support_Files\\" + str(height) + "_defeat.png
 menu_path = current_directory + "Support_Files\\" + str(height) + "_menu.png"
 easter_path = current_directory + "Support_Files\\" + str(height) + "_easter.png"
 obyn_hero_path = current_directory + "Support_Files\\" + str(height) + "_obyn.png"
-insta_monkey = current_directory + "Support_Files\\1440_instamonkey.png"
+insta_monkey = current_directory + "Support_Files\\" + str(height) + "_instamonkey.png"
 
 button_positions = { # Creates a dictionary of all positions needed for monkeys (positions mapped to 2160 x 1440 resolution)
     "HOME_MENU_START" : [1123, 1248],
@@ -459,12 +460,11 @@ def main_game(instructions):
     #                 # Ändrar monkey_upgrade
     #                 monkey_upgrade[index] = diff
     current_round = None
-    prev = time.time()
+    prev_time = time.time()
 
     # VÄLDIGT VIKTIGT https://stackoverflow.com/questions/10665591/how-to-remove-list-elements-in-a-for-loop-in-python#10665602 
     for inst in instructions[:]:
         # Check for levelup
-        check_levelup()
 
         while int(inst['ROUND']) != current_round:
             time.sleep(0.2)
@@ -474,33 +474,32 @@ def main_game(instructions):
             else:
                 current_round = -1
 
+                # Insta monkey popup check which occurs on round 100
 
-            # Insta monkey popup check
             if insta_monkey_check():
                 mouse.click(button='left')
                 mouse.click(button='left')
             
             # Check for levelup
             if check_levelup():
-                button_click("LEFT_INSTA") # Accept lvl
-                time.sleep(1)
-                button_click("LEFT_INSTA") # Accept knoledge
-                time.sleep(1)
-
-                button_click("LEFT_INSTA") # unlock insta
-                time.sleep(1)
-                button_click("LEFT_INSTA") # collect insta
-                time.sleep(1)
-
-                button_click("MID_INSTA") # unlock insta
-                time.sleep(1)
-                button_click("MID_INSTA") # collect insta
-                time.sleep(1)
-
-                button_click("RIGHT_INSTA") # unlock r insta
-                time.sleep(1)
-                button_click("RIGHT_INSTA") # collect r insta
+                w, h = pyautogui.size()
+                middle_of_screen = w//2, h//2
+                click(middle_of_screen)
+                click(middle_of_screen)
                 #press_key("space") # Fast forward the game
+
+
+            # Saftey net; use abilites every five seconds
+            if time.time()-prev_time >= 2.5:
+                # Leta efter Defeat
+
+                if current_round >= 35:
+                    click(button_positions["ABILLITY_ONE"])
+                
+                if current_round >= 51:
+                    click(button_positions["ABILLITY_TWO"])
+
+                prev_time = time.time()
 
             # Check for finished or failed game
             if defeat_check() or victory_check():
@@ -509,18 +508,6 @@ def main_game(instructions):
                 return 1
 
             # print("waiting:", inst['ROUND'], "current_round:", current_round)
-
-            # Saftey net; use abilites every five seconds
-            if time.time()-prev >= 5:
-                # Leta efter Defeat
-
-                if current_round >= 39:
-                    click(button_positions["ABILLITY_ONE"])
-                
-                if current_round >= 51:
-                    click(button_positions["ABILLITY_TWO"])
-
-                prev = time.time()
 
             continue
         else:
