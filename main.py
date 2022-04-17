@@ -257,7 +257,7 @@ def handleInstruction(instruction):
             press_key(upgrade_keybinds["bottom"])
 
         
-        print(instruction["MONKEY"], instruction["UPGRADE"], "diff -", instruction["UPGRADE_DIFF"])
+        print("Upgrading ", instruction["MONKEY"], "to ", instruction["UPGRADE"], "diff -", instruction["UPGRADE_DIFF"])
 
         press_key("esc")
 
@@ -536,7 +536,11 @@ def main():
     fixed_instructions = formatData()
     while True:
         print("selecting map")
-        # choose map
+        
+        # Prevent alt+tab bug from happening
+        press_key("alt")
+
+        # Choose map
         select_map()   
 
         print("Game start")
