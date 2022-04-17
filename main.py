@@ -6,6 +6,8 @@ import cv2
 import numpy as np
 
 import pyautogui, mouse, keyboard
+pyautogui.FAILSAFE = True # When mouse is moved to top left, program will exit
+
 
 
 current_directory = os.getcwd() + "\\"
@@ -86,6 +88,71 @@ upgrade_keybinds = {
 
 }
 
+reso_16 = [
+    {
+        "width": 1280,
+        "height": 720        
+    },
+    {
+        "width": 1920,
+        "height": 1080
+    },
+    {
+        "width": 2560,
+        "height": 1440
+    },
+    {
+        "width": 3840,
+        "height": 2160
+    }
+]
+
+
+def padding():
+# Get's width and height of current resolution
+# we iterate through reso_16 for heights, if current resolution height matches one of the entires 
+# then it will calulate the difference of the width's between current resolution and 16:9 (reso_16) resolution
+# divides by 2 for each side of padding
+
+# Variables Used
+#   width -- used to referance current resolution width
+#   height -- used to referance current resolution height
+#   pad -- used to output how much padding we expect in different resolutions
+#   reso_16 -- list that  
+    width, height = pyautogui.size()
+    pad = 0
+    for x in reso_16: 
+        if height == x['height']:
+            pad = (width - x['width'])/2
+    #print("I have been padding -- " + str(pad))
+
+    return pad
+
+def scaling(pos_list):
+# This function will dynamically calculate the differance between current resolution and designed for 2560x1440
+# it will also add any padding needed to positions to account for 21:9 
+
+# do_padding -- this is used during start 
+    reso_21 = False
+    width, height = pyautogui.size()
+    for x in reso_16: 
+        if height == x['height']:
+            if width != x['width']:
+                reso_21 = True
+                x = pos_list[0]
+                break
+    if reso_21 != True:
+        x = pos_list[0]/2560 
+        x = x * width
+    y = pos_list[1]/1440
+    y = y * height
+    #print(" Me wihout padding " + str([x]))
+    x = x + padding() # Add's the pad to to the curent x position variable
+    #print(" Me with padding -- " + str([x]))
+    return (x, y)
+
+
+
 def move_mouse(location):
     pyautogui.moveTo(location)
     time.sleep(0.1)
@@ -95,7 +162,7 @@ def click(location): #pass in x and y, and it will click for you
     # mouse.move(*scaling(button_positions[location]))
     # x, y = location
     # mouse.move(*location)
-    move_mouse(location)
+    move_mouse(scaling(location))
     mouse.click(button="left") # performs the pyautogui click function while passing in the variable from button_positions that matches button
     time.sleep(0.5)
 
@@ -103,7 +170,7 @@ def button_click(btn):
     #print(location)
     # x, y = location
     # mouse.move(*location)
-    move_mouse(button_positions[btn])
+    move_mouse(scaling(button_positions[btn]))
     mouse.click(button="left") # performs the pyautogui click function while passing in the variable from button_positions that matches button
     time.sleep(0.5)
 
@@ -197,13 +264,13 @@ def handleInstruction(instruction):
     if instruction["TARGET_POS"] != "-":
         print("clicka på mortar")
         
-        pyautogui.moveTo(monkey_position)
+        pyautogui.moveTo(scaling(monkey_position))
         time.sleep(0.5)
         mouse.click(button="left")
 
         time.sleep(1)
 
-        pyautogui.moveTo(button_positions["TARGET_BUTTON_MORTAR"])
+        pyautogui.moveTo(scaling(button_positions["TARGET_BUTTON_MORTAR"]))
         
         time.sleep(1)
         mouse.press(button='left')
@@ -212,7 +279,7 @@ def handleInstruction(instruction):
 
         time.sleep(1)
 
-        pyautogui.moveTo(instruction["TARGET_POS"])
+        pyautogui.moveTo(scaling(instruction["TARGET_POS"]))
         time.sleep(0.5)
         mouse.press(button='left')
         time.sleep(0.5)
