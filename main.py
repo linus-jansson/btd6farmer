@@ -521,8 +521,8 @@ def main_game(instructions):
             if check_levelup():
                 w, h = pyautogui.size()
                 middle_of_screen = w//2, h//2
-                click(scaling(middle_of_screen))
-                click(scaling(middle_of_screen))
+                click(middle_of_screen)
+                click(middle_of_screen)
                 #press_key("space") # Fast forward the game
 
 
