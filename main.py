@@ -30,14 +30,24 @@ TODO:
 - 1080p support
 
 """
+import os
+current_directory = os.getcwd() + "\\"
+width, height = pyautogui.size()
+path = current_directory + "Support_Files\\" + str(height) + "_levelup.png"
+victory_path = current_directory + "Support_Files\\" + str(height) + "_victory.png"
+defeat_path = current_directory + "Support_Files\\" + str(height) + "_defeat.png"
+menu_path = current_directory + "Support_Files\\" + str(height) + "_menu.png"
+easter_path = current_directory + "Support_Files\\" + str(height) + "_easter.png"
+obyn_hero_path = current_directory + "Support_Files\\" + str(height) + "_obyn.png"
+insta_monkey = current_directory + "Support_Files\\" + str(height) + "_instamonkey.png"
 
 button_positions = { # Creates a dictionary of all positions needed for monkeys (positions mapped to 2160 x 1440 resolution)
     "HOME_MENU_START" : [1123, 1248],
     "EXPERT_SELECTION" : [1778, 1304],
     "RIGHT_ARROW_SELECTION" : [2193, 582],
     "DARK_CASTLE" : [1420, 350], # changed to (x=1941, y=513) in latest patch
-    "HARD_MODE" : [],
-    "CHIMPS_MODE" : [],
+    "HARD_MODE" : [1729, 562],
+    "CHIMPS_MODE" : [2139, 980],
     "STANDARD_GAME_MODE" : [847,780],
     "OVERWRITE_SAVE" : [1520, 974],
     "VICTORY_CONTINUE" : [1283, 1215],
@@ -55,6 +65,13 @@ button_positions = { # Creates a dictionary of all positions needed for monkeys 
     "SELECT_OBYN" : [],
     "CONFIRM_HERO" : [855, 893],
     "TARGET_BUTTON_MORTAR": [1909, 491],
+    "ABILLITY_ONE": [253, 1379],
+    "ABILLITY_TWO": [369, 1377],
+    "FREEPLAY" : [1611, 1112],
+    "OK_MIDDLE" : [1280, 1003],
+    "RESTART": [1413, 1094],
+    "CONFIRM_CHIMPS" : [1481, 980]
+
 }
 
 
@@ -105,12 +122,20 @@ def click(location): #pass in x and y, and it will click for you
     mouse.click(button="left") # performs the pyautogui click function while passing in the variable from button_positions that matches button
     time.sleep(0.5)
 
+def button_click(btn):
+    #print(location)
+    # x, y = location
+    # mouse.move(*location)
+    move_mouse(button_positions[btn])
+    mouse.click(button="left") # performs the pyautogui click function while passing in the variable from button_positions that matches button
+    time.sleep(0.5)
+
 def press_key(key):
     keyboard.press_and_release(key)
     time.sleep(0.1)
 
 def getRound():
-    img = pyautogui.screenshot(region=(1900, 35, 175, 65))
+    img = pyautogui.screenshot(region=(1880, 35, 195, 65))
     
     numpyImage = np.array(img)
 
@@ -125,6 +150,8 @@ def getRound():
 
     # regex to look for format [[:digit:]]/[[:digit:]] if not its not round, return None
     if re.search(r"(\d+/\d+)", text):
+        text = text.split("/")
+        text = tuple(map(int, text))
         return text
     else:
         return None
@@ -244,7 +271,137 @@ def handleInstruction(instruction):
             press_key("tab")            
             press_key("esc")
 
+
+def check_levelup():
+
+    found = pyautogui.locateOnScreen(path, confidence=0.9)
+
+    if found != None:
+        print("level upp")
+
+        button_click("LEFT_INSTA") # Accept lvl
+        time.sleep(1)
+        button_click("LEFT_INSTA") # Accept knoledge
+        time.sleep(1)
+
+        button_click("LEFT_INSTA") # unlock insta
+        time.sleep(1)
+        button_click("LEFT_INSTA") # collect insta
+        time.sleep(1)
+
+        button_click("MID_INSTA") # unlock insta
+        time.sleep(1)
+        button_click("MID_INSTA") # collect insta
+        time.sleep(1)
+
+        button_click("RIGHT_INSTA") # unlock r insta
+        time.sleep(1)
+        button_click("RIGHT_INSTA") # collect r insta
+        time.sleep(2)  
+        press_key("space") # Start the game
+        time.sleep(1)
+        #press_key("space") # Fast forward the game
+    
+
+def easter_event_check():
+    found = pyautogui.locateOnScreen(easter_path, confidence=0.9)
+    if found != None:
+        print("easter collection detected")
+        button_click("EASTER_COLLECTION") #DUE TO EASTER EVENT:
+        time.sleep(1)
+        button_click("LEFT_INSTA") # unlock insta
+        time.sleep(1)
+        button_click("LEFT_INSTA") # collect insta
+        time.sleep(1)
+        button_click("RIGHT_INSTA") # unlock r insta
+        time.sleep(1)
+        button_click("RIGHT_INSTA") # collect r insta
+        time.sleep(1)
+        button_click("F_LEFT_INSTA")
+        time.sleep(1)
+        button_click("F_LEFT_INSTA")
+        time.sleep(1)
+        button_click("MID_INSTA") # unlock insta
+        time.sleep(1)
+        button_click("MID_INSTA") # collect insta
+        time.sleep(1)
+        button_click("F_RIGHT_INSTA")
+        time.sleep(1)
+        button_click("F_RIGHT_INSTA")
+        time.sleep(1)
+
+        time.sleep(1)
+        button_click("EASTER_CONTINUE")
+
+
+        # awe try to click 3 quick times to get out of the easter mode, but also if easter mode not triggered, to open and close profile quick
+        button_click("EASTER_EXIT")
+        time.sleep(1)
         
+def hero_obyn_check():
+    found = pyautogui.locateOnScreen(obyn_hero_path, confidence=0.9)
+    if not found:
+        button_click("HERO_SELECT")
+        button_click("SELECT_OBYN")
+        button_click("CONFIRM_HERO")
+        press_key("esc")
+
+def victory_check():
+    found = pyautogui.locateOnScreen(victory_path, confidence=0.9)
+    #jprint(victory_path)
+    if found:
+        return True
+    else:
+        return False
+
+def defeat_check():     
+    #jprint(defeat_path)
+    found = pyautogui.locateOnScreen(defeat_path, confidence=0.9)
+    if found:
+        return True
+    else:
+        return False
+
+def exit_level():
+
+    defeat_check()
+    victory_check()
+    
+    button_click("VICTORY_CONTINUE")
+    time.sleep(2)
+    button_click("VICTORY_HOME")
+    time.sleep(4)
+
+    easter_event_check()
+    time.sleep(2)
+
+def select_map():
+    time.sleep(2)
+
+    button_click("HOME_MENU_START") # Move Mouse and click from Home Menu, Start
+    button_click("EXPERT_SELECTION") # Move Mouse to expert and click
+    button_click("RIGHT_ARROW_SELECTION") # Move Mouse to arrow and click
+    button_click("DARK_CASTLE") # Move Mouse to Dark Castle
+    button_click("HARD_MODE") # Move Mouse to select easy mode
+    button_click("CHIMPS_MODE") # Move mouse to select Standard mode
+    button_click("OVERWRITE_SAVE") # Move mouse to overwrite save if exists
+    time.sleep(3)
+    button_click("CONFIRM_CHIMPS")
+
+def menu_check():
+    #jprint(menu_path)
+    found = pyautogui.locateOnScreen(menu_path, confidence=0.9)
+    if found:
+        return True
+    else:
+        return False
+
+def insta_monkey_check():
+    found = pyautogui.locateOnScreen(insta_monkey, confidence=0.9)
+    if found: 
+        return True
+    else:
+        return False
 
 def main_game(instructions):
     # uppdelade_upgrades_per_apa = defaultdict(dict)
@@ -277,70 +434,67 @@ def main_game(instructions):
                     
     #                 # Ändrar monkey_upgrade
     #                 monkey_upgrade[index] = diff
+    current_round = None
+    prev = time.time()
 
-    # pprint(instructions)
-    # pprint(uppdelade_upgrades_per_apa)
-    # exit()
-    # Loopa oändligt
-    print(instructions)
-    # tmp_instructions = instructions
+    # VÄLDIGT VIKTIGT https://stackoverflow.com/questions/10665591/how-to-remove-list-elements-in-a-for-loop-in-python#10665602 
+    for inst in instructions[:]:
+        # Check for levelup
+        check_levelup()
 
-    while True:
-        current_round = None
-        # if currentRound:
-        #     currentRound = currentRound.split("/")[0]
-        # Gå igenom alla instructions
+        while int(inst['ROUND']) != current_round:
+            time.sleep(0.2)
 
-        queue = []
+            if getRound():
+                    current_round, _ = getRound()
+            else:
+                current_round = -1
 
-        if len(instructions) <= 0:
+            # Insta monkey popup check
+            if insta_monkey_check():
+                mouse.click(button='left')
+
+            # Check for finished or failed game
+            if defeat_check() or victory_check():
+                print("finished detected.. exiting level")
+                exit_level()
+                return 1
+
+            # print("waiting:", inst['ROUND'], "current_round:", current_round)
+
+            # Saftey net; use abilites every five seconds
+            if time.time()-prev >= 5:
+                # Leta efter Defeat
+
+                if current_round >= 40:
+                    click(button_positions["ABILLITY_ONE"])
+                
+                if current_round >= 51:
+                    click(button_positions["ABILLITY_TWO"])
+
+                prev = time.time()
+
             continue
         else:
-            # instructions[:] 
-           
-            # for idx, inst in enumerate(instructions[:]):
-            #     print(inst, len(instructions))
-                
-            #     while cr == getRound():
-            #         print(cr, getRound())
-            #         continue
-            #     else:
-                    
-            #         cr = getRound()
-            #         handleInstruction(inst)
+            handleInstruction(inst)
 
-
-            #     instructions.remove(inst)
-
-            # VÄLDIGT VIKTIGT https://stackoverflow.com/questions/10665591/how-to-remove-list-elements-in-a-for-loop-in-python#10665602 
-            for inst in instructions[:]:
-                while f"{inst['ROUND']}/100" != current_round:
-                    print("waiting", current_round)
-                    time.sleep(0.2)
-                    current_round = getRound()
-                    continue
-                else:
-                    handleInstruction(inst)
-
-                    if getRound() == "40/100":
-                        press_key('1')
-                    elif getRound == "50/100":
-                        press_key('2')
-                    
-
-
-        # Sov en stund för att inte crasha allt
-        time.sleep(1)
 
 def main():
 
     print("waiting for 5 seconds, please select the btd 6 window")
     time.sleep(5)
     # Check for obyn
+    fixed_instructions = formatData()
+    while True:
+        print("selecting map")
+        # choose map
+        select_map()   
+
+        print("Game start")
+        # main game
+        main_game(fixed_instructions)
 
     # print(getRound())
-    fixed_instructions = formatData()
-    main_game(fixed_instructions)
 
 
 
