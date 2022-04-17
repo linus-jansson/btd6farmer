@@ -33,9 +33,18 @@ After installing tesseractthe python requirments can be installed with\
 `python -m pip install -r requirements.txt`
 
 ## Running the bot
+Open up BTD 6 run main.py in cmd\
 `py main.py`
+
+Navigate to the homescreen of BTD 6 within 5 seconds of starting the script.
+
+
+## Issues
+Currently there is a bug in BTD 6 where the keybinds stop working if alt+tab is pressed. If by some reason this bug occurs. Please press alt ingame after starting the script otherwise the script wont be able to place towers.
+
 
 
 
 # Todo:
 - Docker support
+- resolution scaling
