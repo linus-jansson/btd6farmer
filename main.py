@@ -6,6 +6,8 @@ import cv2
 import numpy as np
 
 import pyautogui, mouse, keyboard
+pyautogui.FAILSAFE = True # When mouse is moved to top left, program will exit
+
 
 
 current_directory = os.getcwd() + "\\"
