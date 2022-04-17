@@ -51,3 +51,4 @@ Currently there is a bug in BTD 6 where the keybinds stop working if alt+tab is 
 - resolution scaling
 - Fix auto selecting OBYN if other hero is chosen (broken since last update)
 - logging
+- code cleanup
