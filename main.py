@@ -527,10 +527,10 @@ def main_game(instructions):
 
 
             # Saftey net; use abilites every second
-            if time.time() - prev_time >= 1.0:
+            if time.time() - prev_time >= 1:
                 # Leta efter Defeat
 
-                if current_round >= 40:
+                if current_round >= 39:
                     press_key("1")
                     # click(button_positions["ABILLITY_ONE"])
                 
