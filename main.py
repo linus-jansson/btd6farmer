@@ -464,67 +464,69 @@ def insta_monkey_check():
     else:
         return False
 
-def abilityAvaliabe(last_used, cooldown):
-    return (time.time() - last_used) >= (cooldown / 3)
+def abilityAvaliabe(last_used, cooldown, fast_forward=True):
+    # Möjlighet att välja beroende på ifall fast_forward är på eller ej
+    m = 1
+    if fast_forward:
+        m = 3
+
+    return (time.time() - last_used) >= (cooldown / m)
 
 def main_game(instructions):
     
     current_round = None
     ability_one_timer = time.time()
     ability_two_timer = time.time()
+    inst_idx = 0
 
-    # VÄLDIGT VIKTIGT https://stackoverflow.com/questions/10665591/how-to-remove-list-elements-in-a-for-loop-in-python#10665602 
-    for inst in instructions[:]:
-        # Check for levelup
+    while len(instructions) <= inst_idx:
+        time.sleep(0.1)
+        current_instruction = instructions[inst_idx]
 
-        while int(inst['ROUND']) != current_round and not DEBUG:
-            time.sleep(0.2)
-
-            if getRound():
-                current_round, _ = getRound()
-                statDict["Current_Round"] = current_round
-            else:
-                current_round = -1
-
-                # Insta monkey popup check which occurs on round 100
-
-            if insta_monkey_check():
-                mouse.click(button='left')
-                mouse.click(button='left')
-            
-            # Check for levelup
-            if check_levelup():
-                w, h = pyautogui.size()
-                middle_of_screen = w//2, h//2
-                click(middle_of_screen)
-                click(middle_of_screen)
-                #press_key("space") # Fast forward the game
-
-
-            # Saftey net; use abilites
-            if current_round >= 39 and abilityAvaliabe(ability_one_timer, 35):
-                press_key("1")
-                ability_one_timer = time.time()
-                # click(button_positions["ABILLITY_ONE"])
-            
-            if current_round >= 51 and abilityAvaliabe(ability_two_timer, 90):
-                press_key("2")
-                ability_two_timer = time.time()
-                # click(button_positions["ABILLITY_TWO"])
-
-            # Check for finished or failed game
-            if defeat_check():
-                print("Defeat detected on round {}; exiting level".format(current_round))
-                exit_level()
-                return 0
-            if victory_check():
-                print("Victory detected.. exiting level")
-                exit_level()
-                return 0
-
-            continue
+        if getRound():
+            current_round, _ = getRound()
+            statDict["Current_Round"] = current_round
         else:
-            handleInstruction(inst)
+            current_round = -1
+
+        if insta_monkey_check():
+            mouse.click(button='left')
+            mouse.click(button='left')
+        
+        # Check for levelup
+        if check_levelup():
+            w, h = pyautogui.size()
+            middle_of_screen = w//2, h//2
+            click(middle_of_screen)
+            click(middle_of_screen)
+            #press_key("space") # Fast forward the game
+
+
+        # Saftey net; use abilites
+        if current_round >= 39 and abilityAvaliabe(ability_one_timer, 35):
+            press_key("1")
+            ability_one_timer = time.time()
+            # click(button_positions["ABILLITY_ONE"])
+        
+        if current_round >= 51 and abilityAvaliabe(ability_two_timer, 90):
+            press_key("2")
+            ability_two_timer = time.time()
+            # click(button_positions["ABILLITY_TWO"])
+
+        # Check for finished or failed game
+        if defeat_check():
+            print("Defeat detected on round {}; exiting level".format(current_round))
+            exit_level()
+            return 0
+        if victory_check():
+            print("Victory detected.. exiting level")
+            exit_level()
+            return 0
+
+        # If instruction round == current round, handle inst and increment index
+        if int(current_instruction['ROUND']) == current_round:
+            handleInstruction(current_instruction)
+            inst_idx += 1
 
 def exit_bot():
     global running
