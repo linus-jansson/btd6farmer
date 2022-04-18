@@ -206,12 +206,12 @@ def button_click(btn):
     time.sleep(0.5)
 
 def press_key(key):
-    keyboard.press_and_release(key)
+    keyboard.send(key)
     time.sleep(0.1)
 
 def getRound():
-    top, left = scaling([1880, 35])
-    width, height = scaling([195, 65])
+    top, left = scaling([1850, 35])
+    width, height = scaling([225, 65])
     img = pyautogui.screenshot(region=(top, left, width, height))
     
     numpyImage = np.array(img)
@@ -427,7 +427,6 @@ def defeat_check():
         return False
 
 def exit_level():
-    
     button_click("VICTORY_CONTINUE")
     time.sleep(2)
     button_click("VICTORY_HOME")
@@ -464,95 +463,68 @@ def insta_monkey_check():
     else:
         return False
 
+def abilityAvaliabe(last_used, cooldown, fast_forward=True):
+    # Möjlighet att välja beroende på ifall fast_forward är på eller ej
+    m = 1
+    if fast_forward:
+        m = 3
+
+    return (time.time() - last_used) >= (cooldown / m)
+
+from pprint import pprint
 def main_game(instructions):
-    # uppdelade_upgrades_per_apa = defaultdict(dict)
-    # # delar upp alla upgraderingar för sig per apa
-    # for idx, instruction in enumerate(instructions):
-    #     if instruction["UPGRADE"] != "-":
-    #         if len(uppdelade_upgrades_per_apa[instruction["MONKEY"]]) > 0:
-    #             uppdelade_upgrades_per_apa[instruction["MONKEY"]].append(instruction["UPGRADE"])
-                
-    #         else: 
-    #             uppdelade_upgrades_per_apa[instruction["MONKEY"]] = [ instruction["UPGRADE"] ]
+    
+    current_round = -1
+    ability_one_timer = time.time()
+    ability_two_timer = time.time()
+    
+    finished = False
 
-    # # För varje upgrade per apa
-    # for monkey_upgrade in uppdelade_upgrades_per_apa.values():
-    #     if len(monkey_upgrade) > 1: # Hoppa ifall det bara är en upgrade på den apan
-    #         for index in range(len(monkey_upgrade)): # ifall index av listan är 0 hoppa
-    #             if index != 0:
-    #                 # Senaste och nuvarande uppgradeing splitar ut alla -
-    #                 last_upgrade = monkey_upgrade[index -1].split("-")
-    #                 upgrade = monkey_upgrade[index].split("-")
+    width, height = pyautogui.size()
+    middle_of_screen = width//2, height//2
 
-    #                 # mappar om str till int i upgrade listorna
-    #                 top_last, middle_last, bottom_last = tuple(map(int, last_upgrade))
-    #                 top, middle, bottom = tuple(map(int, upgrade))
+    inst_idx = 0
+    
+    # main ingame loop
+    while not finished:
+        # time.sleep(0.2)
+        if inst_idx < len(instructions):
+            current_instruction = instructions[inst_idx]
+        
+        # Check for levelup or insta monkey (level 100)
+        if check_levelup() or insta_monkey_check():
+            click(middle_of_screen)
+            click(middle_of_screen)
 
-    #                 # Hittar diffen mellan förra uppgradering och nuvarande uppgraderingen
-    #                 diff = "{}-{}-{}".format(abs(top-top_last), abs(middle-middle_last), abs(bottom-bottom_last))
-                    
-    #                 print(last_upgrade, upgrade, diff)
-                    
-    #                 # Ändrar monkey_upgrade
-    #                 monkey_upgrade[index] = diff
-    current_round = None
-    prev_time = time.time()
-
-    # VÄLDIGT VIKTIGT https://stackoverflow.com/questions/10665591/how-to-remove-list-elements-in-a-for-loop-in-python#10665602 
-    for inst in instructions[:]:
-        # Check for levelup
-
-        while int(inst['ROUND']) != current_round and not DEBUG:
-            time.sleep(0.2)
-
-            if getRound():
-                current_round, _ = getRound()
-                statDict["Current_Round"] = current_round
-            else:
-                current_round = -1
-
-                # Insta monkey popup check which occurs on round 100
-
-            if insta_monkey_check():
-                mouse.click(button='left')
-                mouse.click(button='left')
-            
-            # Check for levelup
-            if check_levelup():
-                w, h = pyautogui.size()
-                middle_of_screen = w//2, h//2
-                click(middle_of_screen)
-                click(middle_of_screen)
-                #press_key("space") # Fast forward the game
-
-
-            # Saftey net; use abilites every two seconds
-            if time.time() - prev_time >= 2:
-                # Leta efter Defeat
-
-                if current_round >= 39:
-                    click(button_positions["ABILLITY_ONE"])
-                
-                if current_round >= 51:
-                    click(button_positions["ABILLITY_TWO"])
-
-                prev_time = time.time()
-
-            # Check for finished or failed game
+        # Check for finished or failed game
+        if defeat_check() or victory_check():
+            # DEBUG
             if defeat_check():
-                print("Defeat detected.. exiting level")
-                exit_level()
-                return 0
-            if victory_check():
-                print("Victory detected.. exiting level")
-                exit_level()
-                return 0
-
-            # print("waiting:", inst['ROUND'], "current_round:", current_round)
-
+                print("Defeat detected on round {}; exiting level".format(current_round))
+            elif victory_check():
+                print("Victory detected; exiting level")    
+            
+            exit_level()
+            finished = True
             continue
-        else:
-            handleInstruction(inst)
+
+        if getRound():
+            current_round, _ = getRound()
+            statDict["Current_Round"] = current_round
+
+        # Saftey net; use abilites
+        if current_round >= 39 and abilityAvaliabe(ability_one_timer, 35):
+            press_key("1")
+            ability_one_timer = time.time()
+        
+        if current_round >= 51 and abilityAvaliabe(ability_two_timer, 90):
+            press_key("2")
+            ability_two_timer = time.time()
+
+        # handle current instruction when current round is equal to instruction round
+        if int(current_instruction['ROUND']) == current_round and inst_idx < len(instructions):
+            handleInstruction(current_instruction)
+            inst_idx += 1
 
 def exit_bot():
     global running
@@ -570,7 +542,7 @@ def main():
     fixed_instructions = formatData()
 
     keyboard.add_hotkey("f11", printStats, args=[statDict])
-    keyboard.add_hotkey("ctrl+q", exit_bot)
+    keyboard.add_hotkey("ctrl+q", exit_bot) # Not working use pyautogui failsafe instead
 
     while running:
         if not DEBUG:
