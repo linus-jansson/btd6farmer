@@ -471,6 +471,7 @@ def abilityAvaliabe(last_used, cooldown, fast_forward=True):
 
     return (time.time() - last_used) >= (cooldown / m)
 
+from pprint import pprint
 def main_game(instructions):
     
     current_round = -1
@@ -485,9 +486,10 @@ def main_game(instructions):
     inst_idx = 0
     
     # main ingame loop
-    while len(instructions) <= inst_idx and not finished:
-        time.sleep(0.1)
-        current_instruction = instructions[inst_idx]
+    while not finished:
+        # time.sleep(0.2)
+        if inst_idx < len(instructions):
+            current_instruction = instructions[inst_idx]
         
         # Check for levelup or insta monkey (level 100)
         if check_levelup() or insta_monkey_check():
@@ -519,9 +521,8 @@ def main_game(instructions):
             press_key("2")
             ability_two_timer = time.time()
 
-
         # handle current instruction when current round is equal to instruction round
-        if int(current_instruction['ROUND']) == current_round:
+        if int(current_instruction['ROUND']) == current_round and inst_idx < len(instructions):
             handleInstruction(current_instruction)
             inst_idx += 1
 
