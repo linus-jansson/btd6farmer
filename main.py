@@ -258,7 +258,6 @@ def formatData():
     # pprint(formatedInstructions)
 
 def handleInstruction(instruction):
-    # print(instruction)
     upgrade_path = instruction["UPGRADE_DIFF"]
     
     monkey_position = instruction["POSITION"]
@@ -288,15 +287,12 @@ def handleInstruction(instruction):
             press_key(upgrade_keybinds["bottom"])
         
         statDict["Last_Upgraded"] = "Upgrading {} to {}; change {}".format(instruction['MONKEY'], instruction['UPGRADE'], instruction['UPGRADE_DIFF'])
-
         press_key("esc")
 
 
     # Om target är - så låt vara
     # Special case för mortar 
     if instruction["TARGET_POS"] != "-":
-        print("clicka på mortar")
-        
         pyautogui.moveTo(scaling(monkey_position))
         time.sleep(0.5)
         mouse.click(button="left")
@@ -471,7 +467,6 @@ def abilityAvaliabe(last_used, cooldown, fast_forward=True):
 
     return (time.time() - last_used) >= (cooldown / m)
 
-from pprint import pprint
 def main_game(instructions):
     
     current_round = -1
@@ -561,9 +556,6 @@ def main():
             # statDict["Lost_Games"] += lost
         else:
             main_game(fixed_instructions)
-
-    # print(getRound())
-
 
 
 if __name__ == "__main__":
