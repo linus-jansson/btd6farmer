@@ -41,6 +41,20 @@ Navigate to the homescreen of BTD 6 within 5 seconds of starting the script.
 
 Press f11 to get printed infromation on how the bot is doing
 
+## Ingame monkey requirments
+
+|Monkey|Upgrade|
+|--|--|
+|Monkey Submarine|2-0-3|
+|Dart Monkey|0-0-2|
+|Sniper| 4-0-2 |
+|Spike factory| 0-2-5 & 4-2-0|
+|Monkey village|2-0-2|
+|Boomerang|0-2-4|
+|Glue Gunner|0-2-3|
+|Mortar Monkey|0-0-4|
+|Alchemist|4-2-0|
+
 
 ## Issues
 Currently there is a bug in BTD 6 where the keybinds stop working if alt+tab is pressed. If by some reason this bug occurs. Please press alt ingame after starting the script otherwise the script wont be able to place towers.
