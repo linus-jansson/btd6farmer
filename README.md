@@ -1,4 +1,5 @@
 # btd6farmer
+v0.1
 ## Inspired from [RavingSmurfGB](https://github.com/RavingSmurfGB/Py_AutoBloons), some functions is taken from that repo
 
 
