@@ -155,10 +155,6 @@ def log_stats(did_win: bool = None):
         outfile.write(json.dumps(data, indent=4))
 
 
-log_stats(did_win=True)
-exit()
-
-
 
 def printStats(stats):
     os.system("cls")
