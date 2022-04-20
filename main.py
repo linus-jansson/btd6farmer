@@ -123,6 +123,36 @@ statDict = {
 }
 
 
+import json
+from collections import defaultdict
+def log_stats(did_win: bool = None):
+    data = {"wins": 0, "loses": 0, "winrate": "0%"}
+
+    with open("stats.json", "r") as infile:
+        try:
+            str_file = "".join(infile.readlines())
+            data = json.loads(str_file)
+            print("FILE WORKS!")
+        except json.decoder.JSONDecodeError:
+            print("STATSFILE CORRUPT")
+            
+    with open("stats.json", "w") as outfile:        
+        if did_win:
+            data["wins"] += 1
+        else:
+            data["loses"] += 1
+        
+        winrate = data["wins"] / (data["wins"] + data["loses"])
+
+        procentage = (round(winrate * 100, 4))
+        
+        data["winrate"] = f"{procentage}%"
+        
+        outfile.write(json.dumps(data, indent=4))
+
+        
+
+
 
 def printStats(stats):
     os.system("cls")
@@ -496,8 +526,12 @@ def main_game(instructions):
             # DEBUG
             if defeat_check():
                 print("Defeat detected on round {}; exiting level".format(current_round))
+                if DEBUG:
+                    log_stats(did_win=False)
             elif victory_check():
                 print("Victory detected; exiting level")    
+                if DEBUG:
+                    log_stats(did_win=True)
             
             exit_level()
             finished = True
