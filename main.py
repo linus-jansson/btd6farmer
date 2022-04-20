@@ -128,13 +128,18 @@ from collections import defaultdict
 def log_stats(did_win: bool = None):
     data = {"wins": 0, "loses": 0, "winrate": "0%"}
 
-    with open("stats.json", "r") as infile:
-        try:
-            str_file = "".join(infile.readlines())
-            data = json.loads(str_file)
-            print("FILE WORKS!")
-        except json.decoder.JSONDecodeError:
-            print("STATSFILE CORRUPT")
+    try:
+        with open("stats.json", "r") as infile:
+            try:
+                str_file = "".join(infile.readlines())
+                data = json.loads(str_file)
+            except json.decoder.JSONDecodeError:
+                print("invalid stats file")
+
+    except IOError:
+        print("file does not exist")
+    
+
             
     with open("stats.json", "w") as outfile:        
         if did_win:
@@ -150,7 +155,9 @@ def log_stats(did_win: bool = None):
         
         outfile.write(json.dumps(data, indent=4))
 
-        
+
+log_stats(did_win=True)
+exit()
 
 
 
