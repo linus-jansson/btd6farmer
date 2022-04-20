@@ -138,7 +138,6 @@ def log_stats(did_win: bool = None):
 
     except IOError:
         print("file does not exist")
-    
 
             
     with open("stats.json", "w") as outfile:        
