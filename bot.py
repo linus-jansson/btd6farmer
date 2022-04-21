@@ -1,13 +1,10 @@
 import pyautogui
 import time
-import l_utils as utils
-import log
 import cv2
 import re
 import numpy as np
 import sys
 import os
-import static
 import csv
 
 # Temporary until handleInstrucion is fixed
@@ -18,6 +15,9 @@ import pytesseract
 if sys.platform == "win32":
     pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
+import log
+import static
+import l_utils as utils
 
 class Bot():
     def __init__(self, debug=False):
