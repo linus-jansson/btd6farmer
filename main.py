@@ -23,7 +23,7 @@ easter_path = current_directory + "Support_Files\\" + str(height) + "_easter.png
 obyn_hero_path = current_directory + "Support_Files\\" + str(height) + "_obyn.png"
 insta_monkey = current_directory + "Support_Files\\" + str(height) + "_instamonkey.png"
 
-DEBUG = False
+DEBUG = True
 start_time = time.time()
 running = True
 
@@ -576,22 +576,20 @@ def main():
     keyboard.add_hotkey("ctrl+q", exit_bot) # Not working use pyautogui failsafe instead
 
     while running:
-        if not DEBUG:
-            print("selecting map")
-            
-            # Prevent alt+tab bug from happening
-            press_key("alt")
+        print("selecting map")
+        
+        # Prevent alt+tab bug from happening
+        press_key("alt")
 
-            # Choose map
-            select_map()   
+        # Choose map
+        select_map()   
 
-            print("Game start")
-            # main game
-            main_game(fixed_instructions)
-            # statDict["Won_Games"] += won
-            # statDict["Lost_Games"] += lost
-        else:
-            main_game(fixed_instructions)
+        print("Game start")
+        # main game
+        main_game(fixed_instructions)
+        # statDict["Won_Games"] += won
+        # statDict["Lost_Games"] += lost
+
 
 
 if __name__ == "__main__":
