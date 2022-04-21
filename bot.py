@@ -109,10 +109,10 @@ class Bot():
                 if self.DEBUG:
                     if self.defeat_check():
                         print("Defeat detected on round {}; exiting level".format(current_round))
-                        log.log_stats(did_win=False, match_time=game_start_time)
+                        log.log_stats(did_win=False, match_time=(time.time()-game_start_time))
                     elif self.victory_check():
                         print("Victory detected; exiting level") 
-                        log.log_stats(did_win=True, match_time=game_start_time)
+                        log.log_stats(did_win=True, match_time=(time.time()-game_start_time))
                 
                 self.exit_level()
                 finished = True
