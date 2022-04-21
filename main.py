@@ -1,4 +1,3 @@
-from sys import argv
 from bot import Bot
 import l_utils
 import time
