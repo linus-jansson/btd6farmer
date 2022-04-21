@@ -1,9 +1,14 @@
+from sys import argv
 from bot import Bot
 import l_utils
 import time
+import sys
 
-def main():
-    bot = Bot()
+if __name__ == "__main__":
+
+    debug = True if ("--debug" in sys.argv) else False
+
+    bot = Bot(debug)
 
     print("waiting for 5 seconds, please select the btd 6 window")
     time.sleep(5)
@@ -23,6 +28,3 @@ def main():
         bot.ingame_loop()
         # statDict["Won_Games"] += won
         # statDict["Lost_Games"] += lost
-
-if __name__ == "__main__":
-    main()
