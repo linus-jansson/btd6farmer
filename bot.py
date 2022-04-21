@@ -118,8 +118,9 @@ class Bot():
                 finished = True
                 continue
 
-            if self.getRound():
-                current_round, _ = self.getRound()
+            roundRes = self.getRound()
+            if isinstance(roundRes, tuple):
+                current_round, _ = roundRes 
 
                 if self.DEBUG:
                     log.log("Current round", current_round)
@@ -192,7 +193,7 @@ class Bot():
 
             time.sleep(1)
 
-            pyautogui.moveTo(static.scaling(static.button_positions["TARGET_BUTTON_MORTAR"]))
+            pyautogui.moveTo(utils.scaling(static.button_positions["TARGET_BUTTON_MORTAR"]))
             
             time.sleep(1)
             mouse.press(button='left')
@@ -201,7 +202,7 @@ class Bot():
 
             time.sleep(1)
 
-            pyautogui.moveTo(static.scaling(instruction["TARGET_POS"]))
+            pyautogui.moveTo(utils.scaling(instruction["TARGET_POS"]))
             time.sleep(0.5)
             mouse.press(button='left')
             time.sleep(0.5)
@@ -233,7 +234,10 @@ class Bot():
 
             # special cases
             if target == "STRONG":
-                utils.press_key("ctrl+tab")
+                utils.press_key("tab")
+                utils.press_key("tab")
+                utils.press_key("tab")
+                time.sleep(0.1)
             elif len(splitTarget) > 1:
                 utils.press_key("tab")
                 time.sleep(3)
