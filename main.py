@@ -125,8 +125,8 @@ statDict = {
 
 import json
 from collections import defaultdict
-def log_stats(did_win: bool = None):
-    data = {"wins": 0, "loses": 0, "winrate": "0%"}
+def log_stats(did_win: bool = None, match_time: int = 0):
+    data = {"wins": 0, "loses": 0, "winrate": "0%", "average_matchtime": "0 min"}
 
     try:
         with open("stats.json", "r") as infile:
@@ -151,6 +151,8 @@ def log_stats(did_win: bool = None):
         procentage = (round(winrate * 100, 4))
         
         data["winrate"] = f"{procentage}%"
+
+        data["average_matchtime"] = (int(data["average_matchtime"].split(" ")[0]) + match_time) /  (data["wins"] + data["loses"])
         
         outfile.write(json.dumps(data, indent=4))
 
