@@ -20,14 +20,14 @@ if sys.platform == "win32":
 
 
 class Bot():
-    def __init__(self):
+    def __init__(self, debug=False):
         # Change to current Directory
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
         self.width, self.height = pyautogui.size()
 
         self.start_time = time.time()
         self.running = True
-        self.DEBUG = True
+        self.DEBUG = debug
 
         # When mouse is moved to (0, 0)
         pyautogui.FAILSAFE = True
@@ -122,8 +122,6 @@ class Bot():
             if isinstance(roundRes, tuple):
                 current_round, _ = roundRes 
 
-                if self.DEBUG:
-                    log.log("Current round", current_round)
 
                 self.statDict["Current_Round"] = current_round
 
@@ -140,6 +138,8 @@ class Bot():
             if int(current_instruction['ROUND']) == current_round and inst_idx < len(self.game_plan):
                 self.handleInstruction(current_instruction)
                 inst_idx += 1
+                if self.DEBUG:
+                    log.log("Current round", current_round)
 
     def handleInstruction(self, instruction):
         upgrade_path = instruction["UPGRADE_DIFF"]
