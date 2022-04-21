@@ -1,13 +1,15 @@
-from bot import Bot
-import l_utils
+
 import time
 import sys
 
+import l_utils
+from bot import Bot
+
 if __name__ == "__main__":
 
-    debug = True if ("--debug" in sys.argv) else False
+    DEBUG = True if ("--debug" in sys.argv) else False
 
-    bot = Bot(debug)
+    bot = Bot(DEBUG)
 
     print("waiting for 5 seconds, please select the btd 6 window")
     time.sleep(5)
@@ -15,7 +17,7 @@ if __name__ == "__main__":
 
     while bot.running:
         print("selecting map")
-        
+
         # Prevent alt+tab bug from happening
         l_utils.press_key("alt")
 
