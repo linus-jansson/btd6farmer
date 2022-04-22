@@ -118,6 +118,6 @@ def button_click(btn):
     time.sleep(0.5)
 
 def press_key(key, timeout=0.1):
-    print(key)
+    # print(key)
     keyboard.send(key)
     time.sleep(timeout)
