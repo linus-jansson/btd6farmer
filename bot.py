@@ -123,10 +123,9 @@ class Bot():
                 finished = True
                 continue
 
-            roundRes = self.getRound()
-            if isinstance(roundRes, tuple):
-                current_round, _ = roundRes 
-
+            get_round_result = self.getRound()
+            if isinstance(get_round_result, tuple):
+                current_round, _ = get_round_result 
 
                 self.statDict["Current_Round"] = current_round
 
@@ -155,7 +154,7 @@ class Bot():
 
 
         # OM det inte finns någon upgrade så finns inte tornet placera ut
-        if upgrade_path == "-":
+        if upgrade_path:
             utils.press_key(keybind)
 
             utils.click(monkey_position)
@@ -165,7 +164,6 @@ class Bot():
                 log.log("Tower placed:", instruction["MONKEY"])
             # press_key("esc")
         else:
-            
             utils.click(monkey_position)
             upgrade_path = upgrade_path.split("-")
             top, middle, bottom = tuple(map(int, upgrade_path))
@@ -190,8 +188,8 @@ class Bot():
 
 
         # Om target är - så låt vara
-        # Special case för mortar 
-        if instruction["TARGET_POS"] != "-":
+        # Special case för mortar och static positionering
+        if instruction["TARGET_POS"]:
             pyautogui.moveTo(utils.scaling(monkey_position))
             time.sleep(0.5)
             mouse.click(button="left")
@@ -223,12 +221,12 @@ class Bot():
             if self.DEBUG:
                 log.log("Monkey static target change", instruction["MONKEY"])
 
-        if instruction["ROUND_START"] == "TRUE":
+        if instruction["ROUND_START"]:
             utils.press_key("space")
             utils.press_key("space")
 
         # Om den har en specifik target
-        if target != "-":
+        if target:
 
             if self.DEBUG:
                 log.log(f"{instruction['MONKEY']} target change to {target}")
@@ -259,19 +257,6 @@ class Bot():
                     time.sleep(3) # Gör att detta specifieras i gameplan
 
             utils.press_key("esc")
-            # special cases
-            # if target == "STRONG":
-            #     utils.press_key("tab")
-            #     utils.press_key("tab")
-            #     utils.press_key("tab")
-            #     time.sleep(0.1)
-            # elif len(target_array) > 1:
-            #     utils.press_key("tab")
-            #     time.sleep(3)
-            #     utils.press_key("ctrl+tab")
-            #     utils.press_key("ctrl+tab")
-            # elif target == "CLOSE":
-            #     utils.press_key("tab")
             
             # Print info
             self.statDict["Last_Target_Change"] = instruction["MONKEY"]
@@ -283,8 +268,7 @@ class Bot():
             m = 3
 
         return (time.time() - last_used) >= (cooldown / m)
-
-    
+  
     def check_levelup(self):
 
         found = pyautogui.locateOnScreen(self.levelup_path, confidence=0.9)
@@ -295,8 +279,6 @@ class Bot():
         else:
             return False
         
-    
-
     def easter_event_check(self):
         found = pyautogui.locateOnScreen(self.easter_path, confidence=0.9)
         if found != None:
@@ -409,9 +391,25 @@ class Bot():
             csvreader = csv.DictReader(file)
             
             for row in csvreader:
+                for item in row:
+                    # ändrad specifika kolumner i kolumnen
+                    if row[item] == '' or row[item] == '-':
+                        row[item] = None
+                    
+                    if row[item] == "FALSE":
+                        row[item] = False
+
+                    if row[item] == "FALSE":
+                        row[item] = True
+                    
+                    print(item, ":\t", row[item],)
+                    
+
+                print()
+                # print(row)
                 row["POSITION"] = self.__fixCordinates(row["POSITION"])
 
-                if row["TARGET_POS"] != "-":
+                if row["TARGET_POS"]:
                     row["TARGET_POS"] = self.__fixCordinates(row["TARGET_POS"])
                 
                 
