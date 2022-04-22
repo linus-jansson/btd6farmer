@@ -409,7 +409,9 @@ def handleInstruction(instruction):
         # special cases
         if target == "STRONG":
             click(monkey_position)
-            press_key("ctrl+tab")
+            press_key("tab")
+            press_key("tab")
+            press_key("tab")
             press_key("esc")
         elif len(splitTarget) > 1:
             click(monkey_position)
