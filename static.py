@@ -64,9 +64,6 @@ upgrade_keybinds = {
 
 }
 
-target_order = [
-    (0, "FIRST"),
-    (1, "LAST"),
-    (2, "CLOSE"),
-    (3, "STRONG")
-]
+# Index, regular targets, spike factory targets
+target_order_regular = [ "FIRST", "LAST", "CLOSE", "STRONG" ]
+target_order_spike   = [ "NORMAL", "CLOSE", "FAR", "SMART" ]

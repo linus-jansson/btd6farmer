@@ -232,18 +232,30 @@ class Bot():
 
             if self.DEBUG:
                 log.log(f"{instruction['MONKEY']} target change to {target}")
-
+            print("target", target)
             target_array = target.split(", ")
+            print("target array", target_array)
             
             utils.click(monkey_position)
 
+            current_target_index = 0
             for i in target_array:
                 # press tab for the correct num of times
-                for n in range(static.target_order.index(i)[0] + 1):
+                if "SPIKE" in instruction["MONKEY"]:
+                    target_diff = abs((static.target_order_spike.index(i)) - current_target_index)
+                else:
+                    
+                    target_diff = abs((static.target_order_regular.index(i)) - current_target_index)
+                    print("Target diff", target_diff)
+
+
+                for n in range(1, target_diff + 1):
+                    current_target_index = n
                     utils.press_key("tab")
 
-                # Used for microing
-                if target_array >= 1:
+                # Used for microing if length of target array is longer than 1 
+                # and the last item of the array is not == to current target
+                if len(target_array) > 1 and target_array[-1] != i:
                     time.sleep(3) # Gör att detta specifieras i gameplan
 
             utils.press_key("esc")
