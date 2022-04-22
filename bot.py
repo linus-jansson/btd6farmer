@@ -80,7 +80,6 @@ class Bot():
         else:
             return None
 
-
     def exit_bot(self):
         self.running = False
 
@@ -145,81 +144,111 @@ class Bot():
                 if self.DEBUG:
                     log.log("Current round", current_round)
 
+    def place_tower(self, tower_position, keybind):
+        utils.press_key(keybind) # press keybind
+        utils.click(tower_position) # click on decired location
+
+    def upgrade_tower(self, tower_position, upgrade_path):
+        utils.click(tower_position)
+        upgrade_path = upgrade_path.split("-")
+        top, middle, bottom = tuple(map(int, upgrade_path))
+        
+        for _ in range(top):
+            utils.press_key(static.upgrade_keybinds["top"])
+
+        for _ in range(middle):
+            utils.press_key(static.upgrade_keybinds["middle"])
+
+        for _ in range(bottom):
+            utils.press_key(static.upgrade_keybinds["bottom"])
+        
+        utils.press_key("esc")
+
+    def change_target(self, tower_name, tower_position, target):
+        target_array = target.split(", ")
+        
+        utils.click(tower_position)
+
+        current_target_index = 0
+
+        # for each target in target list
+        for i in target_array:
+            
+            # Math to calculate the difference between current target index and next target index
+            if "SPIKE" in tower_name:
+                target_diff = abs((static.target_order_spike.index(i)) - current_target_index)
+            else:
+                target_diff = abs((static.target_order_regular.index(i)) - current_target_index)
+                # print("Target diff", target_diff)
+
+            # Change target until on correct target
+            for n in range(1, target_diff + 1):
+                current_target_index = n
+                utils.press_key("tab")
+
+            # Used for microing if length of target array is longer than 1 
+            # and the last item of the array is not == to current target
+            if len(target_array) > 1 and target_array[-1] != i:
+                time.sleep(3) # Gör att detta specifieras i gameplan
+
+        utils.press_key("esc")
+
+    def set_static_target(self, tower_position, target_pos):
+        pyautogui.moveTo(utils.scaling(tower_position))
+        time.sleep(0.5)
+        mouse.click(button="left")
+
+        time.sleep(1)
+
+        pyautogui.moveTo(utils.scaling(static.button_positions["TARGET_BUTTON_MORTAR"]))
+        
+        time.sleep(1)
+        mouse.press(button='left')
+        time.sleep(0.5)
+        mouse.release(button='left')
+
+        time.sleep(1)
+
+        pyautogui.moveTo(utils.scaling(target_pos))
+        time.sleep(0.5)
+        mouse.press(button='left')
+        time.sleep(0.5)
+        mouse.release(button='left')
+
+        time.sleep(1)
+
+        utils.press_key("esc")
+
+
     def handleInstruction(self, instruction):
         upgrade_path = instruction["UPGRADE_DIFF"]
-    
         monkey_position = instruction["POSITION"]
         target = instruction["TARGET"]
         keybind = instruction["KEYCODE"]
 
-
-        # OM det inte finns någon upgrade så finns inte tornet placera ut
-        if upgrade_path:
-            utils.press_key(keybind)
-
-            utils.click(monkey_position)
-            self.statDict["Last_Placement"] = instruction["MONKEY"]
+        # if upgrade_path is None the tower isn't placed yet, so place it
+        if upgrade_path is None:
+            self.place_tower(monkey_position, keybind)
 
             if self.DEBUG:
                 log.log("Tower placed:", instruction["MONKEY"])
-            # press_key("esc")
+            
         else:
-            utils.click(monkey_position)
-            upgrade_path = upgrade_path.split("-")
-            top, middle, bottom = tuple(map(int, upgrade_path))
-            
-            for _ in range(top):
-                utils.press_key(static.upgrade_keybinds["top"])
+            self.upgrade_tower(monkey_position, upgrade_path)
 
-            for _ in range(middle):
-                utils.press_key(static.upgrade_keybinds["middle"])
-
-            for _ in range(bottom):
-                utils.press_key(static.upgrade_keybinds["bottom"])
-            
-            upgrade_change = "Upgrading {} to {}; change {}".format(instruction['MONKEY'], instruction['UPGRADE'], instruction['UPGRADE_DIFF'])
-            
             if self.DEBUG:
-                log.log(upgrade_change)
-            
-            self.statDict["Last_Upgraded"] = upgrade_change
-            
-            utils.press_key("esc")
+                log.log("Upgrading {} to {}; change {}".format(instruction['MONKEY'], instruction['UPGRADE'], instruction['UPGRADE_DIFF']))
+
 
 
         # Om target är - så låt vara
         # Special case för mortar och static positionering
         if instruction["TARGET_POS"]:
-            pyautogui.moveTo(utils.scaling(monkey_position))
-            time.sleep(0.5)
-            mouse.click(button="left")
-
-            time.sleep(1)
-
-            pyautogui.moveTo(utils.scaling(static.button_positions["TARGET_BUTTON_MORTAR"]))
+            self.set_static_target(monkey_position, instruction["TARGET_POS"])
             
-            time.sleep(1)
-            mouse.press(button='left')
-            time.sleep(0.5)
-            mouse.release(button='left')
-
-            time.sleep(1)
-
-            pyautogui.moveTo(utils.scaling(instruction["TARGET_POS"]))
-            time.sleep(0.5)
-            mouse.press(button='left')
-            time.sleep(0.5)
-            mouse.release(button='left')
-
-            time.sleep(1)
-
-            utils.press_key("esc")
-
-            # Print info
-            self.statDict["Last_Target_Change"] = instruction["MONKEY"]
-
             if self.DEBUG:
                 log.log("Monkey static target change", instruction["MONKEY"])
+
 
         if instruction["ROUND_START"]:
             utils.press_key("space")
@@ -227,36 +256,12 @@ class Bot():
 
         # Om den har en specifik target
         if target:
+            self.change_target(instruction["MONKEY"], monkey_position, target)
 
             if self.DEBUG:
                 log.log(f"{instruction['MONKEY']} target change to {target}")
-            print("target", target)
-            target_array = target.split(", ")
-            print("target array", target_array)
-            
-            utils.click(monkey_position)
+           
 
-            current_target_index = 0
-            for i in target_array:
-                # press tab for the correct num of times
-                if "SPIKE" in instruction["MONKEY"]:
-                    target_diff = abs((static.target_order_spike.index(i)) - current_target_index)
-                else:
-                    
-                    target_diff = abs((static.target_order_regular.index(i)) - current_target_index)
-                    print("Target diff", target_diff)
-
-
-                for n in range(1, target_diff + 1):
-                    current_target_index = n
-                    utils.press_key("tab")
-
-                # Used for microing if length of target array is longer than 1 
-                # and the last item of the array is not == to current target
-                if len(target_array) > 1 and target_array[-1] != i:
-                    time.sleep(3) # Gör att detta specifieras i gameplan
-
-            utils.press_key("esc")
             
             # Print info
             self.statDict["Last_Target_Change"] = instruction["MONKEY"]
@@ -386,8 +391,13 @@ class Bot():
         return tuple(map(int, fixed))
 
     def __load_data(self, file_path):
-        formatedInstructions = []
-        with open(file_path) as file:
+        """
+            Will read the @file_path as a csv file and 
+            load each row into a list of Dictionaries
+        """
+
+        formated_data = []
+        with open(file_path, 'r', encoding="utf-8") as file:
             csvreader = csv.DictReader(file)
             
             for row in csvreader:
@@ -396,10 +406,10 @@ class Bot():
                     if row[item] == '' or row[item] == '-':
                         row[item] = None
                     
-                    if row[item] == "FALSE":
+                    elif row[item] == "FALSE":
                         row[item] = False
 
-                    if row[item] == "FALSE":
+                    elif row[item] == "TRUE":
                         row[item] = True
                     
                     print(item, ":\t", row[item],)
@@ -413,8 +423,8 @@ class Bot():
                     row["TARGET_POS"] = self.__fixCordinates(row["TARGET_POS"])
                 
                 
-                formatedInstructions.append(row)
-        return formatedInstructions
+                formated_data.append(row)
+        return formated_data
         # pprint(formatedInstructions)
 
 
