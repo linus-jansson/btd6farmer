@@ -56,7 +56,7 @@ class Bot():
         # https://stackoverflow.com/questions/66334737/pytesseract-is-very-slow-for-real-time-ocr-any-way-to-optimise-my-code
         # eller kanske inte  "I did some comparative tests between pytesseract and tesserocr, but the performance is not as different as said. – "
         # https://www.reddit.com/r/learnpython/comments/kt5zzw/how_to_speed_up_pytesseract_ocr_processing/
-        
+
         top, left = utils.scaling([1850, 35])
         width, height = utils.scaling([225, 65])
         img = pyautogui.screenshot(region=(top, left, width, height))
@@ -239,9 +239,10 @@ class Bot():
 
             for i in target_array:
                 # press tab for the correct num of times
-                for n in range(static.target_order.index(i)[1]):
+                for n in range(static.target_order.index(i)[0] + 1):
                     utils.press_key("tab")
 
+                # Used for microing
                 if target_array >= 1:
                     time.sleep(3) # Gör att detta specifieras i gameplan
 
