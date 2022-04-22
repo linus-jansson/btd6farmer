@@ -63,3 +63,10 @@ upgrade_keybinds = {
     "bottom" : "/"
 
 }
+
+target_order = [
+    (0, "FIRST"),
+    (1, "LAST"),
+    (2, "CLOSE"),
+    (3, "STRONG")
+]

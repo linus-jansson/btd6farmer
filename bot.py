@@ -52,6 +52,11 @@ class Bot():
         }
 
     def getRound(self):
+        # BYT TILL https://pypi.org/project/tesserocr/
+        # https://stackoverflow.com/questions/66334737/pytesseract-is-very-slow-for-real-time-ocr-any-way-to-optimise-my-code
+        # eller kanske inte  "I did some comparative tests between pytesseract and tesserocr, but the performance is not as different as said. – "
+        # https://www.reddit.com/r/learnpython/comments/kt5zzw/how_to_speed_up_pytesseract_ocr_processing/
+        
         top, left = utils.scaling([1850, 35])
         width, height = utils.scaling([225, 65])
         img = pyautogui.screenshot(region=(top, left, width, height))
@@ -222,36 +227,41 @@ class Bot():
             utils.press_key("space")
             utils.press_key("space")
 
-
         # Om den har en specifik target
         if target != "-":
 
             if self.DEBUG:
                 log.log(f"{instruction['MONKEY']} target change to {target}")
 
-            splitTarget = target.split(", ")
+            target_array = target.split(", ")
+            
             utils.click(monkey_position)
 
-            # special cases
-            if target == "STRONG":
-                utils.press_key("tab")
-                utils.press_key("tab")
-                utils.press_key("tab")
-                time.sleep(0.1)
-            elif len(splitTarget) > 1:
-                utils.press_key("tab")
-                time.sleep(3)
-                utils.press_key("ctrl+tab")
-                utils.press_key("ctrl+tab")
-            elif target == "CLOSE":
-                utils.press_key("tab")
+            for i in target_array:
+                # press tab for the correct num of times
+                for n in range(static.target_order.index(i)[1]):
+                    utils.press_key("tab")
+
+                if target_array >= 1:
+                    time.sleep(3) # Gör att detta specifieras i gameplan
 
             utils.press_key("esc")
+            # special cases
+            # if target == "STRONG":
+            #     utils.press_key("tab")
+            #     utils.press_key("tab")
+            #     utils.press_key("tab")
+            #     time.sleep(0.1)
+            # elif len(target_array) > 1:
+            #     utils.press_key("tab")
+            #     time.sleep(3)
+            #     utils.press_key("ctrl+tab")
+            #     utils.press_key("ctrl+tab")
+            # elif target == "CLOSE":
+            #     utils.press_key("tab")
             
             # Print info
             self.statDict["Last_Target_Change"] = instruction["MONKEY"]
-            
-
 
     def abilityAvaliabe(self, last_used, cooldown, fast_forward=True):
         # Möjlighet att välja beroende på ifall fast_forward är på eller ej
