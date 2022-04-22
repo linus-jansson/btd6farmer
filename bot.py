@@ -150,6 +150,8 @@ class Bot():
 
     def upgrade_tower(self, tower_position, upgrade_path):
         utils.click(tower_position)
+        
+        # Convert upgrade_path to something usable
         upgrade_path = upgrade_path.split("-")
         top, middle, bottom = tuple(map(int, upgrade_path))
         
