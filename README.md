@@ -60,3 +60,26 @@ Press f11 to get printed infromation on how the bot is doing
 ## Issues
 Currently there is a bug in BTD 6 where the keybinds stop working if alt+tab is pressed. If by some reason this bug occurs. Please press alt ingame after starting the script otherwise the script wont be able to place towers.
 
+# Stats
+[Experience points per level](https://bloons.fandom.com/wiki/Experience_Point_Farming)
+|Rounds|Beginner|Intermediate|Advanced|Expert|
+|--|--|--|--|--|
+|1-40 (Easy)|21400|23540|25680|27820|
+|31-60 (Deflation)|45950|50545|55140|59735|
+|1-60 (Medium)|56950|62645|68340|74035|
+|3-80 (Hard)|126150|138765|151380|163995|
+|6-100 (Impoppable/CHIMPS)|231150|254265|277380|300495|
+
+## Dark castle chimps (instructions.csv)
+
+The current strategy has a winrate of 99.9% (i've got 24 wins and 0 losses when testing). Each game has an average matchtime of 21.7 minutes.
+
+|Stat|Data|
+|--|--|
+|Winrate|99.9% due to RNG|
+|Average Matchtime|21.7 Minutes|
+|Player XP per minute|13847.7|
+
+Other gameplans that will be added, will have the same stats like above
+
+*Note: The strat that is being used has RNG because of the Alchemist, so the results may differ to you from what I got*
