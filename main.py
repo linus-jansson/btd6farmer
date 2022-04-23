@@ -14,6 +14,8 @@ if __name__ == "__main__":
     print("waiting for 5 seconds, please select the btd 6 window")
     time.sleep(5)
     # Check for obyn
+    print("Selecting obyn if not selected")
+    bot.hero_obyn_check()
 
     while bot.running:
         print("selecting map")
