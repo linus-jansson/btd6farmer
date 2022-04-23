@@ -251,7 +251,6 @@ class Bot():
             if self.DEBUG:
                 log.log("Monkey static target change", instruction["MONKEY"])
 
-
         if instruction["ROUND_START"]:
             utils.press_key("space")
             utils.press_key("space")
@@ -262,11 +261,7 @@ class Bot():
 
             if self.DEBUG:
                 log.log(f"{instruction['MONKEY']} target change to {target}")
-           
 
-            
-            # Print info
-            self.statDict["Last_Target_Change"] = instruction["MONKEY"]
 
     def abilityAvaliabe(self, last_used, cooldown, fast_forward=True):
         # Möjlighet att välja beroende på ifall fast_forward är på eller ej
@@ -285,7 +280,8 @@ class Bot():
             return True
         else:
             return False
-        
+    
+    # Make generic for all collection events
     def easter_event_check(self):
         found = pyautogui.locateOnScreen(self.easter_path, confidence=0.9)
         if found != None:
@@ -333,14 +329,12 @@ class Bot():
 
     def victory_check(self):
         found = pyautogui.locateOnScreen(self.victory_path, confidence=0.9)
-        #jprint(victory_path)
         if found:
             return True
         else:
             return False
 
     def defeat_check(self):     
-        #jprint(defeat_path)
         found = pyautogui.locateOnScreen(self.defeat_path, confidence=0.9)
         if found:
             return True
@@ -357,7 +351,7 @@ class Bot():
         time.sleep(2)
 
     def select_map(self):
-        time.sleep(2)
+        time.sleep(1)
 
         utils.button_click("HOME_MENU_START") # Move Mouse and click from Home Menu, Start
         utils.button_click("EXPERT_SELECTION") # Move Mouse to expert and click
@@ -370,7 +364,6 @@ class Bot():
         utils.button_click("CONFIRM_CHIMPS")
 
     def menu_check(self):
-        #jprint(menu_path)
         found = pyautogui.locateOnScreen(self.menu_path, confidence=0.9)
         if found:
             return True
