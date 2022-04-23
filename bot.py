@@ -414,10 +414,8 @@ class Bot():
                     elif row[item] == "TRUE":
                         row[item] = True
                     
-                    print(item, ":\t", row[item],)
-                    
-
-                print()
+                #     print(item, ":\t", row[item],)
+                # print()
                 # print(row)
                 row["POSITION"] = self.__fixCordinates(row["POSITION"])
 
