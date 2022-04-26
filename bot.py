@@ -34,7 +34,8 @@ class Bot():
         
         self.game_plan = self.__load_data("instructions.csv")
         
-        ## Möjligtvis flytta dessa till där de behövs istället direkt
+        # defining the paths to the images needed in the bot
+        # TODO: Change this to a more generic way if I stop using pyautogui
         self.levelup_path = f"Support_Files\\{str(self.height)}_levelup.png"
         self.victory_path = f"Support_Files\\{str(self.height)}_victory.png"
         self.defeat_path = f"Support_Files\\{str(self.height)}_defeat.png"
@@ -52,10 +53,8 @@ class Bot():
         }
 
     def getRound(self):
-        # BYT TILL https://pypi.org/project/tesserocr/
-        # https://stackoverflow.com/questions/66334737/pytesseract-is-very-slow-for-real-time-ocr-any-way-to-optimise-my-code
-        # eller kanske inte  "I did some comparative tests between pytesseract and tesserocr, but the performance is not as different as said. – "
-        # https://www.reddit.com/r/learnpython/comments/kt5zzw/how_to_speed_up_pytesseract_ocr_processing/
+        # Change to https://stackoverflow.com/questions/66334737/pytesseract-is-very-slow-for-real-time-ocr-any-way-to-optimise-my-code 
+        # or https://www.reddit.com/r/learnpython/comments/kt5zzw/how_to_speed_up_pytesseract_ocr_processing/
 
         top, left = utils.scaling([1850, 35])
         width, height = utils.scaling([225, 65])
@@ -191,7 +190,7 @@ class Bot():
             # Used for microing if length of target array is longer than 1 
             # and the last item of the array is not == to current target
             if len(target_array) > 1 and target_array[-1] != i:
-                time.sleep(3) # Gör att detta specifieras i gameplan
+                time.sleep(3) # TODO: specify this in the game plan
 
         utils.press_key("esc")
 
@@ -241,10 +240,8 @@ class Bot():
             if self.DEBUG:
                 log.log("Upgrading {} to {}; change {}".format(instruction['MONKEY'], instruction['UPGRADE'], instruction['UPGRADE_DIFF']))
 
-
-
-        # Om target är - så låt vara
-        # Special case för mortar och static positionering
+        # If target position is not None
+        # Special case for mortars and towers with static targeting
         if instruction["TARGET_POS"]:
             self.set_static_target(monkey_position, instruction["TARGET_POS"])
             
@@ -255,7 +252,7 @@ class Bot():
             utils.press_key("space")
             utils.press_key("space")
 
-        # Om den har en specifik target
+        # Change monkey to target (eg strong)
         if target:
             self.change_target(instruction["MONKEY"], monkey_position, target)
 
@@ -264,7 +261,7 @@ class Bot():
 
 
     def abilityAvaliabe(self, last_used, cooldown, fast_forward=True):
-        # Möjlighet att välja beroende på ifall fast_forward är på eller ej
+        # TODO: Store if the game is speeded up or not. If it is use the constant (true by default)
         m = 1
         if fast_forward:
             m = 3
