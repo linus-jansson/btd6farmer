@@ -24,7 +24,7 @@ Feel free to make a pull request if you find any improvements or create a issue 
 
 ## Instalation
 The script relies on tesseract which can be installed using this [this](https://github.com/UB-Mannheim/tesseract/wiki) guide. 
-(*If by any chance the tesseract installation directory is different from the directory specified in main.py you need to manually change that in the script. Otherwise the script will not work!*)
+(*If by any chance the tesseract installation directory is different from the directory specified in bot.py you need to manually change that in the script. Otherwise the bot will not work!*)
 
 default path:
 ```py
