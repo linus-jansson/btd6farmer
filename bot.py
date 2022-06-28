@@ -73,8 +73,8 @@ class Bot():
 
         # regex to look for format [[:digit:]]/[[:digit:]] if not its not round, return None
         if re.search(r"(\d+/\d+)", text):
-            text = text.split("/")
-            text = tuple(map(int, text))
+            text = int(text.split("/")[0])
+            #text = tuple(map(int, text))
             return text
         else:
             return None
@@ -94,13 +94,11 @@ class Bot():
         middle_of_screen = self.width//2, self.height//2
 
         inst_idx = 0
+
+        first_round = True
         
         # main ingame loop
         while not finished:
-            # time.sleep(0.2)
-            if inst_idx < len(self.game_plan):
-                current_instruction = self.game_plan[inst_idx]
-            
             # Check for levelup or insta monkey (level 100)
             if self.check_levelup() or self.insta_monkey_check():
                 utils.click(middle_of_screen)
@@ -121,27 +119,29 @@ class Bot():
                 finished = True
                 continue
 
-            get_round_result = self.getRound()
-            if isinstance(get_round_result, tuple):
-                current_round, _ = get_round_result 
+            current_round = self.getRound()
 
-                self.statDict["Current_Round"] = current_round
-
+            if current_round != None:
             # Saftey net; use abilites
-            if current_round >= 39 and self.abilityAvaliabe(ability_one_timer, 35):
-                utils.press_key("1")
-                ability_one_timer = time.time()
-            
-            if current_round >= 51 and self.abilityAvaliabe(ability_two_timer, 90):
-                utils.press_key("2")
-                ability_two_timer = time.time()
+                if current_round >= 39 and self.abilityAvaliabe(ability_one_timer, 35):
+                    utils.press_key("1")
+                    ability_one_timer = time.time()
+                
+                if current_round >= 51 and self.abilityAvaliabe(ability_two_timer, 90):
+                    utils.press_key("2")
+                    ability_two_timer = time.time()
 
-            # handle current instruction when current round is equal to instruction round
-            if int(current_instruction['ROUND']) == current_round and inst_idx < len(self.game_plan):
-                self.handleInstruction(current_instruction)
-                inst_idx += 1
-                if self.DEBUG:
-                    log.log("Current round", current_round)
+                # handle current instruction when current round is equal to instruction round
+                while int(self.game_plan[inst_idx]['ROUND']) == current_round and inst_idx < len(self.game_plan):
+                    self.handleInstruction(self.game_plan[inst_idx])
+                    inst_idx += 1
+                    if self.DEBUG:
+                        log.log("Current round", current_round)
+
+            if first_round:
+                utils.press_key("space")
+                utils.press_key("space")
+                first_round = False
 
     def place_tower(self, tower_position, keybind):
         utils.press_key(keybind) # press keybind
@@ -355,7 +355,7 @@ class Bot():
         utils.button_click("RIGHT_ARROW_SELECTION") # Move Mouse to arrow and click
         utils.button_click("DARK_CASTLE") # Move Mouse to Dark Castle
         utils.button_click("HARD_MODE") # Move Mouse to select easy mode
-        utils.button_click("CHIMPS_MODE") # Move mouse to select Standard mode
+        utils.button_click("STANDARD_GAME_MODE") # Move mouse to select Standard mode
         utils.button_click("OVERWRITE_SAVE") # Move mouse to overwrite save if exists
         time.sleep(3)
         utils.button_click("CONFIRM_CHIMPS")
