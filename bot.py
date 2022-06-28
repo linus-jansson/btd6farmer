@@ -12,6 +12,7 @@ import mouse
 import keyboard
 
 import pytesseract
+
 if sys.platform == "win32":
     pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
@@ -32,7 +33,7 @@ class Bot():
         # When mouse is moved to (0, 0)
         pyautogui.FAILSAFE = True
         
-        self.game_plan = self.__load_data("instructions.csv")
+        #self.game_plan = self.__load_data("instructions.csv")
         
         # defining the paths to the images needed in the bot
         # TODO: Change this to a more generic way if I stop using pyautogui
@@ -51,6 +52,9 @@ class Bot():
             "Last_Placement": None,
             "Uptime": 0
         }
+
+    def load_instructions(self, path):
+        self.game_plan = self.__load_data(path)
 
     def getRound(self):
         # Change to https://stackoverflow.com/questions/66334737/pytesseract-is-very-slow-for-real-time-ocr-any-way-to-optimise-my-code 
@@ -83,7 +87,6 @@ class Bot():
         self.running = False
 
     def ingame_loop(self):
-            
         current_round = -1
         ability_one_timer = time.time()
         ability_two_timer = time.time()
@@ -99,6 +102,7 @@ class Bot():
         
         # main ingame loop
         while not finished:
+
             # Check for levelup or insta monkey (level 100)
             if self.check_levelup() or self.insta_monkey_check():
                 utils.click(middle_of_screen)
@@ -324,6 +328,12 @@ class Bot():
             utils.button_click("CONFIRM_HERO")
             utils.press_key("esc")
 
+    def hero_select(self, heroString):
+        utils.button_click("HERO_SELECT")
+        utils.button_click(heroString)
+        utils.button_click("CONFIRM_HERO")
+        utils.press_key("esc")
+
     def victory_check(self):
         found = pyautogui.locateOnScreen(self.victory_path, confidence=0.9)
         if found:
@@ -359,6 +369,25 @@ class Bot():
         utils.button_click("OVERWRITE_SAVE") # Move mouse to overwrite save if exists
         time.sleep(3)
         utils.button_click("CONFIRM_CHIMPS")
+
+    def select_map(self, map_page, map_index, difficulty, mode):
+        time.sleep(1)
+
+        utils.button_click("HOME_MENU_START")
+        utils.button_click("EXPERT_SELECTION")
+        utils.button_click("BEGINNER_SELECTION")
+
+        for x in range(map_page - 1):
+            utils.button_click("RIGHT_ARROW_SELECTION")
+
+        utils.button_click("MAP_INDEX_" + str(map_index))
+        utils.button_click(difficulty)
+        utils.button_click(mode)
+        utils.button_click("OVERWRITE_SAVE")
+        time.sleep(3)
+        utils.button_click(mode)
+        utils.button_click("CONFIRM_CHIMPS")
+
 
     def menu_check(self):
         found = pyautogui.locateOnScreen(self.menu_path, confidence=0.9)
@@ -416,5 +445,3 @@ class Bot():
                 formated_data.append(row)
         return formated_data
         # pprint(formatedInstructions)
-
-
