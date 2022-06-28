@@ -30,4 +30,4 @@ if __name__ == "__main__":
         # main game
         bot.ingame_loop()
         # statDict["Won_Games"] += won
-        # statDict["Lost_Games"] += lost
+        # statDict["Lost_Games"] += lostx
