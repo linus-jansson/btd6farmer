@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 import pyautogui
 import time
 import cv2
