@@ -278,6 +278,11 @@ class Bot():
         else:
             return False
     
+    def collections_event_check():
+        # TODO: Generic method to all collection events; Check if the collections event is active and open lootboxes
+        pass
+
+
     # Make generic for all collection events
     def easter_event_check(self):
         found = pyautogui.locateOnScreen(self.easter_path, confidence=0.9)
