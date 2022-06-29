@@ -361,7 +361,7 @@ class Bot():
         time.sleep(1)
 
         utils.button_click("HOME_MENU_START")
-        # utils.button_click("EXPERT_SELECTION")
+        utils.button_click("EXPERT_SELECTION")
         
         utils.button_click("BEGINNER_SELECTION") # goto first page
 
