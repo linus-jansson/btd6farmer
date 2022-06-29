@@ -7,9 +7,9 @@ import l_utils
 import static
 from bot import Bot
 
-current_directory = ""
-
 if __name__ == "__main__":
+    current_directory = ""
+
     # Small code cleanup for debug
     bot = Bot("--debug" in sys.argv)
 
