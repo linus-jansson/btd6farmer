@@ -377,14 +377,15 @@ class Bot():
         utils.button_click("EXPERT_SELECTION")
         utils.button_click("BEGINNER_SELECTION")
 
-        for x in range(map_page - 1):
-            utils.button_click("RIGHT_ARROW_SELECTION")
+        # click to the right page
+        utils.button_click("RIGHT_ARROW_SELECTION", amount=(map_page - 1))
 
         utils.button_click("MAP_INDEX_" + str(map_index))
         utils.button_click(difficulty)
         utils.button_click(mode)
         utils.button_click("OVERWRITE_SAVE")
-        time.sleep(3)
+
+        time.sleep(3) # wait for loading screen
         utils.button_click(mode)
         utils.button_click("CONFIRM_CHIMPS")
 
