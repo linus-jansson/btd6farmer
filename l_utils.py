@@ -100,13 +100,15 @@ def move_mouse(location):
     pyautogui.moveTo(location)
     time.sleep(0.1)
 
-def click(location): #pass in x and y, and it will click for you
+def click(location, amount=1): #pass in x and y, and it will click for you
     #print(location)
     # mouse.move(*scaling(button_positions[location]))
     # x, y = location
     # mouse.move(*location)
     move_mouse(scaling(location))
-    mouse.click(button="left") # performs the pyautogui click function while passing in the variable from button_positions that matches button
+    for i in range(amount):
+        mouse.click(button="left")  # performs the pyautogui click function while passing in the variable from button_positions that matches button
+        time.sleep(0.1)
     time.sleep(0.5)
 
 def button_click(btn, amount=1):
