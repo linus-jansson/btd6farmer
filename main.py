@@ -30,7 +30,7 @@ if __name__ == "__main__":
     print("Setting up automation...")
     file = open(current_directory + "\setup.txt")
     data = file.read().split()
-    hero = "SELECT_" + data[0].upper()
+    hero = data[0].lower()
     current_map = data[1]
     map_page = static.maps[current_map][0]
     map_index = static.maps[current_map][1]
