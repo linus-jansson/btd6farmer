@@ -12,6 +12,7 @@ import mouse
 import keyboard
 
 import pytesseract
+
 if sys.platform == "win32":
     pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
@@ -29,20 +30,23 @@ class Bot():
         self.running = True
         self.DEBUG = debug
 
+
         # When mouse is moved to (0, 0)
         pyautogui.FAILSAFE = True
         
-        self.game_plan = self.__load_data("instructions.csv")
+        self.Support_files_path = "Support_files\\" if sys.platform == "win32" else "Support_files/"
+
+        #self.game_plan = self.__load_data("instructions.csv")
         
         # defining the paths to the images needed in the bot
         # TODO: Change this to a more generic way if I stop using pyautogui
-        self.levelup_path = f"Support_Files\\{str(self.height)}_levelup.png"
-        self.victory_path = f"Support_Files\\{str(self.height)}_victory.png"
-        self.defeat_path = f"Support_Files\\{str(self.height)}_defeat.png"
-        self.menu_path = f"Support_Files\\{str(self.height)}_menu.png"
-        self.easter_path = f"Support_Files\\{str(self.height)}_easter.png"
-        self.obyn_hero_path = f"Support_Files\\{str(self.height)}_obyn.png"
-        self.insta_monkey = f"Support_Files\\{str(self.height)}_instamonkey.png"
+        self.levelup_path = f"{self.Support_files_path}{str(self.height)}_levelup.png"
+        self.victory_path = f"{self.Support_files_path}{str(self.height)}_victory.png"
+        self.defeat_path = f"{self.Support_files_path}{str(self.height)}_defeat.png"
+        self.menu_path = f"{self.Support_files_path}{str(self.height)}_menu.png"
+        self.easter_path = f"{self.Support_files_path}{str(self.height)}_easter.png"
+        self.obyn_hero_path = f"{self.Support_files_path}{str(self.height)}_obyn.png"
+        self.insta_monkey = f"{self.Support_files_path}{str(self.height)}_instamonkey.png"
 
         self.statDict = {
             "Current_Round": None,
@@ -51,6 +55,9 @@ class Bot():
             "Last_Placement": None,
             "Uptime": 0
         }
+
+    def load_instructions(self, path):
+        self.game_plan = self.__load_data(path)
 
     def getRound(self):
         # Change to https://stackoverflow.com/questions/66334737/pytesseract-is-very-slow-for-real-time-ocr-any-way-to-optimise-my-code 
@@ -73,9 +80,7 @@ class Bot():
 
         # regex to look for format [[:digit:]]/[[:digit:]] if not its not round, return None
         if re.search(r"(\d+/\d+)", text):
-            text = int(text.split("/")[0])
-            #text = tuple(map(int, text))
-            return text
+            return int(text.split("/")[0])
         else:
             return None
 
@@ -83,7 +88,6 @@ class Bot():
         self.running = False
 
     def ingame_loop(self):
-            
         current_round = -1
         ability_one_timer = time.time()
         ability_two_timer = time.time()
@@ -99,6 +103,7 @@ class Bot():
         
         # main ingame loop
         while not finished:
+
             # Check for levelup or insta monkey (level 100)
             if self.check_levelup() or self.insta_monkey_check():
                 utils.click(middle_of_screen)
@@ -321,11 +326,15 @@ class Bot():
             utils.button_click("EASTER_EXIT")
             time.sleep(1)
         
-    def hero_obyn_check(self):
-        found = pyautogui.locateOnScreen(self.obyn_hero_path, confidence=0.9)
-        if not found:
+    # Checks screen if hero is already selected
+    def hero_check(self, heroString):
+        return True if pyautogui.locateOnScreen(f"{self.Support_files_path}{str(self.height)}_{heroString}.png", confidence=0.9) is not None else False
+            
+    # select hero if not selected
+    def hero_select(self, heroString):
+        if not self.hero_check(heroString):
             utils.button_click("HERO_SELECT")
-            utils.button_click("SELECT_OBYN")
+            utils.button_click(heroString)
             utils.button_click("CONFIRM_HERO")
             utils.press_key("esc")
 
@@ -352,18 +361,27 @@ class Bot():
         self.easter_event_check()
         time.sleep(2)
 
-    def select_map(self):
+
+    def select_map(self, map_page, map_index, difficulty, mode):
         time.sleep(1)
 
-        utils.button_click("HOME_MENU_START") # Move Mouse and click from Home Menu, Start
-        utils.button_click("EXPERT_SELECTION") # Move Mouse to expert and click
-        utils.button_click("RIGHT_ARROW_SELECTION") # Move Mouse to arrow and click
-        utils.button_click("DARK_CASTLE") # Move Mouse to Dark Castle
-        utils.button_click("HARD_MODE") # Move Mouse to select easy mode
-        utils.button_click("STANDARD_GAME_MODE") # Move mouse to select Standard mode
-        utils.button_click("OVERWRITE_SAVE") # Move mouse to overwrite save if exists
-        time.sleep(3)
+        utils.button_click("HOME_MENU_START")
+        utils.button_click("EXPERT_SELECTION")
+        
+        utils.button_click("BEGINNER_SELECTION") # goto first page
+
+        # click to the right page
+        utils.button_click("RIGHT_ARROW_SELECTION", amount=(map_page - 1))
+
+        utils.button_click("MAP_INDEX_" + str(map_index))
+        utils.button_click(difficulty)
+        utils.button_click(mode)
+        utils.button_click("OVERWRITE_SAVE")
+
+        time.sleep(3) # wait for loading screen
+        utils.button_click(mode)
         utils.button_click("CONFIRM_CHIMPS")
+
 
     def menu_check(self):
         found = pyautogui.locateOnScreen(self.menu_path, confidence=0.9)
@@ -421,5 +439,3 @@ class Bot():
                 formated_data.append(row)
         return formated_data
         # pprint(formatedInstructions)
-
-
