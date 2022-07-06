@@ -47,6 +47,7 @@ class Bot():
         self.easter_path = f"{self.Support_files_path}{str(self.height)}_easter.png"
         self.obyn_hero_path = f"{self.Support_files_path}{str(self.height)}_obyn.png"
         self.insta_monkey = f"{self.Support_files_path}{str(self.height)}_instamonkey.png"
+        self.collection_event_path = f"{self.Support_files_path}{str(self.height)}_diamond_case.png"
 
         self.statDict = {
             "Current_Round": None,
@@ -283,7 +284,42 @@ class Bot():
         else:
             return False
     
-    def collections_event_check():
+    def collections_event_check(self):
+        found = pyautogui.locateOnScreen(self.collection_event_path, confidence=0.9)
+        if found != None:
+            if self.DEBUG:
+                log.log("easter collection detected")
+
+            utils.button_click("EASTER_COLLECTION") #DUE TO EASTER EVENT:
+            time.sleep(1)
+            utils.button_click("LEFT_INSTA") # unlock insta
+            time.sleep(1)
+            utils.button_click("LEFT_INSTA") # collect insta
+            time.sleep(1)
+            utils.button_click("RIGHT_INSTA") # unlock r insta
+            time.sleep(1)
+            utils.button_click("RIGHT_INSTA") # collect r insta
+            time.sleep(1)
+            utils.button_click("F_LEFT_INSTA")
+            time.sleep(1)
+            utils.button_click("F_LEFT_INSTA")
+            time.sleep(1)
+            utils.button_click("MID_INSTA") # unlock insta
+            time.sleep(1)
+            utils.button_click("MID_INSTA") # collect insta
+            time.sleep(1)
+            utils.button_click("F_RIGHT_INSTA")
+            time.sleep(1)
+            utils.button_click("F_RIGHT_INSTA")
+            time.sleep(1)
+
+            time.sleep(1)
+            utils.button_click("EASTER_CONTINUE")
+
+
+            # awe try to click 3 quick times to get out of the easter mode, but also if easter mode not triggered, to open and close profile quick
+            utils.button_click("EASTER_EXIT")
+            time.sleep(1)
         # TODO: Generic method to all collection events; Check if the collections event is active and open lootboxes
         pass
 
@@ -358,7 +394,8 @@ class Bot():
         utils.button_click("VICTORY_HOME")
         time.sleep(4)
 
-        self.easter_event_check()
+        # self.easter_event_check()
+        self.collections_event_check()
         time.sleep(2)
 
 
