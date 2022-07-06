@@ -323,45 +323,6 @@ class Bot():
         # TODO: Generic method to all collection events; Check if the collections event is active and open lootboxes
         pass
 
-
-    # Make generic for all collection events
-    def easter_event_check(self):
-        found = pyautogui.locateOnScreen(self.easter_path, confidence=0.9)
-        if found != None:
-            if self.DEBUG:
-                log.log("easter collection detected")
-
-            utils.button_click("EASTER_COLLECTION") #DUE TO EASTER EVENT:
-            time.sleep(1)
-            utils.button_click("LEFT_INSTA") # unlock insta
-            time.sleep(1)
-            utils.button_click("LEFT_INSTA") # collect insta
-            time.sleep(1)
-            utils.button_click("RIGHT_INSTA") # unlock r insta
-            time.sleep(1)
-            utils.button_click("RIGHT_INSTA") # collect r insta
-            time.sleep(1)
-            utils.button_click("F_LEFT_INSTA")
-            time.sleep(1)
-            utils.button_click("F_LEFT_INSTA")
-            time.sleep(1)
-            utils.button_click("MID_INSTA") # unlock insta
-            time.sleep(1)
-            utils.button_click("MID_INSTA") # collect insta
-            time.sleep(1)
-            utils.button_click("F_RIGHT_INSTA")
-            time.sleep(1)
-            utils.button_click("F_RIGHT_INSTA")
-            time.sleep(1)
-
-            time.sleep(1)
-            utils.button_click("EASTER_CONTINUE")
-
-
-            # awe try to click 3 quick times to get out of the easter mode, but also if easter mode not triggered, to open and close profile quick
-            utils.button_click("EASTER_EXIT")
-            time.sleep(1)
-        
     # Checks screen if hero is already selected
     def hero_check(self, heroString):
         return True if pyautogui.locateOnScreen(f"{self.Support_files_path}{str(self.height)}_{heroString}.png", confidence=0.9) is not None else False
@@ -394,7 +355,6 @@ class Bot():
         utils.button_click("VICTORY_HOME")
         time.sleep(4)
 
-        # self.easter_event_check()
         self.collections_event_check()
         time.sleep(2)
 
