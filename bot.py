@@ -65,9 +65,9 @@ class Bot():
         # or https://www.reddit.com/r/learnpython/comments/kt5zzw/how_to_speed_up_pytesseract_ocr_processing/
 
         top, left = utils.scaling([1850, 35])
-        width, height = utils.scaling([225, 65])
+        width, height = [225, 65]
         img = pyautogui.screenshot(region=(top, left, width, height))
-        
+
         numpyImage = np.array(img)
 
         # Make image grayscale using opencv
