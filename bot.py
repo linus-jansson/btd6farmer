@@ -19,25 +19,25 @@ if sys.platform == "win32":
 import log
 import static
 import l_utils as utils
+from Game import Game
 
-class Bot():
-    def __init__(self, debug=False):
+class Bot(Game):
+    def __init__(self, instruction_path, debug_mode=False, verbose_mode=False):
+        super().__init__(instruction_path)
         # Change to current Directory
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
         self.width, self.height = pyautogui.size()
 
         self.start_time = time.time()
         self.running = True
-        self.DEBUG = debug
-
+        self.DEBUG = debug_mode
+        self.VERBOSE = verbose_mode
 
         # When mouse is moved to (0, 0)
         pyautogui.FAILSAFE = True
         
         self.Support_files_path = "Support_files\\" if sys.platform == "win32" else "Support_files/"
 
-        #self.game_plan = self.__load_data("instructions.csv")
-        
         # defining the paths to the images needed in the bot
         # TODO: Change this to a more generic way if I stop using pyautogui
         self.levelup_path = f"{self.Support_files_path}{str(self.height)}_levelup.png"
@@ -56,9 +56,6 @@ class Bot():
             "Last_Placement": None,
             "Uptime": 0
         }
-
-    def load_instructions(self, path):
-        self.game_plan = self.__load_data(path)
 
     def getRound(self):
         # Change to https://stackoverflow.com/questions/66334737/pytesseract-is-very-slow-for-real-time-ocr-any-way-to-optimise-my-code 
@@ -79,6 +76,9 @@ class Bot():
         # Get current round from image with tesseract
         text = pytesseract.image_to_string(final_image,  config='--psm 7').replace("\n", "")
 
+        # if self.DEBUG:
+            # print(f"Found round text: {text}")
+
         # regex to look for format [[:digit:]]/[[:digit:]] if not its not round, return None
         if re.search(r"(\d+/\d+)", text):
             return int(text.split("/")[0])
@@ -98,7 +98,7 @@ class Bot():
 
         middle_of_screen = self.width//2, self.height//2
 
-        inst_idx = 0
+        instruction_key = self.first_round
 
         first_round = True
         
@@ -107,8 +107,7 @@ class Bot():
 
             # Check for levelup or insta monkey (level 100)
             if self.check_levelup() or self.insta_monkey_check():
-                utils.click(middle_of_screen)
-                utils.click(middle_of_screen)
+                utils.click(middle_of_screen, amount=2)
 
             # Check for finished or failed game
             if self.defeat_check() or self.victory_check():
@@ -128,7 +127,8 @@ class Bot():
             current_round = self.getRound()
 
             if current_round != None:
-            # Saftey net; use abilites
+                # Saftey net; use abilites
+                # TODO: Make this more general to support more gameplans
                 if current_round >= 39 and self.abilityAvaliabe(ability_one_timer, 35):
                     utils.press_key("1")
                     ability_one_timer = time.time()
@@ -137,17 +137,27 @@ class Bot():
                     utils.press_key("2")
                     ability_two_timer = time.time()
 
-                # handle current instruction when current round is equal to instruction round
-                while int(self.game_plan[inst_idx]['ROUND']) == current_round and inst_idx < len(self.game_plan):
-                    self.handleInstruction(self.game_plan[inst_idx])
-                    inst_idx += 1
+                # Check for round in game plan
+                if str(current_round) in self.game_plan and instruction_key == current_round:
+                    # Handle all instructions in current round
+                    for instruction in self.game_plan[str(current_round)]:
+                        self.handleInstruction(instruction)
+                    
+                    instruction_key = current_round + 1
+
                     if self.DEBUG:
                         log.log("Current round", current_round)
+                        # log.log("Instruction key", instruction_key)
+                    
+                    # handle current instruction when current round is equal to instruction round and that the instruction index is less than the dictionary
+                    # while instruction_key == current_round and instruction_key < len(self.game_plan):                
+                    #     instruction_key = current_round + 1
 
-            if first_round:
-                utils.press_key("space")
-                utils.press_key("space")
-                first_round = False
+                # if first_round:
+                #     print("Starting first round")
+                #     utils.press_key("space")
+                #     utils.press_key("space")
+                #     first_round = False
 
     def place_tower(self, tower_position, keybind):
         utils.press_key(keybind) # press keybind
@@ -171,15 +181,15 @@ class Bot():
         
         utils.press_key("esc")
 
-    def change_target(self, tower_name, tower_position, target):
-        target_array = target.split(", ")
+    def change_target(self, tower_name, tower_position, targets):
+        # target_array = targets.split(", ")
         
         utils.click(tower_position)
 
         current_target_index = 0
 
         # for each target in target list
-        for i in target_array:
+        for i in targets:
             
             # Math to calculate the difference between current target index and next target index
             if "SPIKE" in tower_name:
@@ -195,7 +205,7 @@ class Bot():
 
             # Used for microing if length of target array is longer than 1 
             # and the last item of the array is not == to current target
-            if len(target_array) > 1 and target_array[-1] != i:
+            if len(targets) > 1 and targets[-1] != i:
                 time.sleep(3) # TODO: specify this in the game plan
 
         utils.press_key("esc")
@@ -231,20 +241,20 @@ class Bot():
         upgrade_path = instruction["UPGRADE_DIFF"]
         monkey_position = instruction["POSITION"]
         target = instruction["TARGET"]
-        keybind = instruction["KEYCODE"]
+        keybind = static.tower_keybinds[instruction["TOWER"]]
 
         # if upgrade_path is None the tower isn't placed yet, so place it
         if upgrade_path is None:
             self.place_tower(monkey_position, keybind)
 
             if self.DEBUG:
-                log.log("Tower placed:", instruction["MONKEY"])
+                log.log("Tower placed:", instruction["TOWER"])
             
         else:
             self.upgrade_tower(monkey_position, upgrade_path)
 
             if self.DEBUG:
-                log.log("Upgrading {} to {}; change {}".format(instruction['MONKEY'], instruction['UPGRADE'], instruction['UPGRADE_DIFF']))
+                log.log("Upgrading {} to {}; change {}".format(instruction['TOWER'], instruction['UPGRADE'], instruction['UPGRADE_DIFF']))
 
         # If target position is not None
         # Special case for mortars and towers with static targeting
@@ -252,18 +262,19 @@ class Bot():
             self.set_static_target(monkey_position, instruction["TARGET_POS"])
             
             if self.DEBUG:
-                log.log("Monkey static target change", instruction["MONKEY"])
+                log.log("Monkey static target change", instruction["TOWER"])
 
         if instruction["ROUND_START"]:
+            print("Starting first round")
             utils.press_key("space")
             utils.press_key("space")
 
         # Change monkey to target (eg strong)
         if target:
-            self.change_target(instruction["MONKEY"], monkey_position, target)
+            self.change_target(instruction["TOWER"], monkey_position, target)
 
             if self.DEBUG:
-                log.log(f"{instruction['MONKEY']} target change to {target}")
+                log.log(f"{instruction['TOWER']} target change to {target}")
 
 
     def abilityAvaliabe(self, last_used, cooldown, fast_forward=True):
@@ -316,7 +327,6 @@ class Bot():
             time.sleep(1)
             utils.button_click("EASTER_CONTINUE")
 
-
             # awe try to click 3 quick times to get out of the easter mode, but also if easter mode not triggered, to open and close profile quick
             utils.button_click("EASTER_EXIT")
             time.sleep(1)
@@ -328,10 +338,10 @@ class Bot():
         return True if pyautogui.locateOnScreen(f"{self.Support_files_path}{str(self.height)}_{heroString}.png", confidence=0.9) is not None else False
             
     # select hero if not selected
-    def hero_select(self, heroString):
-        if not self.hero_check(heroString):
+    def hero_select(self):
+        if not self.hero_check(self.settings["HERO"]):
             utils.button_click("HERO_SELECT")
-            utils.button_click(heroString)
+            utils.button_click(self.settings["HERO"])
             utils.button_click("CONFIRM_HERO")
             utils.press_key("esc")
 
@@ -359,7 +369,11 @@ class Bot():
         time.sleep(2)
 
 
-    def select_map(self, map_page, map_index, difficulty, mode):
+    def select_map(self):
+        map_page = static.maps[self.settings["MAP"]][0]
+        map_index = static.maps[self.settings["MAP"]][1]
+        
+        #map_page, map_index, difficulty, gamemode
         time.sleep(1)
 
         utils.button_click("HOME_MENU_START")
@@ -370,13 +384,13 @@ class Bot():
         # click to the right page
         utils.button_click("RIGHT_ARROW_SELECTION", amount=(map_page - 1))
 
-        utils.button_click("MAP_INDEX_" + str(map_index))
-        utils.button_click(difficulty)
-        utils.button_click(mode)
+        utils.button_click("MAP_INDEX_" + str(map_index)) # Click correct map
+        utils.button_click(self.settings["DIFFICULTY"]) # Select Difficulty
+        utils.button_click(self.settings["GAMEMODE"]) # Select Gamemode
         utils.button_click("OVERWRITE_SAVE")
 
         time.sleep(3) # wait for loading screen
-        utils.button_click(mode)
+        utils.button_click(self.settings["DIFFICULTY"])
         utils.button_click("CONFIRM_CHIMPS")
 
 
@@ -393,46 +407,3 @@ class Bot():
             return True
         else:
             return False
-
-    def __fixCordinates(self, posString):
-        """
-            Converts x, y, ... to a tuple with an int
-        """
-        fixed = posString.split(", ")
-
-        return tuple(map(int, fixed))
-
-    def __load_data(self, file_path):
-        """
-            Will read the @file_path as a csv file and 
-            load each row into a list of Dictionaries
-        """
-
-        formated_data = []
-        with open(file_path, 'r', encoding="utf-8") as file:
-            csvreader = csv.DictReader(file)
-            
-            for row in csvreader:
-                for item in row:
-                    # ändrad specifika kolumner i kolumnen
-                    if row[item] == '' or row[item] == '-':
-                        row[item] = None
-                    
-                    elif row[item] == "FALSE":
-                        row[item] = False
-
-                    elif row[item] == "TRUE":
-                        row[item] = True
-                    
-                #     print(item, ":\t", row[item],)
-                # print()
-                # print(row)
-                row["POSITION"] = self.__fixCordinates(row["POSITION"])
-
-                if row["TARGET_POS"]:
-                    row["TARGET_POS"] = self.__fixCordinates(row["TARGET_POS"])
-                
-                
-                formated_data.append(row)
-        return formated_data
-        # pprint(formatedInstructions)
