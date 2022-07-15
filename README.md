@@ -2,10 +2,9 @@
 [![Python application](https://github.com/linus-jansson/btd6farmer/actions/workflows/check_bot.yml/badge.svg?branch=main)](https://github.com/linus-jansson/btd6farmer/actions/workflows/check_bot.yml)
 \
 v0.1
-## Inspired from [RavingSmurfGB](https://github.com/RavingSmurfGB/Py_AutoBloons), some functions is taken from that repo
+## Inspired from [RavingSmurfGB](https://github.com/RavingSmurfGB/Py_AutoBloons), some functions is taken from that repository.
 
-
-This python bot will farm dark castle on chimps mode in BTD 6. It uses tesseract to find the current level and is able to navigate autonomously after start.
+This python bot will farm a level (dark castle on hard mode by default) in BTD 6. It uses tesseract to find the current level and is able to navigate autonomously after start.
 
 *The script is made for 1440p screen resolutions but should also work with 1080p thanks to RacingSmurfGB* =)
 
@@ -17,13 +16,14 @@ Feel free to make a pull request if you find any improvements or create a issue 
 - Python 3.10+
 
 ## Dependencies:
-- keyboard==0.13.5
-- mouse==0.7.1
-- numpy==1.22.3
-- opencv_python==4.5.5.64
-- pyautogui==0.9.53
-- pytesseract==0.3.9
-
+```
+keyboard==0.13.5
+mouse==0.7.1
+numpy==1.22.3
+opencv_python==4.5.5.64
+pyautogui==0.9.53
+pytesseract==0.3.9
+```
 ## Instalation
 The script relies on tesseract which can be installed using this [this](https://github.com/UB-Mannheim/tesseract/wiki) guide. 
 (*If by any chance the tesseract installation directory is different from the directory specified in bot.py you need to manually change that in the script. Otherwise the bot will not work!*)
@@ -33,17 +33,14 @@ default path:
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 ```
 
-After installing tesseract the python requirments can be installed with\
+After installing tesseract the other requirments can be installed with\
 `python -m pip install -r requirements.txt`
 
 ## Running the bot
-1. Open up BTD 6 and run the main.py script in the command line with \
-`py <location of script>/main.py <directory to gameplan>` or run `run.bat` to run with the default settings
-
+1. Open up BTD 6 and run the main.py script in the command line with `py <location of script>/main.py <directory to gameplan>` or run `run.bat` to run with the default settings
 2. Navigate to the homescreen of BTD 6 within 5 seconds of starting the script.
 
 ## Ingame monkey requirments
-
 |Monkey|Upgrade|
 |--|--|
 |Monkey Submarine|2-0-3|
@@ -69,7 +66,6 @@ After installing tesseract the python requirments can be installed with\
 |6-100 (Impoppable/CHIMPS)|231150|254265|277380|300495|
 
 ## Dark castle chimps (instructions.csv)
-
 The current strategy has a winrate of 99.9% (i've got 24 wins and 0 losses when testing). Each game has an average matchtime of 21.7 minutes.
 
 |Stat|Data|
