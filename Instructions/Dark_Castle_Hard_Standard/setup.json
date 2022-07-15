@@ -1,6 +1,6 @@
 {
-    "hero": "OBYN",
-    "map": "DARK_CASTLE",
-    "map_difficulty": "HARD_MODE",
-    "difficulty": "STANDARD_GAME_MODE"
+    "HERO": "OBYN",
+    "MAP": "DARK_CASTLE",
+    "DIFFICULTY": "HARD_MODE",
+    "GAMEMODE": "STANDARD_GAME_MODE"
 }

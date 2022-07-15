@@ -7,16 +7,16 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1454, 578],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     },
     {
       "TOWER": "DART",
       "UPGRADE": null,
       "UPGRADE_DIFF": null,
-      "TARGET": "LAST, STRONG",
+      "TARGET": ["LAST", "STRONG"],
       "TARGET_POS": null,
       "POSITION": [773, 658],
-      "ROUND_START": "TRUE"
+      "ROUND_START": true
     }
   ],
   "4": [
@@ -24,10 +24,10 @@
       "TOWER": "DART",
       "UPGRADE": null,
       "UPGRADE_DIFF": null,
-      "TARGET": "STRONG",
+      "TARGET": ["STRONG"],
       "TARGET_POS": null,
       "POSITION": [785, 814],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "9": [
@@ -38,7 +38,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1452, 922],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "12": [
@@ -49,7 +49,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1345, 598],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "14": [
@@ -60,7 +60,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1452, 922],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "15": [
@@ -71,7 +71,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1452, 922],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "17": [
@@ -82,7 +82,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1452, 922],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "21": [
@@ -93,7 +93,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1452, 922],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "22": [
@@ -104,7 +104,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [773, 658],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "24": [
@@ -115,7 +115,7 @@
       "TARGET": "STRONG",
       "TARGET_POS": null,
       "POSITION": [1353, 901],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "28": [
@@ -126,7 +126,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1452, 922],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "29": [
@@ -137,7 +137,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1353, 901],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "33": [
@@ -148,7 +148,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1353, 901],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "35": [
@@ -159,7 +159,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1454, 578],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "36": [
@@ -170,7 +170,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1454, 578],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "38": [
@@ -181,7 +181,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1454, 578],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "39": [
@@ -192,7 +192,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1216, 579],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "41": [
@@ -203,7 +203,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1144, 358],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     },
     {
       "TOWER": "VILLAGE",
@@ -212,7 +212,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1144, 358],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "42": [
@@ -223,7 +223,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1007, 430],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     },
     {
       "TOWER": "VILLAGE",
@@ -232,7 +232,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1007, 430],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "45": [
@@ -243,7 +243,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1216, 579],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "46": [
@@ -254,7 +254,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1216, 579],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "47": [
@@ -265,7 +265,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1216, 579],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "49": [
@@ -276,7 +276,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1216, 579],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     },
     {
       "TOWER": "ALCHEMIST",
@@ -285,7 +285,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1154, 468],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "50": [
@@ -296,7 +296,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1154, 468],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     },
     {
       "TOWER": "VILLAGE",
@@ -305,7 +305,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1144, 358],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "61": [
@@ -316,7 +316,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1216, 579],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "62": [
@@ -327,7 +327,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [2027, 684],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "63": [
@@ -335,10 +335,10 @@
       "TOWER": "SPIKE",
       "UPGRADE": "0-0-3",
       "UPGRADE_DIFF": "0-0-3",
-      "TARGET": "CLOSE",
+      "TARGET": ["CLOSE"],
       "TARGET_POS": null,
       "POSITION": [2027, 684],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "65": [
@@ -349,7 +349,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [2027, 684],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "80": [
@@ -360,7 +360,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [2027, 684],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     },
     {
       "TOWER": "SPIKE",
@@ -369,7 +369,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [2027, 684],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "82": [
@@ -380,7 +380,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [2078, 570],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     },
     {
       "TOWER": "VILLAGE",
@@ -389,7 +389,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [2078, 570],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "83": [
@@ -400,7 +400,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [2132, 691],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     },
     {
       "TOWER": "ALCHEMIST",
@@ -409,7 +409,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [2132, 691],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "84": [
@@ -420,7 +420,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [2032, 785],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     },
     {
       "TOWER": "SPIKE",
@@ -429,7 +429,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [2032, 785],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "85": [
@@ -437,10 +437,10 @@
       "TOWER": "SNIPER",
       "UPGRADE": null,
       "UPGRADE_DIFF": null,
-      "TARGET": "STRONG",
+      "TARGET": ["STRONG"],
       "TARGET_POS": null,
       "POSITION": [1150, 207],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     },
     {
       "TOWER": "SNIPER",
@@ -449,7 +449,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1150, 207],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "86": [
@@ -460,7 +460,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1150, 207],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "88": [
@@ -471,7 +471,7 @@
       "TARGET": "STRONG",
       "TARGET_POS": null,
       "POSITION": [1083, 578],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     },
     {
       "TOWER": "BOOMERANG",
@@ -480,7 +480,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1083, 578],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "91": [
@@ -491,7 +491,7 @@
       "TARGET": "STRONG",
       "TARGET_POS": null,
       "POSITION": [981, 562],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     },
     {
       "TOWER": "BOOMERANG",
@@ -500,7 +500,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [981, 562],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "92": [
@@ -511,7 +511,7 @@
       "TARGET": "STRONG",
       "TARGET_POS": null,
       "POSITION": [899, 481],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     },
     {
       "TOWER": "GLUE",
@@ -520,7 +520,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [899, 481],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "93": [
@@ -531,7 +531,7 @@
       "TARGET": "STRONG",
       "TARGET_POS": null,
       "POSITION": [1257, 884],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     },
     {
       "TOWER": "BOOMERANG",
@@ -540,7 +540,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [1257, 884],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ],
   "96": [
@@ -551,7 +551,7 @@
       "TARGET": null,
       "TARGET_POS": [1011, 725],
       "POSITION": [959, 244],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     },
     {
       "TOWER": "MORTAR",
@@ -560,7 +560,7 @@
       "TARGET": null,
       "TARGET_POS": null,
       "POSITION": [959, 244],
-      "ROUND_START": "FALSE"
+      "ROUND_START": false
     }
   ]
 }
