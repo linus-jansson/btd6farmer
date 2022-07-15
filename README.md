@@ -37,10 +37,10 @@ After installing tesseract the python requirments can be installed with\
 `python -m pip install -r requirements.txt`
 
 ## Running the bot
-Open up BTD 6 run main.py in cmd\
-`py {LOCATION_OF_SCRIPT}/main.py \\instructions\\{Data Folder}` or run `run.bat`
+1. Open up BTD 6 and run the main.py script in the command line with \
+`py <location of script>/main.py <directory to gameplan>` or run `run.bat` to run with the default settings
 
-Navigate to the homescreen of BTD 6 within 5 seconds of starting the script.
+2. Navigate to the homescreen of BTD 6 within 5 seconds of starting the script.
 
 ## Ingame monkey requirments
 
