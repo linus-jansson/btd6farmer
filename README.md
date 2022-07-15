@@ -58,9 +58,6 @@ Navigate to the homescreen of BTD 6 within 5 seconds of starting the script.
 |Super|3-0-2|
 
 
-## Issues
-Currently there is a bug in BTD 6 where the keybinds stop working if alt+tab is pressed. If by some reason this bug occurs. Please press alt ingame after starting the script otherwise the script wont be able to place towers.
-
 # Stats
 [Experience points per level](https://bloons.fandom.com/wiki/Experience_Point_Farming)
 |Rounds|Beginner|Intermediate|Advanced|Expert|
