@@ -1,566 +1,508 @@
-{
-  "3": [
+[
     {
-      "TOWER": "SUBMARINE",
-      "UPGRADE": null,
-      "UPGRADE_DIFF": null,
-      "TARGET": null,
-      "TARGET_POS": null,
-      "POSITION": [1454, 578],
-      "ROUND_START": "FALSE"
-    },
-    {
-      "TOWER": "DART",
-      "UPGRADE": null,
-      "UPGRADE_DIFF": null,
-      "TARGET": "LAST, STRONG",
-      "TARGET_POS": null,
-      "POSITION": [773, 658],
-      "ROUND_START": "TRUE"
-    }
-  ],
-  "4": [
-    {
-      "TOWER": "DART",
-      "UPGRADE": null,
-      "UPGRADE_DIFF": null,
-      "TARGET": "STRONG",
-      "TARGET_POS": null,
-      "POSITION": [785, 814],
-      "ROUND_START": "FALSE"
-    }
-  ],
-  "9": [
-    {
-      "TOWER": "SUBMARINE",
-      "UPGRADE": null,
-      "UPGRADE_DIFF": null,
-      "TARGET": null,
-      "TARGET_POS": null,
-      "POSITION": [1452, 922],
-      "ROUND_START": "FALSE"
-    }
-  ],
-  "12": [
-    {
-      "TOWER": "HERO",
-      "UPGRADE": null,
-      "UPGRADE_DIFF": null,
-      "TARGET": null,
-      "TARGET_POS": null,
-      "POSITION": [1345, 598],
-      "ROUND_START": "FALSE"
-    }
-  ],
-  "14": [
-    {
-      "TOWER": "SUBMARINE",
-      "UPGRADE": "0-0-1",
-      "UPGRADE_DIFF": "0-0-1",
-      "TARGET": null,
-      "TARGET_POS": null,
-      "POSITION": [1452, 922],
-      "ROUND_START": "FALSE"
-    }
-  ],
-  "15": [
-    {
-      "TOWER": "SUBMARINE",
-      "UPGRADE": "1-0-1",
-      "UPGRADE_DIFF": "1-0-0",
-      "TARGET": null,
-      "TARGET_POS": null,
-      "POSITION": [1452, 922],
-      "ROUND_START": "FALSE"
-    }
-  ],
-  "17": [
-    {
-      "TOWER": "SUBMARINE",
-      "UPGRADE": "2-0-1",
-      "UPGRADE_DIFF": "1-0-0",
-      "TARGET": null,
-      "TARGET_POS": null,
-      "POSITION": [1452, 922],
-      "ROUND_START": "FALSE"
-    }
-  ],
-  "21": [
-    {
-      "TOWER": "SUBMARINE",
+      "ROUND": 21,
+      "MONKEY": "SUBMARINE_2",
       "UPGRADE": "2-0-2",
       "UPGRADE_DIFF": "0-0-1",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [1452, 922],
+      "POSITION": "1452, 922",
+      "KEYCODE": "x",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "22": [
+    },
     {
-      "TOWER": "DART",
+      "ROUND": 22,
+      "MONKEY": "DART_1",
       "UPGRADE": "0-0-2",
       "UPGRADE_DIFF": "0-0-2",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [773, 658],
+      "POSITION": "773, 658",
+      "KEYCODE": "q",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "24": [
+    },
     {
-      "TOWER": "ALCHEMIST",
+      "ROUND": 24,
+      "MONKEY": "ALCH_1",
       "UPGRADE": null,
       "UPGRADE_DIFF": null,
       "TARGET": "STRONG",
       "TARGET_POS": null,
-      "POSITION": [1353, 901],
+      "POSITION": "1353, 901",
+      "KEYCODE": "f",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "28": [
+    },
     {
-      "TOWER": "SUBMARINE",
+      "ROUND": 28,
+      "MONKEY": "SUBMARINE_2",
       "UPGRADE": "2-0-3",
       "UPGRADE_DIFF": "0-0-1",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [1452, 922],
+      "POSITION": "1452, 922",
+      "KEYCODE": "x",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "29": [
+    },
     {
-      "TOWER": "ALCHEMIST",
+      "ROUND": 29,
+      "MONKEY": "ALCH_1",
       "UPGRADE": "2-0-0",
       "UPGRADE_DIFF": "2-0-0",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [1353, 901],
+      "POSITION": "1353, 901",
+      "KEYCODE": "f",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "33": [
+    },
     {
-      "TOWER": "ALCHEMIST",
+      "ROUND": 33,
+      "MONKEY": "ALCH_1",
       "UPGRADE": "3-0-0",
       "UPGRADE_DIFF": "1-0-0",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [1353, 901],
+      "POSITION": "1353, 901",
+      "KEYCODE": "f",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "35": [
+    },
     {
-      "TOWER": "SUBMARINE",
+      "ROUND": 35,
+      "MONKEY": "SUBMARINE_1",
       "UPGRADE": "2-0-1",
       "UPGRADE_DIFF": "2-0-1",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [1454, 578],
+      "POSITION": "1454, 578",
+      "KEYCODE": "x",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "36": [
+    },
     {
-      "TOWER": "SUBMARINE",
+      "ROUND": 36,
+      "MONKEY": "SUBMARINE_1",
       "UPGRADE": "2-0-2",
       "UPGRADE_DIFF": "0-0-1",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [1454, 578],
+      "POSITION": "1454, 578",
+      "KEYCODE": "x",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "38": [
+    },
     {
-      "TOWER": "SUBMARINE",
+      "ROUND": 38,
+      "MONKEY": "SUBMARINE_1",
       "UPGRADE": "2-0-3",
       "UPGRADE_DIFF": "0-0-1",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [1454, 578],
-      "ROUND_START": "FALSE"
-    }
-  ],
-  "39": [
-    {
-      "TOWER": "SUPER",
-      "UPGRADE": null,
-      "UPGRADE_DIFF": null,
-      "TARGET": null,
-      "TARGET_POS": null,
-      "POSITION": [1216, 579],
-      "ROUND_START": "FALSE"
-    }
-  ],
-  "41": [
-    {
-      "TOWER": "VILLAGE",
-      "UPGRADE": null,
-      "UPGRADE_DIFF": null,
-      "TARGET": null,
-      "TARGET_POS": null,
-      "POSITION": [1144, 358],
+      "POSITION": "1454, 578",
+      "KEYCODE": "x",
       "ROUND_START": "FALSE"
     },
     {
-      "TOWER": "VILLAGE",
+      "ROUND": 39,
+      "MONKEY": "SUPER_1",
+      "UPGRADE": null,
+      "UPGRADE_DIFF": null,
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": "1216, 579",
+      "KEYCODE": "s",
+      "ROUND_START": "FALSE"
+    },
+    {
+      "ROUND": 41,
+      "MONKEY": "VILLAGE_1",
+      "UPGRADE": null,
+      "UPGRADE_DIFF": null,
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": "1144, 358",
+      "KEYCODE": "k",
+      "ROUND_START": "FALSE"
+    },
+    {
+      "ROUND": 41,
+      "MONKEY": "VILLAGE_1",
       "UPGRADE": "0-0-2",
       "UPGRADE_DIFF": "0-0-2",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [1144, 358],
+      "POSITION": "1144, 358",
+      "KEYCODE": "k",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "42": [
+    },
     {
-      "TOWER": "VILLAGE",
+      "ROUND": 42,
+      "MONKEY": "VILLAGE_2",
       "UPGRADE": null,
       "UPGRADE_DIFF": null,
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [1007, 430],
+      "POSITION": "1007, 430",
+      "KEYCODE": "k",
       "ROUND_START": "FALSE"
     },
     {
-      "TOWER": "VILLAGE",
+      "ROUND": 42,
+      "MONKEY": "VILLAGE_2",
       "UPGRADE": "0-0-2",
       "UPGRADE_DIFF": "0-0-2",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [1007, 430],
+      "POSITION": "1007, 430",
+      "KEYCODE": "k",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "45": [
+    },
     {
-      "TOWER": "SUPER",
+      "ROUND": 45,
+      "MONKEY": "SUPER_1",
       "UPGRADE": "0-0-1",
       "UPGRADE_DIFF": "0-0-1",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [1216, 579],
+      "POSITION": "1216, 579",
+      "KEYCODE": "s",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "46": [
+    },
     {
-      "TOWER": "SUPER",
+      "ROUND": 46,
+      "MONKEY": "SUPER_1",
       "UPGRADE": "0-0-2",
       "UPGRADE_DIFF": "0-0-1",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [1216, 579],
+      "POSITION": "1216, 579",
+      "KEYCODE": "s",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "47": [
+    },
     {
-      "TOWER": "SUPER",
+      "ROUND": 47,
+      "MONKEY": "SUPER_1",
       "UPGRADE": "1-0-2",
       "UPGRADE_DIFF": "1-0-0",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [1216, 579],
+      "POSITION": "1216, 579",
+      "KEYCODE": "s",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "49": [
+    },
     {
-      "TOWER": "SUPER",
+      "ROUND": 49,
+      "MONKEY": "SUPER_1",
       "UPGRADE": "2-0-2",
       "UPGRADE_DIFF": "1-0-0",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [1216, 579],
+      "POSITION": "1216, 579",
+      "KEYCODE": "s",
       "ROUND_START": "FALSE"
     },
     {
-      "TOWER": "ALCHEMIST",
+      "ROUND": 49,
+      "MONKEY": "ALCH_2",
       "UPGRADE": null,
       "UPGRADE_DIFF": null,
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [1154, 468],
+      "POSITION": "1154, 468",
+      "KEYCODE": "f",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "50": [
+    },
     {
-      "TOWER": "ALCHEMIST",
+      "ROUND": 50,
+      "MONKEY": "ALCH_2",
       "UPGRADE": "4-2-0",
       "UPGRADE_DIFF": "4-2-0",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [1154, 468],
+      "POSITION": "1154, 468",
+      "KEYCODE": "f",
       "ROUND_START": "FALSE"
     },
     {
-      "TOWER": "VILLAGE",
+      "ROUND": 50,
+      "MONKEY": "VILLAGE_1",
       "UPGRADE": "2-0-2",
       "UPGRADE_DIFF": "2-0-0",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [1144, 358],
+      "POSITION": "1144, 358",
+      "KEYCODE": "k",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "61": [
+    },
     {
-      "TOWER": "SUPER",
+      "ROUND": 61,
+      "MONKEY": "SUPER_1",
       "UPGRADE": "3-0-2",
       "UPGRADE_DIFF": "1-0-0",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [1216, 579],
+      "POSITION": "1216, 579",
+      "KEYCODE": "s",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "62": [
+    },
     {
-      "TOWER": "SPIKE",
+      "ROUND": 62,
+      "MONKEY": "SPIKE_1",
       "UPGRADE": null,
       "UPGRADE_DIFF": null,
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [2027, 684],
+      "POSITION": "2027, 684",
+      "KEYCODE": "j",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "63": [
+    },
     {
-      "TOWER": "SPIKE",
+      "ROUND": 63,
+      "MONKEY": "SPIKE_1",
       "UPGRADE": "0-0-3",
       "UPGRADE_DIFF": "0-0-3",
       "TARGET": "CLOSE",
       "TARGET_POS": null,
-      "POSITION": [2027, 684],
+      "POSITION": "2027, 684",
+      "KEYCODE": "j",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "65": [
+    },
     {
-      "TOWER": "SPIKE",
+      "ROUND": 65,
+      "MONKEY": "SPIKE_1",
       "UPGRADE": "0-0-4",
       "UPGRADE_DIFF": "0-0-1",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [2027, 684],
+      "POSITION": "2027, 684",
+      "KEYCODE": "j",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "80": [
+    },
     {
-      "TOWER": "SPIKE",
+      "ROUND": 80,
+      "MONKEY": "SPIKE_1",
       "UPGRADE": "0-0-5",
       "UPGRADE_DIFF": "0-0-1",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [2027, 684],
+      "POSITION": "2027, 684",
+      "KEYCODE": "j",
       "ROUND_START": "FALSE"
     },
     {
-      "TOWER": "SPIKE",
-      "UPGRADE": "2-2-5",
+      "ROUND": 80,
+      "MONKEY": "SPIKE_1",
+      "UPGRADE": "2000-02-05",
       "UPGRADE_DIFF": "0-2-0",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [2027, 684],
+      "POSITION": "2027, 684",
+      "KEYCODE": "j",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "82": [
+    },
     {
-      "TOWER": "VILLAGE",
+      "ROUND": 82,
+      "MONKEY": "VILLAGE_3",
       "UPGRADE": null,
       "UPGRADE_DIFF": null,
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [2078, 570],
+      "POSITION": "2078, 570",
+      "KEYCODE": "k",
       "ROUND_START": "FALSE"
     },
     {
-      "TOWER": "VILLAGE",
+      "ROUND": 82,
+      "MONKEY": "VILLAGE_3",
       "UPGRADE": "2-0-0",
       "UPGRADE_DIFF": "2-0-0",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [2078, 570],
+      "POSITION": "2078, 570",
+      "KEYCODE": "k",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "83": [
+    },
     {
-      "TOWER": "ALCHEMIST",
+      "ROUND": 83,
+      "MONKEY": "ALCH_3",
       "UPGRADE": null,
       "UPGRADE_DIFF": null,
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [2132, 691],
+      "POSITION": "2132, 691",
+      "KEYCODE": "f",
       "ROUND_START": "FALSE"
     },
     {
-      "TOWER": "ALCHEMIST",
+      "ROUND": 83,
+      "MONKEY": "ALCH_3",
       "UPGRADE": "4-2-0",
       "UPGRADE_DIFF": "4-2-0",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [2132, 691],
+      "POSITION": "2132, 691",
+      "KEYCODE": "f",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "84": [
+    },
     {
-      "TOWER": "SPIKE",
+      "ROUND": 84,
+      "MONKEY": "SPIKE_2",
       "UPGRADE": null,
       "UPGRADE_DIFF": null,
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [2032, 785],
+      "POSITION": "2032, 785",
+      "KEYCODE": "j",
       "ROUND_START": "FALSE"
     },
     {
-      "TOWER": "SPIKE",
+      "ROUND": 84,
+      "MONKEY": "SPIKE_2",
       "UPGRADE": "3-2-0",
       "UPGRADE_DIFF": "3-2-0",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [2032, 785],
+      "POSITION": "2032, 785",
+      "KEYCODE": "j",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "85": [
+    },
     {
-      "TOWER": "SNIPER",
+      "ROUND": 85,
+      "MONKEY": "SNIPER_1",
       "UPGRADE": null,
       "UPGRADE_DIFF": null,
       "TARGET": "STRONG",
       "TARGET_POS": null,
-      "POSITION": [1150, 207],
+      "POSITION": "1150, 207",
+      "KEYCODE": "z",
       "ROUND_START": "FALSE"
     },
     {
-      "TOWER": "SNIPER",
+      "ROUND": 85,
+      "MONKEY": "SNIPER_1",
       "UPGRADE": "3-0-0",
       "UPGRADE_DIFF": "3-0-0",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [1150, 207],
+      "POSITION": "1150, 207",
+      "KEYCODE": "z",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "86": [
+    },
     {
-      "TOWER": "SNIPER",
+      "ROUND": 86,
+      "MONKEY": "SNIPER_1",
       "UPGRADE": "4-0-2",
       "UPGRADE_DIFF": "1-0-2",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [1150, 207],
+      "POSITION": "1150, 207",
+      "KEYCODE": "z",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "88": [
+    },
     {
-      "TOWER": "BOOMERANG",
+      "ROUND": 88,
+      "MONKEY": "BOOMERANG_1",
       "UPGRADE": null,
       "UPGRADE_DIFF": null,
       "TARGET": "STRONG",
       "TARGET_POS": null,
-      "POSITION": [1083, 578],
+      "POSITION": "1083, 578",
+      "KEYCODE": "w",
       "ROUND_START": "FALSE"
     },
     {
-      "TOWER": "BOOMERANG",
-      "UPGRADE": "2-2-4",
-      "UPGRADE_DIFF": "2-2-4",
+      "ROUND": 88,
+      "MONKEY": "BOOMERANG_1",
+      "UPGRADE": "2000-02-04",
+      "UPGRADE_DIFF": "2000-02-04",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [1083, 578],
+      "POSITION": "1083, 578",
+      "KEYCODE": "w",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "91": [
+    },
     {
-      "TOWER": "BOOMERANG",
+      "ROUND": 91,
+      "MONKEY": "BOOMERANG_2",
       "UPGRADE": null,
       "UPGRADE_DIFF": null,
       "TARGET": "STRONG",
       "TARGET_POS": null,
-      "POSITION": [981, 562],
+      "POSITION": "981, 562",
+      "KEYCODE": "w",
       "ROUND_START": "FALSE"
     },
     {
-      "TOWER": "BOOMERANG",
-      "UPGRADE": "2-2-4",
-      "UPGRADE_DIFF": "2-2-4",
+      "ROUND": 91,
+      "MONKEY": "BOOMERANG_2",
+      "UPGRADE": "2000-02-04",
+      "UPGRADE_DIFF": "2000-02-04",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [981, 562],
+      "POSITION": "981, 562",
+      "KEYCODE": "w",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "92": [
+    },
     {
-      "TOWER": "GLUE",
+      "ROUND": 92,
+      "MONKEY": "GLUE_1",
       "UPGRADE": null,
       "UPGRADE_DIFF": null,
       "TARGET": "STRONG",
       "TARGET_POS": null,
-      "POSITION": [899, 481],
+      "POSITION": "899, 481",
+      "KEYCODE": "y",
       "ROUND_START": "FALSE"
     },
     {
-      "TOWER": "GLUE",
-      "UPGRADE": "2-1-4",
-      "UPGRADE_DIFF": "2-1-4",
+      "ROUND": 92,
+      "MONKEY": "GLUE_1",
+      "UPGRADE": "2000-01-04",
+      "UPGRADE_DIFF": "2000-01-04",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [899, 481],
+      "POSITION": "899, 481",
+      "KEYCODE": "y",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "93": [
+    },
     {
-      "TOWER": "BOOMERANG",
+      "ROUND": 93,
+      "MONKEY": "BOOMERANG_3",
       "UPGRADE": null,
       "UPGRADE_DIFF": null,
       "TARGET": "STRONG",
       "TARGET_POS": null,
-      "POSITION": [1257, 884],
+      "POSITION": "1257, 884",
+      "KEYCODE": "w",
       "ROUND_START": "FALSE"
     },
     {
-      "TOWER": "BOOMERANG",
-      "UPGRADE": "2-2-4",
-      "UPGRADE_DIFF": "2-2-4",
+      "ROUND": 93,
+      "MONKEY": "BOOMERANG_3",
+      "UPGRADE": "2000-02-04",
+      "UPGRADE_DIFF": "2000-02-04",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [1257, 884],
+      "POSITION": "1257, 884",
+      "KEYCODE": "w",
       "ROUND_START": "FALSE"
-    }
-  ],
-  "96": [
+    },
     {
-      "TOWER": "MORTAR",
+      "ROUND": 96,
+      "MONKEY": "MORTAR_1",
       "UPGRADE": null,
       "UPGRADE_DIFF": null,
       "TARGET": null,
-      "TARGET_POS": [1011, 725],
-      "POSITION": [959, 244],
+      "TARGET_POS": "1011, 725",
+      "POSITION": "959, 244",
+      "KEYCODE": "n",
       "ROUND_START": "FALSE"
     },
     {
-      "TOWER": "MORTAR",
+      "ROUND": 96,
+      "MONKEY": "MORTAR_1",
       "UPGRADE": "0-0-4",
       "UPGRADE_DIFF": "0-0-4",
       "TARGET": null,
       "TARGET_POS": null,
-      "POSITION": [959, 244],
+      "POSITION": "959, 244",
+      "KEYCODE": "n",
       "ROUND_START": "FALSE"
     }
   ]
-}
