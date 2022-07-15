@@ -21,21 +21,23 @@ if __name__ == "__main__":
             if os.path.isdir(directory):
                 current_directory = directory
 
-    # Verify directory exist, if not close the program
+    # Verify directory exist, if not close the program with Exception
     if current_directory == "":
-        print("No valid argument for directory.")
-        input()
-        sys.exit("No valid argument for directory.")
+        raise Exception("No valid argument for directory.. 'python main.py <directory to gameplan>'")
         
     print("Setting up automation...")
-    file = open(current_directory + "\setup.txt")
-    data = file.read().split()
+    
+    data = None
+    with open(current_directory + "\setup.txt") as file:
+        data = file.read().split()
+
     hero = data[0].lower()
     current_map = data[1]
     map_page = static.maps[current_map][0]
     map_index = static.maps[current_map][1]
     difficulty = data[2]
     gamemode = data[3]
+
     print("Setup Complete.")
 
     print("Waiting for 5 seconds, please select the btd 6 window")
