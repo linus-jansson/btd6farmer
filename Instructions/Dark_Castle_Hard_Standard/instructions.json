@@ -112,7 +112,7 @@
       "TOWER": "ALCHEMIST",
       "UPGRADE": null,
       "UPGRADE_DIFF": null,
-      "TARGET": "STRONG",
+      "TARGET": ["STRONG"],
       "TARGET_POS": null,
       "POSITION": [1353, 901],
       "ROUND_START": false
@@ -468,7 +468,7 @@
       "TOWER": "BOOMERANG",
       "UPGRADE": null,
       "UPGRADE_DIFF": null,
-      "TARGET": "STRONG",
+      "TARGET": ["STRONG"],
       "TARGET_POS": null,
       "POSITION": [1083, 578],
       "ROUND_START": false
@@ -488,7 +488,7 @@
       "TOWER": "BOOMERANG",
       "UPGRADE": null,
       "UPGRADE_DIFF": null,
-      "TARGET": "STRONG",
+      "TARGET": ["STRONG"],
       "TARGET_POS": null,
       "POSITION": [981, 562],
       "ROUND_START": false
@@ -508,7 +508,7 @@
       "TOWER": "GLUE",
       "UPGRADE": null,
       "UPGRADE_DIFF": null,
-      "TARGET": "STRONG",
+      "TARGET": ["STRONG"],
       "TARGET_POS": null,
       "POSITION": [899, 481],
       "ROUND_START": false
@@ -528,7 +528,7 @@
       "TOWER": "BOOMERANG",
       "UPGRADE": null,
       "UPGRADE_DIFF": null,
-      "TARGET": "STRONG",
+      "TARGET": ["STRONG"],
       "TARGET_POS": null,
       "POSITION": [1257, 884],
       "ROUND_START": false
