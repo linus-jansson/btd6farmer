@@ -98,8 +98,6 @@ class Bot(Game):
 
         middle_of_screen = self.width//2, self.height//2
 
-        instruction_key = self.first_round
-
         first_round = True
         
         # main ingame loop
@@ -122,6 +120,7 @@ class Bot(Game):
                 
                 self.exit_level()
                 finished = True
+                self.reset_game_plan()
                 continue
 
             current_round = self.getRound()
@@ -138,26 +137,16 @@ class Bot(Game):
                     ability_two_timer = time.time()
 
                 # Check for round in game plan
-                if str(current_round) in self.game_plan and instruction_key == current_round:
+                if str(current_round) in self.game_plan:
+                    
                     # Handle all instructions in current round
                     for instruction in self.game_plan[str(current_round)]:
-                        self.handleInstruction(instruction)
-                    
-                    instruction_key = current_round + 1
+                        if not "DONE" in instruction:
+                            self.handleInstruction(instruction)
+                            instruction["DONE"] = True
 
                     if self.DEBUG:
                         log.log("Current round", current_round)
-                        # log.log("Instruction key", instruction_key)
-                    
-                    # handle current instruction when current round is equal to instruction round and that the instruction index is less than the dictionary
-                    # while instruction_key == current_round and instruction_key < len(self.game_plan):                
-                    #     instruction_key = current_round + 1
-
-                # if first_round:
-                #     print("Starting first round")
-                #     utils.press_key("space")
-                #     utils.press_key("space")
-                #     first_round = False
 
     def place_tower(self, tower_position, keybind):
         utils.press_key(keybind) # press keybind
