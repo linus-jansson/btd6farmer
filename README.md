@@ -59,21 +59,21 @@ After installing tesseract the other requirments can be installed with\
 [Experience points per level](https://bloons.fandom.com/wiki/Experience_Point_Farming)
 |Rounds|Beginner|Intermediate|Advanced|Expert|
 |--|--|--|--|--|
-|1-40 (Easy)|21400|23540|25680|27820|
-|31-60 (Deflation)|45950|50545|55140|59735|
-|1-60 (Medium)|56950|62645|68340|74035|
-|3-80 (Hard)|126150|138765|151380|163995|
-|6-100 (Impoppable/CHIMPS)|231150|254265|277380|300495|
+|1-40 (Easy)|21 400|23 540|25 680|27 820|
+|31-60 (Deflation)|45 950|50 545|55 140|59 735|
+|1-60 (Medium)|56 950|62 645|68 340|74 035|
+|3-80 (Hard)|126 150|138 765|151 380|163 995|
+|6-100 (Impoppable/CHIMPS)|231 150|254 265|277 380|300 495|
 
-## Dark castle chimps (instructions.csv)
-The current strategy has a winrate of 99.9% (i've got 24 wins and 0 losses when testing). Each game has an average matchtime of 21.7 minutes.
-
+## Dark Castle Hard Mode Standard
 |Stat|Data|
 |--|--|
 |Winrate|99.9% due to RNG|
-|Average Matchtime|21.7 Minutes|
-|Player XP per minute|13847.7|
+|Average Matchtime|14 Minutes|
+|Player XP per minute|11 713.9|
+|Monkey Money per hour| ~ 686 |
 
 Other gameplans that will be added, will have the same stats like above
 
 *Note: The strat that is being used has RNG because of the Alchemist, so the results may differ to you from what I got*
+<>
