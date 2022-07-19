@@ -30,6 +30,9 @@ if __name__ == "__main__":
     
     bot = Bot(instruction_path=current_directory, debug_mode=("--debug" in sys.argv), verbose_mode=("--verbose" in sys.argv))
 
+    if bot.DEBUG:
+        print("RUNNING IN DEBUG MODE, DEBUG FILES WILL BE GENERATED")
+
     print("Setup Complete.")
 
     print("Waiting for 5 seconds... Please select the Bloons TD 6 window during this time.")
@@ -38,6 +41,8 @@ if __name__ == "__main__":
     # Check for obyn
     print("Selecting obyn if not selected")
     bot.hero_select()
+
+
 
     # Make sure we haven't exited by using the stop key.
     while bot.running:
