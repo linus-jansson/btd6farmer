@@ -52,7 +52,7 @@ button_positions = { # Creates a dictionary of all positions needed for monkeys 
     "CONFIRM_CHIMPS" : [1481, 980]
 }
 
-monkeys = {
+tower_keybinds = {
     "DART" : "q",
     "BOOMERANG" : "w",
     "BOMB" : "e",

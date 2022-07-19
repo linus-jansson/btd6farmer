@@ -11,7 +11,6 @@ if __name__ == "__main__":
     current_directory = ""
 
     # Small code cleanup for debug
-    bot = Bot("--debug" in sys.argv)
 
     # Verify that a valid path was fed to the script to find instructions
     if len(sys.argv) >= 1:
@@ -24,27 +23,26 @@ if __name__ == "__main__":
     # Verify directory exist, if not close the program with Exception
     if current_directory == "":
         raise Exception("No valid argument for directory.. 'python main.py <directory to gameplan>'")
-        
-    print("Setting up automation...")
     
-    data = None
-    with open(current_directory + "\setup.txt") as file:
-        data = file.read().split()
+    # TODO: Move all these prints to verbose only mode
 
-    hero = data[0].lower()
-    current_map = data[1]
-    map_page = static.maps[current_map][0]
-    map_index = static.maps[current_map][1]
-    difficulty = data[2]
-    gamemode = data[3]
+    print("Setting up Bot...")
+    
+    bot = Bot(instruction_path=current_directory, debug_mode=("--debug" in sys.argv), verbose_mode=("--verbose" in sys.argv))
+
+    if bot.DEBUG:
+        print("RUNNING IN DEBUG MODE, DEBUG FILES WILL BE GENERATED")
 
     print("Setup Complete.")
 
-    print("Waiting for 5 seconds, please select the btd 6 window")
+    print("Waiting for 5 seconds... Please select the Bloons TD 6 window during this time.")
     time.sleep(5)
+
     # Check for obyn
     print("Selecting obyn if not selected")
-    bot.hero_select(hero)
+    bot.hero_select()
+
+
 
     # Make sure we haven't exited by using the stop key.
     while bot.running:
@@ -54,9 +52,7 @@ if __name__ == "__main__":
         l_utils.press_key("alt")
 
         # Choose map
-        bot.select_map(map_page, map_index, difficulty, gamemode)   
-
-        bot.load_instructions(current_directory + "\instructions.csv")
+        bot.select_map()   
 
         print("Game start")
         # main game
