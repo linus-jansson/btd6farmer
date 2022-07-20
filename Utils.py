@@ -6,6 +6,11 @@ import mouse
 import static
 import os
 
+import numpy as np
+import cv2
+import pytesseract
+import re
+
 class Utils:
     def __init__(self):
         self.Support_files_path = "Support_files\\" if sys.platform == "win32" else "Support_files/"
@@ -17,7 +22,11 @@ class Utils:
         self.__main_menu_path = f"{self.Support_files_path}{str(self.height)}_menu.png"
         self.__insta_monkey_path = f"{self.Support_files_path}{str(self.height)}_instamonkey.png"
         self.__collection_event_path = f"{self.Support_files_path}{str(self.height)}_diamond_case.png"
+        
+
         self.__hero_path = lambda self, herostring : f"{self.Support_files_path}{str(self.height)}_{herostring}.png"
+
+        self.__set_target_path = f"{self.Support_files_path}{str(self.height)}_set_target_path.png"
 
         # Resolutions for for padding
         self.reso_16 = [
@@ -26,6 +35,35 @@ class Utils:
         { "width": 2560, "height": 1440 },
         { "width": 3840, "height": 2160 }
     ]
+
+
+    def getRound(self):
+        # Change to https://stackoverflow.com/questions/66334737/pytesseract-is-very-slow-for-real-time-ocr-any-way-to-optimise-my-code 
+        # or https://www.reddit.com/r/learnpython/comments/kt5zzw/how_to_speed_up_pytesseract_ocr_processing/
+
+        top, left = self.scaling([1850, 35])
+        width, height = [225, 65]
+        img = pyautogui.screenshot(region=(top, left, width, height))
+
+        numpyImage = np.array(img)
+
+        # Make image grayscale using opencv
+        greyImage = cv2.cvtColor(numpyImage, cv2.COLOR_BGR2GRAY)
+
+        # Threasholding
+        final_image = cv2.threshold(greyImage, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
+    
+        # Get current round from image with tesseract
+        text = pytesseract.image_to_string(final_image,  config='--psm 7').replace("\n", "")
+
+        # if self.DEBUG:
+            # print(f"Found round text: {text}")
+
+        # regex to look for format [[:digit:]]/[[:digit:]] if not its not round, return None
+        if re.search(r"(\d+/\d+)", text):
+            return int(text.split("/")[0])
+        else:
+            return None
 
     def __move_mouse(self, location):
         pyautogui.moveTo(location)
@@ -57,7 +95,15 @@ class Utils:
 
     # TODO: Stop using pyautogui
     # Generic function to see if something is present on the screen
-    def __find(self, path, confidence=0.9):
+    def __find(self, path, confidence=0.9, return_cords=False):
+        if return_cords:
+            cords = pyautogui.locateOnScreen(path, confidence=confidence)
+            if cords is not None:
+                left, top, width, height = cords
+                return (left + width // 2, top + height // 2) # Return middle of found image   
+            else:
+                return None
+
         return True if pyautogui.locateOnScreen(path, confidence=confidence) is not None else False
 
     # Different methods for different checks all wraps over __find()
@@ -81,6 +127,9 @@ class Utils:
 
     def collection_event_check(self):
         return self.__find(self.__collection_event_path)
+
+    def locate_target_button(self):
+        return self.__find(self.__set_target_path, return_cords=True)
 
 
     # Scaling functions for different resolutions support

@@ -1,22 +1,16 @@
 import pyautogui
 import time
-import cv2
-import re
 import numpy as np
 import sys
-import os
-import csv
 
 # Temporary until handleInstrucion is fixed
 import mouse
-import keyboard
 
 import pytesseract
 
 if sys.platform == "win32":
     pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
-import Log
 import static
 
 from BotCore import BotCore
@@ -37,37 +31,9 @@ class Bot(BotCore):
         # When mouse is moved to (0, 0)
         pyautogui.FAILSAFE = True
 
-    def getRound(self):
-        # Change to https://stackoverflow.com/questions/66334737/pytesseract-is-very-slow-for-real-time-ocr-any-way-to-optimise-my-code 
-        # or https://www.reddit.com/r/learnpython/comments/kt5zzw/how_to_speed_up_pytesseract_ocr_processing/
-
-        top, left = self.scaling([1850, 35])
-        width, height = [225, 65]
-        img = pyautogui.screenshot(region=(top, left, width, height))
-
-        numpyImage = np.array(img)
-
-        # Make image grayscale using opencv
-        greyImage = cv2.cvtColor(numpyImage, cv2.COLOR_BGR2GRAY)
-
-        # Threasholding
-        final_image = cv2.threshold(greyImage, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
-    
-        # Get current round from image with tesseract
-        text = pytesseract.image_to_string(final_image,  config='--psm 7').replace("\n", "")
-
-        # if self.DEBUG:
-            # print(f"Found round text: {text}")
-
-        # regex to look for format [[:digit:]]/[[:digit:]] if not its not round, return None
-        if re.search(r"(\d+/\d+)", text):
-            return int(text.split("/")[0])
-        else:
-            return None
-
     def initilize(self):
         if self.DEBUG:
-            print("RUNNING IN DEBUG MODE, DEBUG FILES WILL BE GENERATED")
+            self.log("RUNNING IN DEBUG MODE, DEBUG FILES WILL BE GENERATED")
 
         self.press_key("alt")
 
@@ -95,11 +61,11 @@ class Bot(BotCore):
                 # DEBUG
                 if self.DEBUG:
                     if self.defeat_check():
-                        print("Defeat detected on round {}; exiting level".format(current_round))
-                        Log.log_stats(did_win=False, match_time=(time.time()-game_start_time))
+                        self.log("Defeat detected on round {}; exiting level".format(current_round))
+                        self.log_stats(did_win=False, match_time=(time.time()-game_start_time))
                     elif self.victory_check():
-                        print("Victory detected; exiting level") 
-                        Log.log_stats(did_win=True, match_time=(time.time()-game_start_time))
+                        self.log("Victory detected; exiting level") 
+                        self.log_stats(did_win=True, match_time=(time.time()-game_start_time))
                 
                 self.exit_level()
                 finished = True
@@ -129,7 +95,7 @@ class Bot(BotCore):
                             instruction["DONE"] = True
 
                     if self.DEBUG:
-                        Log.log("Current round", current_round)
+                        self.log("Current round", current_round)
 
     def exit_bot(self): 
         self.running = False
@@ -171,7 +137,7 @@ class Bot(BotCore):
                 target_diff = abs((static.target_order_spike.index(i)) - current_target_index)
             else:
                 target_diff = abs((static.target_order_regular.index(i)) - current_target_index)
-                # print("Target diff", target_diff)
+                # self.log("Target diff", target_diff)
 
             # Change target until on correct target
             for n in range(1, target_diff + 1):
@@ -192,20 +158,25 @@ class Bot(BotCore):
 
         time.sleep(1)
 
-        pyautogui.moveTo(self.scaling(static.button_positions["TARGET_BUTTON_MORTAR"]))
+        # pyautogui.moveTo(self.scaling(static.button_positions["TARGET_BUTTON_MORTAR"]))
         
-        time.sleep(1)
-        mouse.press(button='left')
-        time.sleep(0.5)
-        mouse.release(button='left')
+        target_button = self.locate_target_button()
+        self.click(target_button)
+        
+        # time.sleep(1)
+        # mouse.press(button='left')
+        # time.sleep(0.5)
+        # mouse.release(button='left')
+        # self.click()
 
         time.sleep(1)
 
-        pyautogui.moveTo(self.scaling(target_pos))
-        time.sleep(0.5)
-        mouse.press(button='left')
-        time.sleep(0.5)
-        mouse.release(button='left')
+        # pyautogui.moveTo(self.scaling(target_pos))
+        self.click(target_pos)
+        # time.sleep(0.5)
+        # mouse.press(button='left')
+        # time.sleep(0.5)
+        # mouse.release(button='left')
 
         time.sleep(1)
 
@@ -222,13 +193,13 @@ class Bot(BotCore):
             self.place_tower(monkey_position, keybind)
 
             if self.DEBUG:
-                Log.log("Tower placed:", instruction["TOWER"])
+                self.log("Tower placed:", instruction["TOWER"])
             
         else:
             self.upgrade_tower(monkey_position, upgrade_path)
 
             if self.DEBUG:
-                Log.log("Upgrading {} to {}; change {}".format(instruction['TOWER'], instruction['UPGRADE'], instruction['UPGRADE_DIFF']))
+                self.log("Upgrading {} to {}; change {}".format(instruction['TOWER'], instruction['UPGRADE'], instruction['UPGRADE_DIFF']))
 
         # If target position is not None
         # Special case for mortars and towers with static targeting
@@ -236,19 +207,18 @@ class Bot(BotCore):
             self.set_static_target(monkey_position, instruction["TARGET_POS"])
             
             if self.DEBUG:
-                Log.log("Monkey static target change", instruction["TOWER"])
+                self.log("Monkey static target change", instruction["TOWER"])
 
         if instruction["ROUND_START"]:
-            print("Starting first round")
-            self.press_key("space")
-            self.press_key("space")
+            self.log("Starting first round")
+            self.press_key("space", amount=2)
 
         # Change monkey to target (eg strong)
         if target:
             self.change_target(instruction["TOWER"], monkey_position, target)
 
             if self.DEBUG:
-                Log.log(f"{instruction['TOWER']} target change to {target}")
+                self.log(f"{instruction['TOWER']} target change to {target}")
 
     def abilityAvaliabe(self, last_used, cooldown, fast_forward=True):
         # TODO: Store if the game is speeded up or not. If it is use the constant (true by default)
@@ -261,7 +231,7 @@ class Bot(BotCore):
     def collections_event_check(self):
         if self.collection_event_check:
             if self.DEBUG:
-                Log.log("easter collection detected")
+                self.log("easter collection detected")
 
             self.click("EASTER_COLLECTION") #DUE TO EASTER EVENT:
             time.sleep(1)
@@ -296,7 +266,7 @@ class Bot(BotCore):
     # select hero if not selected
     def hero_select(self):
         if not self.hero_check(self.settings["HERO"]):
-            print(f"Selecting {self.settings['hero']}")
+            self.log(f"Selecting {self.settings['hero']}")
             self.click("HERO_SELECT")
             self.click(self.settings["HERO"])
             self.click("CONFIRM_HERO")
