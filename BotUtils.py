@@ -11,7 +11,7 @@ import cv2
 import pytesseract
 import re
 
-class Utils:
+class BotUtils:
     def __init__(self):
         self.Support_files_path = "Support_files\\" if sys.platform == "win32" else "Support_files/"
 
@@ -30,18 +30,20 @@ class Utils:
 
         # Resolutions for for padding
         self.reso_16 = [
-        { "width": 1280, "height": 720  },
-        { "width": 1920, "height": 1080 },
-        { "width": 2560, "height": 1440 },
-        { "width": 3840, "height": 2160 }
-    ]
+            { "width": 1280, "height": 720  },
+            { "width": 1920, "height": 1080 },
+            { "width": 2560, "height": 1440 },
+            { "width": 3840, "height": 2160 }
+        ]
+
+        self.width, self.height = pyautogui.size()
 
 
     def getRound(self):
         # Change to https://stackoverflow.com/questions/66334737/pytesseract-is-very-slow-for-real-time-ocr-any-way-to-optimise-my-code 
         # or https://www.reddit.com/r/learnpython/comments/kt5zzw/how_to_speed_up_pytesseract_ocr_processing/
 
-        top, left = self.scaling([1850, 35])
+        top, left = self._scaling([1850, 35])
         width, height = [225, 65]
         img = pyautogui.screenshot(region=(top, left, width, height))
 
@@ -79,7 +81,7 @@ class Utils:
             location = static.button_positions[location]
         
         # Move mouse to location
-        self.__move_mouse(self.scaling(location))
+        self.__move_mouse(self._scaling(location))
 
         for _ in range(amount):
             mouse.click(button="left")
@@ -128,12 +130,12 @@ class Utils:
     def collection_event_check(self):
         return self.__find(self.__collection_event_path)
 
-    def locate_target_button(self):
+    def locate_static_target_button(self):
         return self.__find(self.__set_target_path, return_cords=True)
 
 
     # Scaling functions for different resolutions support
-    def scaling(self, pos_list):
+    def _scaling(self, pos_list):
         """
             This function will dynamically calculate the differance between current resolution and designed for 2560x1440
             it will also add any padding needed to positions to account for 21:9 
@@ -142,20 +144,19 @@ class Utils:
         """
 
         reso_21 = False
-        width, height = pyautogui.size()
         for x in self.reso_16: 
-            if height == x['height']:
-                if width != x['width']:
+            if self.height == x['height']:
+                if self.width != x['width']:
                     reso_21 = True
                     x = pos_list[0]
                     break
 
         if reso_21 != True:
             x = pos_list[0]/2560 
-            x = x * width
+            x = x * self.width
         
         y = pos_list[1]/1440
-        y = y * height
+        y = y * self.height
         x = x + self.__padding() # Add's the pad to to the curent x position variable
 
         return (x, y)
@@ -174,14 +175,12 @@ class Utils:
             reso_16 -- list that  
         """
 
-    
-        width, height = pyautogui.size()
-        pad = 0
+        padding = 0
         for x in self.reso_16: 
-            if height == x['height']:
-                pad = (width - x['width'])/2
+            if self.height == x['height']:
+                padding = (self.width - x['width'])/2
 
-        return pad
+        return padding
 
     def get_resource_file(path):
         return os.path.join(os.path.dirname(__file__), path)

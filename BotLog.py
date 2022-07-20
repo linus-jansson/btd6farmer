@@ -1,7 +1,7 @@
 import json
 import os
 
-class Log:
+class BotLog:
     def __init__(self):
         self.statDict = {
             "Current_Round": None,

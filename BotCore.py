@@ -1,9 +1,9 @@
 import json
 import copy
-import Log
-import Utils
+import BotLog
+import BotUtils
 
-class BotCore(Log, Utils):
+class BotCore(BotLog, BotUtils):
     def __init__(self, instruction_path=r".\Instructions\Dark_Castle_Hard_Standard", game_plan_filename="instructions.json", game_settings_filename="setup.json"):
         self.settings = self.__load_settings(instruction_path + "\\" + game_settings_filename)
         self.game_plan = self.__load_plan(instruction_path + "\\" + game_plan_filename)
