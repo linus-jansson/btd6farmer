@@ -152,15 +152,17 @@ class Bot(BotCore):
         self.press_key("esc")
 
     def set_static_target(self, tower_position, target_pos):
-        pyautogui.moveTo(self.scaling(tower_position))
-        time.sleep(0.5)
-        mouse.click(button="left")
+        
+        self.click(tower_position)
+        # pyautogui.moveTo(self.scaling(tower_position))
+        # time.sleep(0.5)
+        # mouse.click(button="left")
 
         time.sleep(1)
 
         # pyautogui.moveTo(self.scaling(static.button_positions["TARGET_BUTTON_MORTAR"]))
         
-        target_button = self.locate_target_button()
+        target_button = self.locate_static_target_button()
         self.click(target_button)
         
         # time.sleep(1)
