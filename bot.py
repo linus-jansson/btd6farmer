@@ -26,7 +26,7 @@ class Bot(BotCore):
         super().__init__(instruction_path)
         
         # Change to current Directory
-        os.chdir(os.path.dirname(os.path.abspath(__file__)))
+        # Change to: https://github.com/rr-/screeninfo
         self.width, self.height = pyautogui.size()
 
         self.start_time = time.time()
@@ -65,8 +65,6 @@ class Bot(BotCore):
         else:
             return None
 
-
-
     def initilize(self):
         if self.DEBUG:
             print("RUNNING IN DEBUG MODE, DEBUG FILES WILL BE GENERATED")
@@ -75,7 +73,6 @@ class Bot(BotCore):
 
 
     def ingame_loop(self):
-
 
         current_round = -1
         ability_one_timer = time.time()
@@ -136,7 +133,6 @@ class Bot(BotCore):
 
     def exit_bot(self): 
         self.running = False
-
 
     def place_tower(self, tower_position, keybind):
         self.press_key(keybind) # press keybind
@@ -215,7 +211,6 @@ class Bot(BotCore):
 
         self.press_key("esc")
 
-
     def handleInstruction(self, instruction):
         upgrade_path = instruction["UPGRADE_DIFF"]
         monkey_position = instruction["POSITION"]
@@ -255,7 +250,6 @@ class Bot(BotCore):
             if self.DEBUG:
                 Log.log(f"{instruction['TOWER']} target change to {target}")
 
-
     def abilityAvaliabe(self, last_used, cooldown, fast_forward=True):
         # TODO: Store if the game is speeded up or not. If it is use the constant (true by default)
         m = 1
@@ -264,8 +258,6 @@ class Bot(BotCore):
 
         return (time.time() - last_used) >= (cooldown / m)
   
-
-    
     def collections_event_check(self):
         if self.collection_event_check:
             if self.DEBUG:
@@ -310,7 +302,6 @@ class Bot(BotCore):
             self.click("CONFIRM_HERO")
             self.press_key("esc")
 
-
     def exit_level(self):
         self.click("VICTORY_CONTINUE")
         time.sleep(2)
@@ -319,7 +310,6 @@ class Bot(BotCore):
 
         self.collections_event_check()
         time.sleep(2)
-
 
     def select_map(self):
         map_page = static.maps[self.settings["MAP"]][0]
@@ -344,5 +334,3 @@ class Bot(BotCore):
         time.sleep(3) # wait for loading screen
         self.click(self.settings["DIFFICULTY"])
         self.click("CONFIRM_CHIMPS")
-
-
