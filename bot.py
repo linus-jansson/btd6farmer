@@ -264,6 +264,9 @@ class Bot(Game):
 
             if self.DEBUG:
                 log.log(f"{instruction['TOWER']} target change to {target}")
+        
+        if self.DEBUG:
+            log.log(f"executed instruction:\n{instruction}")
 
 
     def abilityAvaliabe(self, last_used, cooldown, fast_forward=True):
@@ -362,7 +365,6 @@ class Bot(Game):
         map_page = static.maps[self.settings["MAP"]][0]
         map_index = static.maps[self.settings["MAP"]][1]
         
-        #map_page, map_index, difficulty, gamemode
         time.sleep(1)
 
         utils.button_click("HOME_MENU_START")
