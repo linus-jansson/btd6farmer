@@ -4,6 +4,7 @@ import time
 import keyboard
 import mouse
 import static
+import os
 
 class Utils:
     def __init__(self):
@@ -37,7 +38,7 @@ class Utils:
 
         # If location is a string then assume that its a static button
         if isinstance(location, str):
-            location = self.scaling(static.button_positions[location])
+            location = static.button_positions[location]
         
         # Move mouse to location
         self.__move_mouse(self.scaling(location))
@@ -49,7 +50,6 @@ class Utils:
         time.sleep(0.5)
 
     def press_key(self, key, timeout=0.1, amount=1):
-
         for _ in range(amount):
             keyboard.send(key)
 
@@ -133,3 +133,6 @@ class Utils:
                 pad = (width - x['width'])/2
 
         return pad
+
+    def get_resource_file(path):
+        return os.path.join(os.path.dirname(__file__), path)
