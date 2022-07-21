@@ -108,17 +108,24 @@ class Bot(Game):
                 utils.click(middle_of_screen, amount=2)
 
             # Check for finished or failed game
-            if self.defeat_check() or self.victory_check():
-                # DEBUG
-                if self.DEBUG:
-                    if self.defeat_check():
-                        print("Defeat detected on round {}; exiting level".format(current_round))
-                        log.log_stats(did_win=False, match_time=(time.time()-game_start_time))
-                    elif self.victory_check():
-                        print("Victory detected; exiting level") 
-                        log.log_stats(did_win=True, match_time=(time.time()-game_start_time))
+            if self.defeat_check():
                 
-                self.exit_level()
+                if self.DEBUG:
+                    print("Defeat detected on round {}; exiting level".format(current_round))
+                    log.log_stats(did_win=False, match_time=(time.time()-game_start_time))
+
+                self.exit_level(won=False)
+                finished = True
+                self.reset_game_plan()
+                continue
+
+            elif self.victory_check():
+
+                if self.DEBUG:
+                    print("Victory detected; exiting level") 
+                    log.log_stats(did_win=True, match_time=(time.time()-game_start_time))
+            
+                self.exit_level(won=True)
                 finished = True
                 self.reset_game_plan()
                 continue
@@ -351,10 +358,14 @@ class Bot(Game):
         else:
             return False
 
-    def exit_level(self):
-        utils.button_click("VICTORY_CONTINUE")
-        time.sleep(2)
-        utils.button_click("VICTORY_HOME")
+    def exit_level(self, won=True):
+        if won:
+            utils.button_click("VICTORY_CONTINUE")
+            time.sleep(2)
+            utils.button_click("VICTORY_HOME")
+        else:
+            utils.button_click("DEFEAT_HOME")
+
         time.sleep(4)
 
         self.collections_event_check()
