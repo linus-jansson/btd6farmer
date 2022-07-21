@@ -53,7 +53,7 @@ class Bot(BotCore):
         while not finished:
 
             # Check for levelup or insta monkey (level 100)
-            if self.check_levelup() or self.insta_monkey_check():
+            if self.levelup_check() or self.insta_monkey_check():
                 self.click(middle_of_screen, amount=2)
 
             # Check for finished or failed game
@@ -94,8 +94,8 @@ class Bot(BotCore):
                             self.handleInstruction(instruction)
                             instruction["DONE"] = True
 
-                    if self.DEBUG:
-                        self.log("Current round", current_round)
+                            if self.DEBUG:
+                                self.log("Current round", current_round) # Only print current round once
 
     def exit_bot(self): 
         self.running = False
@@ -231,10 +231,11 @@ class Bot(BotCore):
 
         return (time.time() - last_used) >= (cooldown / m)
   
-    def collections_event_check(self):
-        if self.collection_event_check:
+    def check_for_collection_crates(self):
+        if self.collection_event_check():
             if self.DEBUG:
                 self.log("easter collection detected")
+                # take screenshot of loc and save it to the folder
 
             self.click("EASTER_COLLECTION") #DUE TO EASTER EVENT:
             time.sleep(1)
@@ -278,9 +279,6 @@ class Bot(BotCore):
         time.sleep(2)
         self.click("VICTORY_HOME")
         time.sleep(4)
-
-        self.collections_event_check()
-        time.sleep(2)
 
     def select_map(self):
         map_page = static.maps[self.settings["MAP"]][0]

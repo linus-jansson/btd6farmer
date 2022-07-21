@@ -35,6 +35,7 @@ if __name__ == "__main__":
 
     # Make sure we haven't exited by using the stop key.
     while bot.running:
+        bot.check_for_collection_crates()
 
         print("selecting map")
         # Choose map
