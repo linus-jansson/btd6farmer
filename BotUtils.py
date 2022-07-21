@@ -16,22 +16,11 @@ class BotUtils:
         self.width, self.height = pyautogui.size()
 
         self.Support_files_path = "Support_files\\" if sys.platform == "win32" else "Support_files/"
-
-
-        self.__path = lambda root, height : f"{root}{height}\\" if sys.platform == "win32" else f"{root}{height}/"
-
-        # defining the paths to the images needed in the bot
-        self.__levelup_path = f"{self.Support_files_path}{str(self.height)}_levelup.png"
-        self.__victory_path = f"{self.Support_files_path}{str(self.height)}_victory.png"
-        self.__defeat_path = f"{self.Support_files_path}{str(self.height)}_defeat.png"
-        self.__main_menu_path = f"{self.Support_files_path}{str(self.height)}_menu.png"
-        self.__insta_monkey_path = f"{self.Support_files_path}{str(self.height)}_instamonkey.png"
-        self.__collection_event_path = f"{self.Support_files_path}{str(self.height)}_diamond_case.png"
         
+        self.support_dir = self.get_resource_dir(self.Support_files_path)
 
-        self.__hero_path = lambda hero : f"{self.Support_files_path}{str(self.height)}_{hero}.png"
-
-        self.__set_target_path = f"{self.Support_files_path}{str(self.height)}_set_target_path.png"
+        # Defing a lamda function that can be used to get a path to a specific image
+        self.__image_path = lambda image, root_dir=self.support_dir, height=self.height : f"{root_dir}{height}_{image}.png" if sys.platform == "win32" else f"{root}{height}_{image}.png"
 
         # Resolutions for for padding
         self.reso_16 = [
@@ -40,8 +29,10 @@ class BotUtils:
             { "width": 2560, "height": 1440 },
             { "width": 3840, "height": 2160 }
         ]
-
     
+    def get_resource_dir(path):
+        return os.path.join(os.path.dirname(__file__), path)
+
 
     def getRound(self):
         # Change to https://stackoverflow.com/questions/66334737/pytesseract-is-very-slow-for-real-time-ocr-any-way-to-optimise-my-code 
@@ -101,7 +92,6 @@ class BotUtils:
 
         time.sleep(timeout)
 
-    
     # TODO: Stop using pyautogui
     def locate(self, template_path, confidence=0.9, tries=1):
         """
@@ -150,18 +140,18 @@ class BotUtils:
         # return the cords of the image if found (middle by default) else None
         if locations is not None:
             return [ (x, y, w, h) for x, y, w, h in zip(*locations[::-1]) ]
-
+        else:
+            return None
     
     def debug_result(self, imgObj, templateObj, result):
         # cv2.imshow("resulting heatmap of image and template", result) # DEBUG
 
         cv2.imshow("Image", imgObj)
-        cv2.imshow("Template", templateObj)
+        # cv2.imshow("Template", templateObj)
 
         cv2.waitKey()
         cv2.destroyAllWindows()
 
-    
     # Generic function to see if something is present on the screen
     def __find(self, path, confidence=0.9, return_cords=False):
         try:
@@ -179,32 +169,32 @@ class BotUtils:
 
     # Different methods for different checks all wraps over __find()
     def menu_check(self):
-        return self.__find(self.__main_menu_path)
+        return self.__find( self.__image_path("menu") )
 
     def insta_monkey_check(self):
-        return self.__find(self.__insta_monkey_path)
+        return self.__find( self.__image_path("insta_monkey") )
 
     def victory_check(self):
-        return self.__find(self.__victory_path)
+        return self.__find( self.__image_path("victory") )
 
     def defeat_check(self):
-        return self.__find(self.__defeat_path)
+        return self.__find( self.__image_path("defeat") )
 
     def levelup_check(self):
-        return self.__find(self.__levelup_path)
+        return self.__find( self.__image_path("levelup") )
 
     def hero_check(self, heroString):
         print(heroString)
-        return self.__find( self.__hero_path(heroString) )
+        return self.__find( self.__image_path(heroString)  )
 
-    def print_hero(self, herostring):
-        return self.__hero_path(herostring)
+    def print_hero(self, heroString):
+        return self.__image_path(heroString)
 
     def collection_event_check(self):
-        return self.__find(self.__collection_event_path)
+        return self.__find(self.__image_path("diamond_case") )
 
     def locate_static_target_button(self):
-        return self.__find(self.__set_target_path, return_cords=True)
+        return self.__find(self.__image_path("set_target_path"), return_cords=True)
 
 
     # Scaling functions for different resolutions support
@@ -255,8 +245,6 @@ class BotUtils:
 
         return padding
 
-    def get_resource_file(path):
-        return os.path.join(os.path.dirname(__file__), path)
 
 
 if __name__ == "__main__":
