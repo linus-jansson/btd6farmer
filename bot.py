@@ -295,18 +295,10 @@ class Bot(BotCore):
             self.click("CONFIRM_CHIMPS")
 
 if __name__ == "__main__":
+    # For testing purposes; open sandbox on dark castle and run Bot.py will place every tower
     import time
     time.sleep(2)
     b = Bot(instruction_path=".\\Instructions\\Dark_Castle_Hard_Standard")
-    # instruction = {
-    #   "TOWER": "MORTAR",
-    #   "UPGRADE": None,
-    #   "UPGRADE_DIFF": None,
-    #   "TARGET": None,
-    #   "TARGET_POS": [1011, 725],
-    #   "POSITION": [959, 244],
-    #   "ROUND_START": False
-    # }
     for round, instruction_list in b.game_plan.items():
         print(round, instruction_list)
         for instruction in instruction_list:
