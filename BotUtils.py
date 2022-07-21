@@ -13,7 +13,12 @@ import re
 
 class BotUtils:
     def __init__(self):
+        self.width, self.height = pyautogui.size()
+
         self.Support_files_path = "Support_files\\" if sys.platform == "win32" else "Support_files/"
+
+
+        self.__path = lambda root, height : f"{root}{height}\\" if sys.platform == "win32" else f"{root}{height}/"
 
         # defining the paths to the images needed in the bot
         self.__levelup_path = f"{self.Support_files_path}{str(self.height)}_levelup.png"
@@ -24,7 +29,7 @@ class BotUtils:
         self.__collection_event_path = f"{self.Support_files_path}{str(self.height)}_diamond_case.png"
         
 
-        self.__hero_path = lambda self, herostring : f"{self.Support_files_path}{str(self.height)}_{herostring}.png"
+        self.__hero_path = lambda hero : f"{self.Support_files_path}{str(self.height)}_{hero}.png"
 
         self.__set_target_path = f"{self.Support_files_path}{str(self.height)}_set_target_path.png"
 
@@ -36,8 +41,7 @@ class BotUtils:
             { "width": 3840, "height": 2160 }
         ]
 
-        self.width, self.height = pyautogui.size()
-
+    
 
     def getRound(self):
         # Change to https://stackoverflow.com/questions/66334737/pytesseract-is-very-slow-for-real-time-ocr-any-way-to-optimise-my-code 
@@ -45,6 +49,8 @@ class BotUtils:
 
         top, left = self._scaling([1850, 35])
         width, height = [225, 65]
+        
+        # TODO: change to mss
         img = pyautogui.screenshot(region=(top, left, width, height))
 
         numpyImage = np.array(img)
@@ -95,18 +101,81 @@ class BotUtils:
 
         time.sleep(timeout)
 
+    
     # TODO: Stop using pyautogui
+    def locate(self, template_path, confidence=0.9, tries=1):
+        """
+            Method to match a template to a image.
+            
+            @template_path - Path to the template image
+            @confidence - A threshold value between {> 0.0f & < 1.0f} (Defaults to 0.9f)
+
+            Returns a list of cordinates to where openCV found matches of the template on the screenshot taken
+        """
+        # sc tool: https://pypi.org/project/mss/
+
+        # Take a screenshot of the screen and save to a temporary variable
+        screenshot = pyautogui.screenshot()
+        screenshot = np.array(screenshot)
+        # using opencv, find the img on the screen using the template
+
+        template = cv2.imread(template_path)
+        template = np.array(template)
+        
+        # width & height of the template
+        w = template.shape[0]
+        h = template.shape[1]
+        
+        result = cv2.matchTemplate(screenshot, template, cv2.TM_CCOEFF_NORMED)    # heatmap of the template and the screenshot"
+
+        min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result) # find the max value and location of the heatmap
+        
+        cv2.rectangle(screenshot, max_loc, (max_loc[0] + w, max_loc[1] + h), (0, 0, 255), 1) # draw on image for debugging
+
+        # Find all the matches
+        locations = np.where(result >= confidence) 
+        
+        print(f"max_loc {max_loc}, max_val {max_val}")
+        # print(f"threshold {confidence}, template match result -> \n {result}")
+        print(f"len(yloc) = {len(locations[0])}, \nlen(xloc) = {len(locations[1])}, \nlista på kordinater: {[ [x,y] for x, y in zip(*locations[::-1]) ]}") # längden och listan på resulterande kordinater
+    
+        # DBUG: ritar ut rektanglar på bild objektet
+        # VARFÖR RITAR DEN BARA UT EN REKTANGEL? på fel ställe??????
+        # for x, y in zip(*locations[::-1]):
+        #     cv2.rectangle(screenshot, (x, y), (x + w, y + h), (0, 0, 255), 1)
+
+        # Visar bild objektet med utritad rektangel
+        self.debug_result(screenshot, template, result)
+
+        # return the cords of the image if found (middle by default) else None
+        if locations is not None:
+            return [ (x, y, w, h) for x, y, w, h in zip(*locations[::-1]) ]
+
+    
+    def debug_result(self, imgObj, templateObj, result):
+        # cv2.imshow("resulting heatmap of image and template", result) # DEBUG
+
+        cv2.imshow("Image", imgObj)
+        cv2.imshow("Template", templateObj)
+
+        cv2.waitKey()
+        cv2.destroyAllWindows()
+
+    
     # Generic function to see if something is present on the screen
     def __find(self, path, confidence=0.9, return_cords=False):
-        if return_cords:
-            cords = pyautogui.locateOnScreen(path, confidence=confidence)
-            if cords is not None:
-                left, top, width, height = cords
-                return (left + width // 2, top + height // 2) # Return middle of found image   
-            else:
-                return None
+        try:
+            if return_cords:
+                cords = pyautogui.locateOnScreen(path, confidence=confidence)
+                if cords is not None:
+                    left, top, width, height = cords
+                    return (left + width // 2, top + height // 2) # Return middle of found image   
+                else:
+                    return None
 
-        return True if pyautogui.locateOnScreen(path, confidence=confidence) is not None else False
+            return True if pyautogui.locateOnScreen(path, confidence=confidence) is not None else False
+        except Exception as e:
+            print(e)
 
     # Different methods for different checks all wraps over __find()
     def menu_check(self):
@@ -125,7 +194,11 @@ class BotUtils:
         return self.__find(self.__levelup_path)
 
     def hero_check(self, heroString):
+        print(heroString)
         return self.__find( self.__hero_path(heroString) )
+
+    def print_hero(self, herostring):
+        return self.__hero_path(herostring)
 
     def collection_event_check(self):
         return self.__find(self.__collection_event_path)
@@ -184,3 +257,15 @@ class BotUtils:
 
     def get_resource_file(path):
         return os.path.join(os.path.dirname(__file__), path)
+
+
+if __name__ == "__main__":
+    import time
+
+    inst = BotUtils()
+    print("sleeping for 5 secs")
+    time.sleep(5)
+    
+
+    res = inst.locate(inst.print_hero('obyn'))
+    print(res)
