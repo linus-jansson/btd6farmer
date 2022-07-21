@@ -92,8 +92,7 @@ class BotUtils:
     def press_key(self, key, timeout=0.1, amount=1):
         for _ in range(amount):
             keyboard.send(key)
-
-        time.sleep(timeout)
+            time.sleep(timeout)
 
     # TODO: Stop using pyautogui
     def locate(self, template_path, confidence=0.9, tries=1):
