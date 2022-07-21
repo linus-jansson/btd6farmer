@@ -210,7 +210,7 @@ class Bot(BotCore):
 
         
         if self.DEBUG:
-            log.log(f"executed instruction:\n{instruction}")
+            self.log(f"executed instruction:\n{instruction}")
 
 
     def abilityAvaliabe(self, last_used, cooldown, fast_forward=True):
