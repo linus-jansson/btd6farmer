@@ -81,8 +81,11 @@ class BotUtils:
         self.__move_mouse(self._scaling(location))
 
         for _ in range(amount):
-            mouse.click(button="left")
-            time.sleep(0.1)
+            mouse.press(button='left')
+            time.sleep(0.075) # https://www.reddit.com/r/AskTechnology/comments/4ne2tv/how_long_does_a_mouse_click_last/ TLDR; DONT CLICK TO FAST as shit will break
+            mouse.release(button='left')
+            # mouse.click(button="left")
+            
 
         time.sleep(0.5)
 
@@ -190,7 +193,7 @@ class BotUtils:
         return self.__find(self.__image_path("diamond_case") )
 
     def locate_static_target_button(self):
-        return self.__find(self.__image_path("set_target_path"), return_cords=True)
+        return self.__find(self.__image_path("set_target_button"), return_cords=True)
 
 
     # Scaling functions for different resolutions support

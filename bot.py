@@ -160,35 +160,12 @@ class Bot(BotCore):
         self.press_key("esc")
 
     def set_static_target(self, tower_position, target_pos):
-        
         self.click(tower_position)
-        # pyautogui.moveTo(self.scaling(tower_position))
-        # time.sleep(0.5)
-        # mouse.click(button="left")
-
-        time.sleep(1)
-
-        # pyautogui.moveTo(self.scaling(static.button_positions["TARGET_BUTTON_MORTAR"]))
         
         target_button = self.locate_static_target_button()
         self.click(target_button)
-        
-        # time.sleep(1)
-        # mouse.press(button='left')
-        # time.sleep(0.5)
-        # mouse.release(button='left')
-        # self.click()
 
-        time.sleep(1)
-
-        # pyautogui.moveTo(self.scaling(target_pos))
         self.click(target_pos)
-        # time.sleep(0.5)
-        # mouse.press(button='left')
-        # time.sleep(0.5)
-        # mouse.release(button='left')
-
-        time.sleep(1)
 
         self.press_key("esc")
 
@@ -316,3 +293,23 @@ class Bot(BotCore):
             time.sleep(3) # wait for loading screen
             self.click(self.settings["DIFFICULTY"])
             self.click("CONFIRM_CHIMPS")
+
+if __name__ == "__main__":
+    import time
+    time.sleep(2)
+    b = Bot(instruction_path=".\\Instructions\\Dark_Castle_Hard_Standard")
+    # instruction = {
+    #   "TOWER": "MORTAR",
+    #   "UPGRADE": None,
+    #   "UPGRADE_DIFF": None,
+    #   "TARGET": None,
+    #   "TARGET_POS": [1011, 725],
+    #   "POSITION": [959, 244],
+    #   "ROUND_START": False
+    # }
+    for round, instruction_list in b.game_plan.items():
+        print(round, instruction_list)
+        for instruction in instruction_list:
+            b.handleInstruction(instruction)    
+            
+        

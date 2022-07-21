@@ -10,6 +10,8 @@ class BotCore(BotLog, BotUtils):
         
         self.__game_plan_copy = copy.deepcopy(self.game_plan)
 
+        self.__game_plan_version = self.game_plan.pop("VERSION")
+
         BotLog.__init__(self)
         BotUtils.__init__(self)
 
