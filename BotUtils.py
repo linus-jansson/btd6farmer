@@ -21,7 +21,7 @@ class BotUtils:
 
         # Defing a lamda function that can be used to get a path to a specific image
     
-        self.__image_path = lambda image, root_dir=self.support_dir, height=self.height : f"{root_dir}{height}_{image}.png" if sys.platform == "win32" else f"{root}{height}_{image}.png"
+        self.__image_path = lambda image, root_dir=self.support_dir, height=self.height : f"{root_dir}{height}_{image}.png" if sys.platform == "win32" else f"{root_dir}{height}_{image}.png"
 
         # Resolutions for for padding
         self.reso_16 = [
