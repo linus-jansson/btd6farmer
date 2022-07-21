@@ -105,6 +105,7 @@ class Bot(BotCore):
         self.click(tower_position) # click on decired location
 
     def upgrade_tower(self, tower_position, upgrade_path):
+        # TODO: add Latest upgrade to game plan when upgrading, so it doesn't need to be in the json file
         self.click(tower_position)
         
         # Convert upgrade_path to something usable
