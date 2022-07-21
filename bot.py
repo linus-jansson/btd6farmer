@@ -73,7 +73,7 @@ class Bot(BotCore):
                 if self.DEBUG:
                     print("Victory detected; exiting level") 
                     self.log_stats(did_win=True, match_time=(time.time()-self.game_start_time))
-            
+                
                 self.exit_level(won=True)
                 finished = True
                 self.reset_game_plan()
@@ -208,6 +208,11 @@ class Bot(BotCore):
             if self.DEBUG:
                 self.log(f"{instruction['TOWER']} target change to {target}")
 
+        
+        if self.DEBUG:
+            log.log(f"executed instruction:\n{instruction}")
+
+
     def abilityAvaliabe(self, last_used, cooldown, fast_forward=True):
         # TODO: Store if the game is speeded up or not. If it is use the constant (true by default)
         m = 1
@@ -267,13 +272,13 @@ class Bot(BotCore):
         else:
             self.click("DEFEAT_HOME")
             time.sleep(2)
+
         time.sleep(4)
 
     def select_map(self):
         map_page = static.maps[self.settings["MAP"]][0]
         map_index = static.maps[self.settings["MAP"]][1]
         
-        #map_page, map_index, difficulty, gamemode
         time.sleep(1)
 
         self.click("HOME_MENU_START")
