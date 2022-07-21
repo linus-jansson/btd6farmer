@@ -10,7 +10,8 @@ class BotCore(BotLog, BotUtils):
         
         self.__game_plan_copy = copy.deepcopy(self.game_plan)
 
-        super().__init__()
+        BotLog.__init__(self)
+        BotUtils.__init__(self)
 
     def __load_settings(self, path):
         """
