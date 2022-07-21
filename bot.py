@@ -262,9 +262,7 @@ class Bot(BotCore):
             time.sleep(1)
             self.click("EASTER_CONTINUE")
 
-            # awe try to click 3 quick times to get out of the easter mode, but also if easter mode not triggered, to open and close profile quick
-            self.click("EASTER_EXIT")
-            time.sleep(1)
+            self.press_key("esc")
             
     # select hero if not selected
     def hero_select(self):
@@ -304,6 +302,8 @@ class Bot(BotCore):
         self.click(self.settings["GAMEMODE"]) # Select Gamemode
         self.click("OVERWRITE_SAVE")
 
-        time.sleep(3) # wait for loading screen
-        self.click(self.settings["DIFFICULTY"])
-        self.click("CONFIRM_CHIMPS")
+        # Only need to press confirm button if we play chimps or impoppable
+        if self.settings["GAMEMODE"] == "CHIMPS" or self.settings["GAMEMODE"] == "IMPOPPABLE":
+            time.sleep(3) # wait for loading screen
+            self.click(self.settings["DIFFICULTY"])
+            self.click("CONFIRM_CHIMPS")
