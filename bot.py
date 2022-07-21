@@ -57,17 +57,24 @@ class Bot(BotCore):
                 self.click(middle_of_screen, amount=2)
 
             # Check for finished or failed game
-            if self.defeat_check() or self.victory_check():
-                # DEBUG
-                if self.DEBUG:
-                    if self.defeat_check():
-                        self.log("Defeat detected on round {}; exiting level".format(current_round))
-                        self.log_stats(did_win=False, match_time=(time.time()-game_start_time))
-                    elif self.victory_check():
-                        self.log("Victory detected; exiting level") 
-                        self.log_stats(did_win=True, match_time=(time.time()-game_start_time))
+            if self.defeat_check():
                 
-                self.exit_level()
+                if self.DEBUG:
+                    print("Defeat detected on round {}; exiting level".format(current_round))
+                    self.log_stats(did_win=False, match_time=(time.time()-game_start_time))
+
+                self.exit_level(won=False)
+                finished = True
+                self.reset_game_plan()
+                continue
+
+            elif self.victory_check():
+
+                if self.DEBUG:
+                    print("Victory detected; exiting level") 
+                    self.log_stats(did_win=True, match_time=(time.time()-game_start_time))
+            
+                self.exit_level(won=True)
                 finished = True
                 self.reset_game_plan()
                 continue
@@ -274,10 +281,14 @@ class Bot(BotCore):
             self.click("CONFIRM_HERO")
             self.press_key("esc")
 
-    def exit_level(self):
-        self.click("VICTORY_CONTINUE")
-        time.sleep(2)
-        self.click("VICTORY_HOME")
+    def exit_level(self, won=True):
+        if won:
+            self.button_click("VICTORY_CONTINUE")
+            time.sleep(2)
+            self.button_click("VICTORY_HOME")
+        else:
+            self.button_click("DEFEAT_HOME")
+            time.sleep(2)
         time.sleep(4)
 
     def select_map(self):

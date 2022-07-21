@@ -18,6 +18,7 @@ button_positions = { # Creates a dictionary of all positions needed for monkeys 
     "OVERWRITE_SAVE" : [1520, 974],
     "VICTORY_CONTINUE" : [1283, 1215],
     "VICTORY_HOME" : [939, 1124],
+    "DEFEAT_HOME" : [754, 1083],
     "EASTER_COLLECTION" : [1279, 911],
     "F_LEFT_INSTA" : [868, 722],
     "F_RIGHT_INSTA" : [1680, 722],
