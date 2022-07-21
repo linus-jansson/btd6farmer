@@ -21,7 +21,7 @@ class BotUtils:
 
         # Defing a lamda function that can be used to get a path to a specific image
     
-        self.__image_path = lambda image, root_dir=self.support_dir, height=self.height : f"{root_dir}{height}_{image}.png" if sys.platform == "win32" else f"{root_dir}{height}_{image}.png"
+        self._image_path = lambda image, root_dir=self.support_dir, height=self.height : f"{root_dir}{height}_{image}.png" if sys.platform == "win32" else f"{root_dir}{height}_{image}.png"
 
         # Resolutions for for padding
         self.reso_16 = [
@@ -64,7 +64,7 @@ class BotUtils:
         else:
             return None
 
-    def __move_mouse(self, location):
+    def _move_mouse(self, location):
         pyautogui.moveTo(location)
         time.sleep(0.1)
 
@@ -78,7 +78,7 @@ class BotUtils:
             location = static.button_positions[location]
         
         # Move mouse to location
-        self.__move_mouse(self._scaling(location))
+        self._move_mouse(self._scaling(location))
 
         for _ in range(amount):
             mouse.press(button='left')
@@ -155,7 +155,7 @@ class BotUtils:
         cv2.destroyAllWindows()
 
     # Generic function to see if something is present on the screen
-    def __find(self, path, confidence=0.9, return_cords=False):
+    def _find(self, path, confidence=0.9, return_cords=False):
         try:
             if return_cords:
                 cords = pyautogui.locateOnScreen(path, confidence=confidence)
@@ -169,30 +169,30 @@ class BotUtils:
         except Exception as e:
             raise Exception(e)
 
-    # Different methods for different checks all wraps over __find()
+    # Different methods for different checks all wraps over _find()
     def menu_check(self):
-        return self.__find( self.__image_path("menu") )
+        return self._find( self._image_path("menu") )
 
     def insta_monkey_check(self):
-        return self.__find( self.__image_path("instamonkey") )
+        return self._find( self._image_path("instamonkey") )
 
     def victory_check(self):
-        return self.__find( self.__image_path("victory") )
+        return self._find( self._image_path("victory") )
 
     def defeat_check(self):
-        return self.__find( self.__image_path("defeat") )
+        return self._find( self._image_path("defeat") )
 
     def levelup_check(self):
-        return self.__find( self.__image_path("levelup") )
+        return self._find( self._image_path("levelup") )
 
     def hero_check(self, heroString):
-        return self.__find( self.__image_path(heroString)  )
+        return self._find( self._image_path(heroString)  )
 
     def collection_event_check(self):
-        return self.__find(self.__image_path("diamond_case") )
+        return self._find(self._image_path("diamond_case") )
 
     def locate_static_target_button(self):
-        return self.__find(self.__image_path("set_target_button"), return_cords=True)
+        return self._find(self._image_path("set_target_button"), return_cords=True)
 
 
     # Scaling functions for different resolutions support
@@ -218,11 +218,11 @@ class BotUtils:
         
         y = pos_list[1]/1440
         y = y * self.height
-        x = x + self.__padding() # Add's the pad to to the curent x position variable
+        x = x + self._padding() # Add's the pad to to the curent x position variable
 
         return (x, y)
 
-    def __padding(self):
+    def _padding(self):
         """
             Get's width and height of current resolution
             we iterate through reso_16 for heights, if current resolution height matches one of the entires 
