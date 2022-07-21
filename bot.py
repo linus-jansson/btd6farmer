@@ -27,6 +27,7 @@ class Bot(BotCore):
         self.running = True
         self.DEBUG = debug_mode
         self.VERBOSE = verbose_mode
+        self.game_start_time = time.time()
 
         # When mouse is moved to (0, 0)
         pyautogui.FAILSAFE = True
@@ -43,7 +44,6 @@ class Bot(BotCore):
         current_round = -1
         ability_one_timer = time.time()
         ability_two_timer = time.time()
-        game_start_time = time.time()
         
         finished = False
 
@@ -61,7 +61,7 @@ class Bot(BotCore):
                 
                 if self.DEBUG:
                     print("Defeat detected on round {}; exiting level".format(current_round))
-                    self.log_stats(did_win=False, match_time=(time.time()-game_start_time))
+                    self.log_stats(did_win=False, match_time=(time.time()-self.game_start_time))
 
                 self.exit_level(won=False)
                 finished = True
@@ -72,7 +72,7 @@ class Bot(BotCore):
 
                 if self.DEBUG:
                     print("Victory detected; exiting level") 
-                    self.log_stats(did_win=True, match_time=(time.time()-game_start_time))
+                    self.log_stats(did_win=True, match_time=(time.time()-self.game_start_time))
             
                 self.exit_level(won=True)
                 finished = True
@@ -199,6 +199,7 @@ class Bot(BotCore):
         if instruction["ROUND_START"]:
             self.log("Starting first round")
             self.press_key("space", amount=2)
+            self.game_start_time = time.time()
 
         # Change monkey to target (eg strong)
         if target:
@@ -260,11 +261,11 @@ class Bot(BotCore):
 
     def exit_level(self, won=True):
         if won:
-            self.button_click("VICTORY_CONTINUE")
+            self.click("VICTORY_CONTINUE")
             time.sleep(2)
-            self.button_click("VICTORY_HOME")
+            self.click("VICTORY_HOME")
         else:
-            self.button_click("DEFEAT_HOME")
+            self.click("DEFEAT_HOME")
             time.sleep(2)
         time.sleep(4)
 
@@ -281,7 +282,7 @@ class Bot(BotCore):
         self.click("BEGINNER_SELECTION") # goto first page
 
         # click to the right page
-        self.click("RIGHT_ARROW_SELECTION", amount=(map_page - 1))
+        self.click("RIGHT_ARROW_SELECTION", amount=(map_page))
 
         self.click("MAP_INDEX_" + str(map_index)) # Click correct map
         self.click(self.settings["DIFFICULTY"]) # Select Difficulty
