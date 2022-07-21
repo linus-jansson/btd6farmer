@@ -2,15 +2,10 @@ import os
 import time
 import sys
 import pathlib
-
-import l_utils
-import static
-from bot import Bot
+from Bot import Bot
  
 if __name__ == "__main__":
     current_directory = ""
-
-    # Small code cleanup for debug
 
     # Verify that a valid path was fed to the script to find instructions
     if len(sys.argv) >= 1:
@@ -26,35 +21,28 @@ if __name__ == "__main__":
     
     # TODO: Move all these prints to verbose only mode
 
-    print("Setting up Bot...")
-    
     bot = Bot(instruction_path=current_directory, debug_mode=("--debug" in sys.argv), verbose_mode=("--verbose" in sys.argv))
 
-    if bot.DEBUG:
-        print("RUNNING IN DEBUG MODE, DEBUG FILES WILL BE GENERATED")
-
-    print("Setup Complete.")
+    print("Setting up Bot...")
+    
+    bot.initilize() # Initialize the bot (presses alt, etc)
 
     print("Waiting for 5 seconds... Please select the Bloons TD 6 window during this time.")
     time.sleep(5)
 
     # Check for obyn
-    print("Selecting obyn if not selected")
     bot.hero_select()
-
-
 
     # Make sure we haven't exited by using the stop key.
     while bot.running:
+        bot.check_for_collection_crates()
+
         print("selecting map")
-
-        # Prevent alt+tab bug from happening
-        l_utils.press_key("alt")
-
         # Choose map
         bot.select_map()   
 
         print("Game start")
-        # main game
+
+        # main game loop
         bot.ingame_loop()
 
