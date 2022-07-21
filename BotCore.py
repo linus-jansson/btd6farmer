@@ -1,7 +1,7 @@
 import json
 import copy
-import BotLog
-import BotUtils
+from BotLog import BotLog
+from BotUtils import BotUtils
 
 class BotCore(BotLog, BotUtils):
     def __init__(self, instruction_path=r".\Instructions\Dark_Castle_Hard_Standard", game_plan_filename="instructions.json", game_settings_filename="setup.json"):
@@ -9,6 +9,8 @@ class BotCore(BotLog, BotUtils):
         self.game_plan = self.__load_plan(instruction_path + "\\" + game_plan_filename)
         
         self.__game_plan_copy = copy.deepcopy(self.game_plan)
+
+        super().__init__()
 
     def __load_settings(self, path):
         """
@@ -27,7 +29,7 @@ class BotCore(BotLog, BotUtils):
         with open(path, 'r', encoding="utf-8") as game_plan:
             data = json.load(game_plan)
         
-        data.sort()
+        # data.sort()
 
         return data
     
