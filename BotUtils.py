@@ -20,7 +20,8 @@ class BotUtils:
         self.support_dir = self.get_resource_dir(self.Support_files_path)
 
         # Defing a lamda function that can be used to get a path to a specific image
-        self.__image_path = lambda image, root_dir=self.support_dir, height=self.height : f"{root_dir}{height}_{image}.png" if sys.platform == "win32" else f"{root}{height}_{image}.png"
+    
+        # self.__image_path = lambda image, root_dir=self.support_dir, height=self.height : f"{root_dir}{height}_{image}.png" if sys.platform == "win32" else f"{root}{height}_{image}.png"
 
         # Resolutions for for padding
         self.reso_16 = [
@@ -29,8 +30,14 @@ class BotUtils:
             { "width": 2560, "height": 1440 },
             { "width": 3840, "height": 2160 }
         ]
-    
-    def get_resource_dir(path):
+
+    def __image_path(self, image):
+        Support_files_path = "Support_files\\" if sys.platform == "win32" else "Support_files/"
+        root_dir = self.get_resource_dir(Support_files_path)
+
+        return f"{root_dir}{self.height}_{image}.png" if sys.platform == "win32" else f"{root}{self.height}_{image}.png"
+
+    def get_resource_dir(self, path):
         return os.path.join(os.path.dirname(__file__), path)
 
 
@@ -165,7 +172,7 @@ class BotUtils:
 
             return True if pyautogui.locateOnScreen(path, confidence=confidence) is not None else False
         except Exception as e:
-            print(e)
+            raise Exception(e)
 
     # Different methods for different checks all wraps over __find()
     def menu_check(self):
