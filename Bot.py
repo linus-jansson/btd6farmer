@@ -1,4 +1,3 @@
-import pyautogui
 import time
 import numpy as np
 import sys
@@ -21,7 +20,6 @@ class Bot(BotCore):
         
         # Change to current Directory
         # Change to: https://github.com/rr-/screeninfo
-        self.width, self.height = pyautogui.size()
 
         self.start_time = time.time()
         self.running = True
@@ -30,7 +28,7 @@ class Bot(BotCore):
         self.game_start_time = time.time()
 
         # When mouse is moved to (0, 0)
-        pyautogui.FAILSAFE = True
+        # pyautogui.FAILSAFE = True
 
     def initilize(self):
         if self.DEBUG:
@@ -294,9 +292,10 @@ class Bot(BotCore):
         self.click(self.settings["GAMEMODE"]) # Select Gamemode
         self.click("OVERWRITE_SAVE")
 
+        time.sleep(3) # wait for loading screen
+
         # Only need to press confirm button if we play chimps or impoppable
         if self.settings["GAMEMODE"] == "CHIMPS" or self.settings["GAMEMODE"] == "IMPOPPABLE":
-            time.sleep(3) # wait for loading screen
             self.click(self.settings["DIFFICULTY"])
             self.click("CONFIRM_CHIMPS")
 
