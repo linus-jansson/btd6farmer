@@ -18,9 +18,6 @@ class Bot(BotCore):
     def __init__(self, instruction_path, debug_mode=False, verbose_mode=False):
         super().__init__(instruction_path)
         
-        # Change to current Directory
-        # Change to: https://github.com/rr-/screeninfo
-
         self.start_time = time.time()
         self.running = True
         self.DEBUG = debug_mode
