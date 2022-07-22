@@ -1,14 +1,4 @@
 import time
-import numpy as np
-import sys
-
-# Temporary until handleInstrucion is fixed
-import mouse
-
-import pytesseract
-
-if sys.platform == "win32":
-    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 import static
 

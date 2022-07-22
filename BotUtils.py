@@ -1,5 +1,4 @@
 import sys
-import pyautogui
 import time
 import keyboard
 import mouse
@@ -9,6 +8,10 @@ import os
 import numpy as np
 import cv2
 import pytesseract
+
+if sys.platform == "win32":
+    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+
 import re
 import mss
 
