@@ -14,9 +14,6 @@ class Bot(BotCore):
         self.VERBOSE = verbose_mode
         self.game_start_time = time.time()
 
-        # When mouse is moved to (0, 0)
-        # pyautogui.FAILSAFE = True
-
     def initilize(self):
         if self.DEBUG:
             self.log("RUNNING IN DEBUG MODE, DEBUG FILES WILL BE GENERATED")
