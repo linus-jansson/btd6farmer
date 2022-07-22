@@ -12,9 +12,22 @@ import pytesseract
 import re
 import mss
 
+import ctypes
+
 class BotUtils:
     def __init__(self):
-        self.width, self.height = pyautogui.size()
+        # Gets the main monitor resolution
+        try:
+            if sys.platform == "win32":
+                self.width, self.height = ctypes.windll.user32.GetSystemMetrics(0), ctypes.windll.user32.GetSystemMetrics(1)
+            else:
+                raise Exception("Platform not supported yet")
+        except Exception as e:
+            raise Exception("Could not retrieve monitor resolution the system")
+        # finally: 
+        #     if self.DEBUG:
+        #         self.log(f"Monitor resolution: {self.width}x{self.height}")
+        
 
         self.Support_files_path = "Support_files\\" if sys.platform == "win32" else "Support_files/"
         
@@ -39,31 +52,36 @@ class BotUtils:
         # Change to https://stackoverflow.com/questions/66334737/pytesseract-is-very-slow-for-real-time-ocr-any-way-to-optimise-my-code 
         # or https://www.reddit.com/r/learnpython/comments/kt5zzw/how_to_speed_up_pytesseract_ocr_processing/
 
-        top, left = self._scaling([1850, 35])
-        width, height = [225, 65]
+        # The screen part to capture
+        top, left = self._scaling([35, 1850])
+        width, length = [225, 65]
         
-        # TODO: change to mss
-        img = pyautogui.screenshot(region=(top, left, width, height))
+        monitor = {'top': top, 'left': left, 'width': width, 'height': length}
+        # print("region", monitor)
 
-        numpyImage = np.array(img)
+        # Take Screenshot
+        with mss.mss() as sct:
+            screenshot = np.array(sct.grab(monitor), dtype=np.uint8)
+            
+            # Load the image as a opencv object
+            gray_scale_image = self._load_img(screenshot) 
 
-        # Make image grayscale using opencv
-        greyImage = cv2.cvtColor(numpyImage, cv2.COLOR_BGR2GRAY)
+            # https://docs.opencv.org/3.4/d7/d4d/tutorial_py_thresholding.html
+            # We do this to hopefully improve the OCR accuracy
+            final_image = cv2.threshold(gray_scale_image, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
 
-        # Threasholding
-        final_image = cv2.threshold(greyImage, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
-    
-        # Get current round from image with tesseract
-        text = pytesseract.image_to_string(final_image,  config='--psm 7').replace("\n", "")
+            # Get current round from screenshot with tesseract
+            found_text = pytesseract.image_to_string(final_image,  config='--psm 7').replace("\n", "")
 
-        # if self.DEBUG:
-            # print(f"Found round text: {text}")
+            if self.DEBUG:
+                print(f"Found round text: {found_text}")  
+                # cv2.imshow("Screenshot image", screenshot)
 
-        # regex to look for format [[:digit:]]/[[:digit:]] if not its not round, return None
-        if re.search(r"(\d+/\d+)", text):
-            return int(text.split("/")[0])
-        else:
-            return None
+
+            if re.search(r"(\d+/\d+)", found_text):
+                return int(found_text.split("/")[0])
+            else:
+                return None
 
     def _move_mouse(self, location):
         pyautogui.moveTo(location)
@@ -94,15 +112,6 @@ class BotUtils:
         for _ in range(amount):
             keyboard.send(key)
             time.sleep(timeout)
-    
-    def debug_result(self, imgObj, templateObj, result):
-        # cv2.imshow("resulting heatmap of image and template", result) # DEBUG
-
-        cv2.imshow("Image", imgObj)
-        cv2.imshow("Template", templateObj)
-
-        cv2.waitKey()
-        cv2.destroyAllWindows()
 
     # Different methods for different checks all wraps over _find()
     def menu_check(self):
@@ -133,14 +142,14 @@ class BotUtils:
     def _find(self, path, confidence=0.9, return_cords=False):
         try:
             if return_cords:
-                cords = pyautogui.locateOnScreen(path, confidence=confidence)
+                cords = self._locate(path, confidence=confidence)
                 if cords is not None:
                     left, top, width, height = cords
                     return (left + width // 2, top + height // 2) # Return middle of found image   
                 else:
                     return None
 
-            return True if pyautogui.locateOnScreen(path, confidence=confidence) is not None else False
+            return True if self._locate(path, confidence=confidence) is not None else False
         except Exception as e:
             raise Exception(e)
 
@@ -169,7 +178,9 @@ class BotUtils:
         y = y * self.height
         x = x + self._padding() # Add's the pad to to the curent x position variable
 
-        return (x, y)
+        return (int(x), int(y))
+        # return (x,y)
+
 
     def _padding(self):
         """
@@ -209,9 +220,7 @@ class BotUtils:
             # http://docs.opencv.org/3.0-beta/modules/imgcodecs/doc/reading_and_writing_images.html
             img_cv = cv2.imread(img, cv2.IMREAD_GRAYSCALE)
             if img_cv is None:
-                raise IOError("Failed to read %s because file is missing, "
-                            "has improper permissions, or is an "
-                            "unsupported or invalid format" % img)
+                raise IOError(f"Failed to read {img} because file is missing, has improper permissions, or is an unsupported or invalid format")
         elif isinstance(img, np.ndarray):
             img_cv = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             # don't try to convert an already-gray image to gray
@@ -230,13 +239,21 @@ class BotUtils:
 
 
     def _locate_all(self, template_path, confidence=0.9, limit=100, region=None):
-        # sc tool: https://pypi.org/project/mss/
-        # https://github.com/asweigart/pyscreeze/blob/b693ca9b2c964988a7e924a52f73e15db38511a8/pyscreeze/__init__.py#L184
+        """
+            Template matching a method to match a template to a screenshot taken with mss.
+            
+            @template_path - Path to the template image
+            @confidence - A threshold value between {> 0.0f & < 1.0f} (Defaults to 0.9f)
 
-        # Take a screenshot of the screen and save to a temporary variable
-        # screenshot = pyautogui.screenshot()
+            credit: https://github.com/asweigart/pyscreeze/blob/b693ca9b2c964988a7e924a52f73e15db38511a8/pyscreeze/__init__.py#L184
+
+            Returns a list of cordinates to where openCV found matches of the template on the screenshot taken
+        """
 
         monitor = {'top': 0, 'left': 0, 'width': self.width, 'height': self.height} if region is None else region
+
+        if  0.0 > confidence <= 1.0:
+            raise ValueError("Confidence must be a value between 0.0 and 1.0")
 
         with mss.mss() as sct:
 
@@ -253,12 +270,7 @@ class BotUtils:
             # Load the template image
             template = self._load_img(template_path)
 
-            print(type((template)), type(screenshot))
-
             confidence = float(confidence)
-
-            # DEBUG works
-            # template = screenshot[30:400, 30:400]
 
             # width & height of the template
             templateHeight, templateWidth = template.shape[:2]
@@ -268,38 +280,29 @@ class BotUtils:
             result = cv2.matchTemplate(screenshot, template, cv2.TM_CCOEFF_NORMED)    # heatmap of the template and the screenshot"
             match_indices = np.arange(result.size)[(result > confidence).flatten()]
             matches = np.unravel_index(match_indices[:limit], result.shape)
-            # print(f"len(yloc) = {len(locations[0])}, \nlen(xloc) = {len(locations[1])}, \nlista på kordinater: {[ [x,y] for x, y in zip(*locations[::-1]) ]}") # längden och listan på resulterande kordinater
             
+            # Defining the coordinates of the matched region
             matchesX = matches[1] * 1 + region[0]
             matchesY = matches[0] * 1 + region[1]
 
             # for x, y in zip(matchesX, matchesY):
             #     cv2.rectangle(screenshot, (x, y), (x + templateWidth, y + templateHeight), (0, 0, 255), 10)
-
-            # self.debug_result(screenshot, template, result)
+            # cv2.imshow("Image", screenshot)
+            # cv2.imshow("Template", template)
+            # cv2.waitKey()
+            # cv2.destroyAllWindows()
 
             if len(matches[0]) == 0:
                 return None
             else:
-                # return the cords of the image if found else None
-                # for x, y in zip(matchesX, matchesY):
-                #     yield (x, y, templateWidth, templateHeight)
-                
                 return [ (x, y, templateWidth, templateHeight) for x, y in zip(matchesX, matchesY) ]
 
     def _locate(self, template_path, confidence=0.9, tries=1):
         """
-            Template matching a method to match a template to a image.
-            
-            @template_path - Path to the template image
-            @confidence - A threshold value between {> 0.0f & < 1.0f} (Defaults to 0.9f)
-
-            Returns a list of cordinates to where openCV found matches of the template on the screenshot taken
+            Locates a template on the screen.
         """
-        
         result = self._locate_all(template_path, confidence)
         return result[0] if result is not None else None
-
 
 
 if __name__ == "__main__":
