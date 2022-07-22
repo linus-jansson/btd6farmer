@@ -11,7 +11,7 @@ class BotLog:
             "Uptime": 0
         }
 
-    def __handle_time(self, ttime):
+    def _handle_time(self, ttime):
         """
             Converts seconds to appropriate unit
         """
@@ -66,7 +66,7 @@ class BotLog:
         data["total_time"] += match_time
         
         # average = total_time / total_matches_played
-        average_converted, unit = self.__handle_time(data["average_matchtime_seconds"])
+        average_converted, unit = self._handle_time(data["average_matchtime_seconds"])
         
         # Push average to dictionary
         data["average_matchtime"] = f"{round(average_converted, 3)} {unit}"
