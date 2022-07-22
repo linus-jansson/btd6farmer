@@ -10,6 +10,7 @@ import numpy as np
 import cv2
 import pytesseract
 import re
+import mss
 
 class BotUtils:
     def __init__(self):
@@ -228,58 +229,65 @@ class BotUtils:
         return img_cv
 
 
-    def _locate_all(self, template_path, confidence=0.999, limit=100, region=None):
+    def _locate_all(self, template_path, confidence=0.9, limit=100, region=None):
         # sc tool: https://pypi.org/project/mss/
         # https://github.com/asweigart/pyscreeze/blob/b693ca9b2c964988a7e924a52f73e15db38511a8/pyscreeze/__init__.py#L184
 
         # Take a screenshot of the screen and save to a temporary variable
-        screenshot = pyautogui.screenshot()
-        screenshot = self._load_img(screenshot)
+        # screenshot = pyautogui.screenshot()
 
-        if region:
-            screenshot = screenshot[region[1]:region[1]+region[3],
-                                    region[0]:region[0]+region[2]
-                                    ]
-        else:
-            region = (0, 0)
-        # Load the template image
-        template = self._load_img(template_path)
+        monitor = {'top': 0, 'left': 0, 'width': self.width, 'height': self.height} if region is None else region
 
-        print(type((template)), type(screenshot))
+        with mss.mss() as sct:
 
-        confidence = float(confidence)
+            # Load the taken screenshot into a opencv img object
+            img = np.array(sct.grab(monitor))
+            screenshot = self._load_img(img) 
 
-        # DEBUG works
-        # template = screenshot[30:400, 30:400]
+            if region:
+                screenshot = screenshot[region[1]:region[1]+region[3],
+                                        region[0]:region[0]+region[2]
+                                        ]
+            else:
+                region = (0, 0)
+            # Load the template image
+            template = self._load_img(template_path)
 
-        # width & height of the template
-        templateHeight, templateWidth = template.shape[:2]
+            print(type((template)), type(screenshot))
 
-        # Find all the matches
-        # https://stackoverflow.com/questions/7670112/finding-a-subimage-inside-a-numpy-image/9253805#9253805
-        result = cv2.matchTemplate(screenshot, template, cv2.TM_CCOEFF_NORMED)    # heatmap of the template and the screenshot"
-        match_indices = np.arange(result.size)[(result > confidence).flatten()]
-        matches = np.unravel_index(match_indices[:limit], result.shape)
-        # print(f"len(yloc) = {len(locations[0])}, \nlen(xloc) = {len(locations[1])}, \nlista på kordinater: {[ [x,y] for x, y in zip(*locations[::-1]) ]}") # längden och listan på resulterande kordinater
-        
-        matchesX = matches[1] * 1 + region[0]
-        matchesY = matches[0] * 1 + region[1]
+            confidence = float(confidence)
 
-        # for x, y in zip(matchesX, matchesY):
-        #     cv2.rectangle(screenshot, (x, y), (x + templateWidth, y + templateHeight), (0, 0, 255), 10)
+            # DEBUG works
+            # template = screenshot[30:400, 30:400]
 
-        # self.debug_result(screenshot, template, result)
+            # width & height of the template
+            templateHeight, templateWidth = template.shape[:2]
 
-        if len(matches[0]) == 0:
-            return None
-        else:
-            # return the cords of the image if found else None
-            # for x, y in zip(matchesX, matchesY):
-            #     yield (x, y, templateWidth, templateHeight)
+            # Find all the matches
+            # https://stackoverflow.com/questions/7670112/finding-a-subimage-inside-a-numpy-image/9253805#9253805
+            result = cv2.matchTemplate(screenshot, template, cv2.TM_CCOEFF_NORMED)    # heatmap of the template and the screenshot"
+            match_indices = np.arange(result.size)[(result > confidence).flatten()]
+            matches = np.unravel_index(match_indices[:limit], result.shape)
+            # print(f"len(yloc) = {len(locations[0])}, \nlen(xloc) = {len(locations[1])}, \nlista på kordinater: {[ [x,y] for x, y in zip(*locations[::-1]) ]}") # längden och listan på resulterande kordinater
             
-            return [ (x, y, templateWidth, templateHeight) for x, y in zip(matchesX, matchesY) ]
+            matchesX = matches[1] * 1 + region[0]
+            matchesY = matches[0] * 1 + region[1]
 
-    def _locate(self, template_path, confidence=0.999, tries=1):
+            # for x, y in zip(matchesX, matchesY):
+            #     cv2.rectangle(screenshot, (x, y), (x + templateWidth, y + templateHeight), (0, 0, 255), 10)
+
+            # self.debug_result(screenshot, template, result)
+
+            if len(matches[0]) == 0:
+                return None
+            else:
+                # return the cords of the image if found else None
+                # for x, y in zip(matchesX, matchesY):
+                #     yield (x, y, templateWidth, templateHeight)
+                
+                return [ (x, y, templateWidth, templateHeight) for x, y in zip(matchesX, matchesY) ]
+
+    def _locate(self, template_path, confidence=0.9, tries=1):
         """
             Template matching a method to match a template to a image.
             
@@ -302,5 +310,5 @@ if __name__ == "__main__":
     time.sleep(2)
     
 
-    res = inst._locate(inst._image_path("obyn"))
+    res = inst._locate(inst._image_path("obyn"), confidence=0.9)
     print(res)
