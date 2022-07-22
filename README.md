@@ -16,17 +16,17 @@ Feel free to make a pull request if you find any improvements or create a issue 
 - [Dependencies](#dependenices) 
 - [Installation](#installation)
 - [Running the bot](#running)
-- [Issues](#issues)
+- [Having issues?](#issues)
 - [Creating your own gameplan](#contributing)
-    - [Setup file](#steup-file)
-    - [Gameplan file](#gameplan-file)
+    - [Setup file](#setup_file)
+    - [Gameplan file](#gameplan_file)
     - [Stats](#stats)
     - [Keyword cheatsheet](#keywords)
-        - [Gamemodes](#credits)
-        - [Difficulties](#credits)
-        - [Maps](#credits)
-        - [Heros](#credits)
-        - [Monkeys](#credits)
+        - [Gamemodes](#gamemodes)
+        - [Difficulties](#difficulties)
+        - [Maps](#maps)
+        - [Heros](#heros)
+        - [Monkeys](#monkeys)
 
 <a name="dependenices"/>
 
@@ -46,7 +46,6 @@ pytesseract==0.3.9
 <a name="installation"/>
 
 ## Installation of dependencies:
-```
 The script relies on tesseract which can be installed using this [this](https://github.com/UB-Mannheim/tesseract/wiki) guide. 
 (*If by any chance the tesseract installation directory is different from the directory specified in bot.py you need to manually change that in the script. Otherwise the bot will not work!*)
 
@@ -68,8 +67,8 @@ or running `Install_Requirements.bat`
 
 <a name="issues"/>
 
-## Issues
-If you find any bugs or have any suggestions for improvements please create an issue or pull request!
+## Having issues with the bot?
+If you have any issues with the bot, find any bugs or have any suggestions for improvements, please create an issue or create a pull request!
 
 <a name="contributing"/>
 
@@ -80,11 +79,11 @@ __*NOTE: AS THIS IS STILL A WORK IN PROGRESS I MAY CHANGE THE GUIDE AND LAYOUT O
 
 __*I also have plans for the future to make it easier to create gameplans so if you want to wait until you create yours you can wait too*__
 
+<a name="setup_file"/>
+
 ### setup.py
 The setup file is used for the bot to know which hero, map, difficulty and gamemode it should use.
 It should be named `setup.py` and be placed in the same directory as the gameplan.
-
-```py
 
 ```json
 {
@@ -102,11 +101,14 @@ It should be named `setup.py` and be placed in the same directory as the gamepla
 >`VERSION` - Use version 1 for now\
 > `Hero` - Which hero to use *[list of avaliable heros](#heros)*  \
 > `MAP` - Which map to use *[list of avaliable maps](#maps)* \
-> `DIFFICULTY` - Which Difficulty to use *[list of avaliable difficultues](#difficulty)* \
-> `GAMEMODE` - Which Gamemode to use *[list of avaliable Gamemodes](#difficulty)* \
+> `DIFFICULTY` - Which Difficulty to use *[list of avaliable difficultues](#difficulties)* \
+> `GAMEMODE` - Which Gamemode to use *[list of avaliable Gamemodes](#gamemodes)* \
 ###### OPTIONS
 > `COLLECT_BANANAS` - If the bot should automatically pick up bananas from traps and bananafarms \
 > `OPEN_CHEST` - If the bot should automatically open chests if its unopened on the main menu
+
+<a name="gameplan_file"/>
+
 ### instructions.json
 #### Creating the gameplan 
 The gameplan is a json file that contains the round as a key and the value as an array with instructions. The instructions is also a json object:
@@ -140,7 +142,7 @@ May be used in the future to make it easier
 
 ```
 >`3` - is the round number that the instruction is supposed to be executed on\
-> `TOWER` - Tower name in file \
+> `TOWER` - Monkey name in file *[list of avaliable Towers](#monkeys)* \
 > `UPGRADE` - Which path to upgrade `top-middle-bottom` the monkey \
 > `TARGET` - What target the tower should use `[ "FIRST", "LAST", "CLOSE", "STRONG" ]` for regular towers and `[ "NORMAL", "CLOSE", "FAR", "SMART" ]` for the spike factory \
 > `TARGET_POS` - The position of a static target like a Mortar  \
@@ -199,18 +201,22 @@ Run it in a terminal and copy the decired position into the gameplan.
 |6-100 (Impoppable/CHIMPS)|231 150|254 265|277 380|300 495|
 
 <a name="keywords"/>
+
 #### Keyword cheatsheet for the setup file and the gameplan
 
+<a name="gamemodes"/>
 <details>
 <summary>Gamemodes</summary>
 TODO
 </details>
 
+<a name="difficulties"/>
 <details>
 <summary>Difficulties</summary>
 TODO
 </details>
 
+<a name="maps"/>
 <details>
 <summary>Maps</summary>
 
@@ -279,6 +285,7 @@ TODO
 
 </details>
 
+<a name="heros"/>
 <details>
 <summary>Heros</summary>
 
@@ -301,6 +308,7 @@ TODO
 
 </details>
 
+<a name="monkeys"/>
 <details>
 <summary>Monkeys</summary>
 
