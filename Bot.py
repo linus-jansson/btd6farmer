@@ -50,6 +50,8 @@ class Bot(BotCore):
             # Check for levelup or insta monkey (level 100)
             if self.levelup_check() or self.insta_monkey_check():
                 self.click(middle_of_screen, amount=2)
+            elif self.monkey_knowledge_check():
+                self.click(middle_of_screen, amount=1)
 
             # Check for finished or failed game
             if self.defeat_check():
@@ -73,7 +75,7 @@ class Bot(BotCore):
                 finished = True
                 self.reset_game_plan()
                 continue
-
+            
             current_round = self.getRound()
 
             if current_round != None:
@@ -267,8 +269,8 @@ class Bot(BotCore):
         else:
             self.click("DEFEAT_HOME")
             time.sleep(2)
-
-        time.sleep(4)
+        
+        self.wait_for_loading() # wait for loading screen
 
     def select_map(self):
         map_page = static.maps[self.settings["MAP"]][0]
@@ -282,19 +284,29 @@ class Bot(BotCore):
         self.click("BEGINNER_SELECTION") # goto first page
 
         # click to the right page
-        self.click("RIGHT_ARROW_SELECTION", amount=(map_page))
+        self.click("RIGHT_ARROW_SELECTION", amount=(map_page), timeout=0.1)
 
         self.click("MAP_INDEX_" + str(map_index)) # Click correct map
         self.click(self.settings["DIFFICULTY"]) # Select Difficulty
         self.click(self.settings["GAMEMODE"]) # Select Gamemode
         self.click("OVERWRITE_SAVE")
 
-        time.sleep(3) # wait for loading screen
+        self.wait_for_loading() # wait for loading screen
 
         # Only need to press confirm button if we play chimps or impoppable
         if self.settings["GAMEMODE"] == "CHIMPS" or self.settings["GAMEMODE"] == "IMPOPPABLE":
             self.click(self.settings["DIFFICULTY"])
             self.click("CONFIRM_CHIMPS")
+    
+    def wait_for_loading(self):
+        still_loading = True
+
+        while still_loading:
+            if self.DEBUG:
+                self.log("Waiting for loading screen..")
+            
+            time.sleep(0.2)
+            still_loading = self.loading_screen_check()
 
 if __name__ == "__main__":
     # For testing purposes; open sandbox on dark castle and run Bot.py will place every tower
