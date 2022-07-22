@@ -1,5 +1,6 @@
 {
-    "HERO": "obyn",
+    "VERSION": "1.0",
+    "HERO": "OBYN",
     "MAP": "DARK_CASTLE",
     "DIFFICULTY": "HARD_MODE",
     "GAMEMODE": "STANDARD_GAME_MODE"
