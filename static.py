@@ -29,20 +29,6 @@ button_positions = { # Creates a dictionary of all positions needed for monkeys 
     "EASTER_EXIT" : [100, 93],
     "QUIT_HOME" : [1126, 1135],
     "HERO_SELECT" : [799, 1272],
-    "obyn" : [106, 532],
-    "geraldo" : [306, 532],
-    "captain_churchill" : [506, 532],
-    "striker_jones" : [506, 232],
-    "gwendolin" : [306, 232],
-    "quincy" : [106, 232],
-    "pat_fusty" : [506, 832],
-    "ezili" : [306, 832],
-    "benjamin" : [106, 832],
-    "etienne" : [506, 1132],
-    "admiral_brickell" : [306, 1132],
-    "adora" : [106, 1132],
-    "sauda" : [106, 1332],
-    "psi" : [306, 1332],
     "CONFIRM_HERO" : [1505, 824],
     "TARGET_BUTTON_MORTAR": [1909, 491],
     "ABILLITY_ONE": [253, 1379],
@@ -51,6 +37,24 @@ button_positions = { # Creates a dictionary of all positions needed for monkeys 
     "OK_MIDDLE" : [1280, 1003],
     "RESTART": [1413, 1094],
     "CONFIRM_CHIMPS" : [1481, 980]
+}
+
+hero_positions = {
+    "OBYN" : [106, 532],
+    "GERALDO" : [306, 532],
+    "CAPTAIN_CHURCHILL" : [506, 532],
+    "STRIKER_JONES" : [506, 232],
+    "GWENDOLIN" : [306, 232],
+    "QUINCY" : [106, 232],
+    "PAT_FUSTY" : [506, 832],
+    "EZILI" : [306, 832],
+    "BENJAMIN" : [106, 832],
+    "ETIENNE" : [506, 1132],
+    "ADMIRAL_BRICKELL" : [306, 1132],
+    "ADORA" : [106, 1132],
+    "SAUDA" : [106, 1332],
+    "PSI" : [306, 1332],
+    "GERALDO": [333, 533]
 }
 
 tower_keybinds = {
