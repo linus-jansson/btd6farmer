@@ -1,3 +1,6 @@
+_test*.py
+testscripts/*
+
 stats.json
 # IDE
 .vscode/
