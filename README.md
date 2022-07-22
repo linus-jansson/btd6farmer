@@ -1,7 +1,7 @@
 # btd6farmer
 [![Python application](https://github.com/linus-jansson/btd6farmer/actions/workflows/check_bot.yml/badge.svg?branch=main)](https://github.com/linus-jansson/btd6farmer/actions/workflows/check_bot.yml)
 \
-v0.1
+v1.0.0
 ## Inspired from [RavingSmurfGB](https://github.com/RavingSmurfGB/Py_AutoBloons), some functions is taken from that repository.
 
 This python bot will farm a level (dark castle on hard mode by default) in BTD 6. It uses tesseract to find the current level and is able to navigate autonomously after start.
