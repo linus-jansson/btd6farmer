@@ -68,21 +68,16 @@ class BotUtils:
             # Get current round from screenshot with tesseract
             found_text = pytesseract.image_to_string(final_image,  config='--psm 7').replace("\n", "")
 
-            if self.DEBUG:
-                print(f"Found round text: {found_text}")  
-                # cv2.imshow("Screenshot image", screenshot)
-
-
             if re.search(r"(\d+/\d+)", found_text):
                 return int(found_text.split("/")[0])
             else:
                 return None
 
     def _move_mouse(self, location):
-        pyautogui.moveTo(location)
+        mouse.move(x=location[0], y=location[1])
         time.sleep(0.1)
 
-    def click(self, location: tuple | tuple, amount=1):
+    def click(self, location: tuple | tuple, amount=1, timeout=0.1, press_time=0.075):
         """
             Method to click on a specific location on the screen
         """
@@ -96,10 +91,10 @@ class BotUtils:
 
         for _ in range(amount):
             mouse.press(button='left')
-            time.sleep(0.075) # https://www.reddit.com/r/AskTechnology/comments/4ne2tv/how_long_does_a_mouse_click_last/ TLDR; DONT CLICK TO FAST as shit will break
+            time.sleep(press_time) # https://www.reddit.com/r/AskTechnology/comments/4ne2tv/how_long_does_a_mouse_click_last/ TLDR; dont click too fast otherwise shit will break
             mouse.release(button='left')
-            
-        time.sleep(0.075)
+
+        time.sleep(timeout)
 
     def press_key(self, key, timeout=0.1, amount=1):
         for _ in range(amount):
@@ -113,6 +108,9 @@ class BotUtils:
     def insta_monkey_check(self):
         return self._find( self._image_path("instamonkey") )
 
+    def monkey_knowledge_check(self):
+        return self._find( self._image_path("monkey_knowledge") )
+
     def victory_check(self):
         return self._find( self._image_path("victory") )
 
@@ -125,6 +123,9 @@ class BotUtils:
     def hero_check(self, heroString):
         return self._find( self._image_path(heroString)  )
 
+    def loading_screen_check(self):
+        return self._find( self._image_path("loading_screen") )
+
     def collection_event_check(self):
         return self._find(self._image_path("diamond_case") )
 
@@ -133,6 +134,7 @@ class BotUtils:
 
     # Generic function to see if something is present on the screen
     def _find(self, path, confidence=0.9, return_cords=False):
+
         try:
             if return_cords:
                 cords = self._locate(path, confidence=confidence)
@@ -141,8 +143,8 @@ class BotUtils:
                     return (left + width // 2, top + height // 2) # Return middle of found image   
                 else:
                     return None
-
             return True if self._locate(path, confidence=confidence) is not None else False
+
         except Exception as e:
             raise Exception(e)
 
