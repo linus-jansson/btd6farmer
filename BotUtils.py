@@ -93,81 +93,15 @@ class BotUtils:
         for _ in range(amount):
             keyboard.send(key)
             time.sleep(timeout)
-
-    # TODO: Stop using pyautogui
-    def locate(self, template_path, confidence=0.9, tries=1):
-        """
-            Method to match a template to a image.
-            
-            @template_path - Path to the template image
-            @confidence - A threshold value between {> 0.0f & < 1.0f} (Defaults to 0.9f)
-
-            Returns a list of cordinates to where openCV found matches of the template on the screenshot taken
-        """
-        # sc tool: https://pypi.org/project/mss/
-
-        # Take a screenshot of the screen and save to a temporary variable
-        screenshot = pyautogui.screenshot()
-        screenshot = np.array(screenshot)
-        # using opencv, find the img on the screen using the template
-
-        template = cv2.imread(template_path)
-        template = np.array(template)
-        
-        # width & height of the template
-        w = template.shape[0]
-        h = template.shape[1]
-        
-        result = cv2.matchTemplate(screenshot, template, cv2.TM_CCOEFF_NORMED)    # heatmap of the template and the screenshot"
-
-        min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result) # find the max value and location of the heatmap
-        
-        cv2.rectangle(screenshot, max_loc, (max_loc[0] + w, max_loc[1] + h), (0, 0, 255), 1) # draw on image for debugging
-
-        # Find all the matches
-        locations = np.where(result >= confidence) 
-        
-        print(f"max_loc {max_loc}, max_val {max_val}")
-        # print(f"threshold {confidence}, template match result -> \n {result}")
-        print(f"len(yloc) = {len(locations[0])}, \nlen(xloc) = {len(locations[1])}, \nlista på kordinater: {[ [x,y] for x, y in zip(*locations[::-1]) ]}") # längden och listan på resulterande kordinater
-    
-        # DBUG: ritar ut rektanglar på bild objektet
-        # VARFÖR RITAR DEN BARA UT EN REKTANGEL? på fel ställe??????
-        # for x, y in zip(*locations[::-1]):
-        #     cv2.rectangle(screenshot, (x, y), (x + w, y + h), (0, 0, 255), 1)
-
-        # Visar bild objektet med utritad rektangel
-        self.debug_result(screenshot, template, result)
-
-        # return the cords of the image if found (middle by default) else None
-        if locations is not None:
-            return [ (x, y, w, h) for x, y, w, h in zip(*locations[::-1]) ]
-        else:
-            return None
     
     def debug_result(self, imgObj, templateObj, result):
         # cv2.imshow("resulting heatmap of image and template", result) # DEBUG
 
         cv2.imshow("Image", imgObj)
-        # cv2.imshow("Template", templateObj)
+        cv2.imshow("Template", templateObj)
 
         cv2.waitKey()
         cv2.destroyAllWindows()
-
-    # Generic function to see if something is present on the screen
-    def _find(self, path, confidence=0.9, return_cords=False):
-        try:
-            if return_cords:
-                cords = pyautogui.locateOnScreen(path, confidence=confidence)
-                if cords is not None:
-                    left, top, width, height = cords
-                    return (left + width // 2, top + height // 2) # Return middle of found image   
-                else:
-                    return None
-
-            return True if pyautogui.locateOnScreen(path, confidence=confidence) is not None else False
-        except Exception as e:
-            raise Exception(e)
 
     # Different methods for different checks all wraps over _find()
     def menu_check(self):
@@ -194,6 +128,20 @@ class BotUtils:
     def locate_static_target_button(self):
         return self._find(self._image_path("set_target_button"), return_cords=True)
 
+    # Generic function to see if something is present on the screen
+    def _find(self, path, confidence=0.9, return_cords=False):
+        try:
+            if return_cords:
+                cords = pyautogui.locateOnScreen(path, confidence=confidence)
+                if cords is not None:
+                    left, top, width, height = cords
+                    return (left + width // 2, top + height // 2) # Return middle of found image   
+                else:
+                    return None
+
+            return True if pyautogui.locateOnScreen(path, confidence=confidence) is not None else False
+        except Exception as e:
+            raise Exception(e)
 
     # Scaling functions for different resolutions support
     def _scaling(self, pos_list):
@@ -243,15 +191,116 @@ class BotUtils:
 
         return padding
 
+    def _load_img(self, img):
+        """
+        TODO
+        """
+        # load images if given filename, or convert as needed to opencv
+        # Alpha layer just causes failures at this point, so flatten to RGB.
+        # RGBA: load with -1 * cv2.CV_LOAD_IMAGE_COLOR to preserve alpha
+        # to matchTemplate, need template and image to be the same wrt having alpha
+        
+        if isinstance(img, (str)):
+            # The function imread loads an image from the specified file and
+            # returns it. If the image cannot be read (because of missing
+            # file, improper permissions, unsupported or invalid format),
+            # the function returns an empty matrix
+            # http://docs.opencv.org/3.0-beta/modules/imgcodecs/doc/reading_and_writing_images.html
+            img_cv = cv2.imread(img, cv2.IMREAD_GRAYSCALE)
+            if img_cv is None:
+                raise IOError("Failed to read %s because file is missing, "
+                            "has improper permissions, or is an "
+                            "unsupported or invalid format" % img)
+        elif isinstance(img, np.ndarray):
+            img_cv = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            # don't try to convert an already-gray image to gray
+            # if grayscale and len(img.shape) == 3:  # and img.shape[2] == 3:
+            # else:
+            #     img_cv = img
+        elif hasattr(img, 'convert'):
+            # assume its a PIL.Image, convert to cv format
+            img_array = np.array(img.convert('RGB'))
+            img_cv = img_array[:, :, ::-1].copy()  # -1 does RGB -> BGR
+            img_cv = cv2.cvtColor(img_cv, cv2.COLOR_BGR2GRAY)
+        else:
+            raise TypeError('expected an image filename, OpenCV numpy array, or PIL image')
+        
+        return img_cv
+
+
+    def _locate_all(self, template_path, confidence=0.999, limit=100, region=None):
+        # sc tool: https://pypi.org/project/mss/
+        # https://github.com/asweigart/pyscreeze/blob/b693ca9b2c964988a7e924a52f73e15db38511a8/pyscreeze/__init__.py#L184
+
+        # Take a screenshot of the screen and save to a temporary variable
+        screenshot = pyautogui.screenshot()
+        screenshot = self._load_img(screenshot)
+
+        if region:
+            screenshot = screenshot[region[1]:region[1]+region[3],
+                                    region[0]:region[0]+region[2]
+                                    ]
+        else:
+            region = (0, 0)
+        # Load the template image
+        template = self._load_img(template_path)
+
+        print(type((template)), type(screenshot))
+
+        confidence = float(confidence)
+
+        # DEBUG works
+        # template = screenshot[30:400, 30:400]
+
+        # width & height of the template
+        templateHeight, templateWidth = template.shape[:2]
+
+        # Find all the matches
+        # https://stackoverflow.com/questions/7670112/finding-a-subimage-inside-a-numpy-image/9253805#9253805
+        result = cv2.matchTemplate(screenshot, template, cv2.TM_CCOEFF_NORMED)    # heatmap of the template and the screenshot"
+        match_indices = np.arange(result.size)[(result > confidence).flatten()]
+        matches = np.unravel_index(match_indices[:limit], result.shape)
+        # print(f"len(yloc) = {len(locations[0])}, \nlen(xloc) = {len(locations[1])}, \nlista på kordinater: {[ [x,y] for x, y in zip(*locations[::-1]) ]}") # längden och listan på resulterande kordinater
+        
+        matchesX = matches[1] * 1 + region[0]
+        matchesY = matches[0] * 1 + region[1]
+
+        # for x, y in zip(matchesX, matchesY):
+        #     cv2.rectangle(screenshot, (x, y), (x + templateWidth, y + templateHeight), (0, 0, 255), 10)
+
+        # self.debug_result(screenshot, template, result)
+
+        if len(matches[0]) == 0:
+            return None
+        else:
+            # return the cords of the image if found else None
+            # for x, y in zip(matchesX, matchesY):
+            #     yield (x, y, templateWidth, templateHeight)
+            
+            return [ (x, y, templateWidth, templateHeight) for x, y in zip(matchesX, matchesY) ]
+
+    def _locate(self, template_path, confidence=0.999, tries=1):
+        """
+            Template matching a method to match a template to a image.
+            
+            @template_path - Path to the template image
+            @confidence - A threshold value between {> 0.0f & < 1.0f} (Defaults to 0.9f)
+
+            Returns a list of cordinates to where openCV found matches of the template on the screenshot taken
+        """
+        
+        result = self._locate_all(template_path, confidence)
+        return result[0] if result is not None else None
+
 
 
 if __name__ == "__main__":
     import time
 
     inst = BotUtils()
-    print("sleeping for 5 secs")
-    time.sleep(5)
+    print("sleeping for 2 secs")
+    time.sleep(2)
     
 
-    res = inst.locate(inst.print_hero('obyn'))
+    res = inst._locate(inst._image_path("obyn"))
     print(res)
