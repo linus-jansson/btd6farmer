@@ -1,0 +1,11 @@
+{
+    "3": [
+        {
+            "INSTRUCTION_TYPE": "PLACE_TOWER",
+            "ARGUMENTS": {
+                "TOWER": "SUBMARINE",
+                "POSITION": [ "x", "y" ]
+            }
+        }
+    ]
+}

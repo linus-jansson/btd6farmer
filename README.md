@@ -112,42 +112,45 @@ It should be named `setup.py` and be placed in the same directory as the gamepla
 ### instructions.json
 #### Creating the gameplan 
 The gameplan is a json file that contains the round as a key and the value as an array with instructions. The instructions is also a json object:
-<!--
-May be used in the future to make it easier
- ```json
-{
-    "INSTRUCTION": "MOVE_TO",
-    "ARGUMENTS": [
-        "x",
-        "y"
-    ]
-}
-``` -->
+
 #### instructions.json example
 ```json
 {
-  "45": [
-    {
-      "TOWER": "DART",
-      "UPGRADE": "2-0-3",
-      "UPGRADE_DIFF": null,
-      "TARGET": null,
-      "TARGET_POS": null,
-      "POSITION": [0, 0],
-      // This should be automatic. Different gamemodes have different rounds it starts on.
-      "ROUND_START": false 
-    },
-  ]
+    "3": [
+        {
+            "INSTRUCTION_TYPE": "PLACE_TOWER",
+            "ARGUMENTS": {
+                "TOWER": "TOWER_TYPE",
+                "POSITION": [ "x", "y" ]
+            }
+        },
+        {
+            "INSTRUCTION_TYPE": "START",
+            "ARGUMENTS": {
+                "FAST_FORWARD": true,
+            }
+        }
+    ]
 }
 
 ```
->`3` - is the round number that the instruction is supposed to be executed on\
-> `TOWER` - Monkey name in file *[list of avaliable Towers](#monkeys)* \
-> `UPGRADE` - Which path to upgrade `top-middle-bottom` the monkey \
-> `TARGET` - What target the tower should use `[ "FIRST", "LAST", "CLOSE", "STRONG" ]` for regular towers and `[ "NORMAL", "CLOSE", "FAR", "SMART" ]` for the spike factory \
-> `TARGET_POS` - The position of a static target like a Mortar  \
-> `POSITION` - The position of the monkey is placed eg `[1454, 578]` \
-> `ROUND_START` - If the round should start with this instruction [can be `true` or `false`]
+    # PLACE_TOWER
+        # TOWER_TYPE - Type of target
+        # POSITION - (x, y) position of tower to be placed
+    # UPGRADE_TOWER
+        # LOCATION
+        # UPGRADE_PATH
+    # CHANGE_TARGET
+        # LOCATION location of twoer
+        # TARGET - targget or targets
+        # TYPE - spike or regular
+        # DELAY - (optional) delay between each target change
+    # SET_STATIC_TARGET
+        # LOCATION
+        # TARGET LOCATION
+    # START - start the game
+        # (optional) FAST_FORWARD - speed of the game
+
 
 An instruction array in a round can have multiple objects that will be executed after each other. for example:
 ```json

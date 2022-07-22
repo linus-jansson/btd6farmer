@@ -1,4 +1,5 @@
 import time
+from turtle import delay, pos, position
 
 import static
 
@@ -82,7 +83,12 @@ class Bot(BotCore):
                     # Handle all instructions in current round
                     for instruction in self.game_plan[str(current_round)]:
                         if not "DONE" in instruction:
-                            self.handleInstruction(instruction)
+
+                            if self._game_plan_version == "1":
+                                self.v1_handleInstruction(instruction)
+                            else:
+                                raise Exception("Game plan version {} not supported".format(self._game_plan_version))
+
                             instruction["DONE"] = True
 
                             if self.DEBUG:
@@ -114,7 +120,7 @@ class Bot(BotCore):
         
         self.press_key("esc")
 
-    def change_target(self, tower_name, tower_position, targets):
+    def change_target(self, tower_type, tower_position, targets, delay=3):
         # target_array = targets.split(", ")
         
         self.click(tower_position)
@@ -125,7 +131,7 @@ class Bot(BotCore):
         for i in targets:
             
             # Math to calculate the difference between current target index and next target index
-            if "SPIKE" in tower_name:
+            if "SPIKE" in tower_type:
                 target_diff = abs((static.target_order_spike.index(i)) - current_target_index)
             else:
                 target_diff = abs((static.target_order_regular.index(i)) - current_target_index)
@@ -136,10 +142,10 @@ class Bot(BotCore):
                 current_target_index = n
                 self.press_key("tab")
 
-            # Used for microing if length of target array is longer than 1 
+            # Used for macroing if length of target array is longer than 1 
             # and the last item of the array is not == to current target
             if len(targets) > 1 and targets[-1] != i:
-                time.sleep(3) # TODO: specify this in the game plan
+                time.sleep(delay)
 
         self.press_key("esc")
 
@@ -153,47 +159,74 @@ class Bot(BotCore):
 
         self.press_key("esc")
 
-    def handleInstruction(self, instruction):
-        upgrade_path = instruction["UPGRADE_DIFF"]
-        monkey_position = instruction["POSITION"]
-        target = instruction["TARGET"]
-        keybind = static.tower_keybinds[instruction["TOWER"]]
+    def v1_handleInstruction(self, instruction):
 
-        # if upgrade_path is None the tower isn't placed yet, so place it
-        if upgrade_path is None:
-            self.place_tower(monkey_position, keybind)
+        # instruction types 
+        # PLACE_TOWER
+            # TOWER_TYPE - Type of target
+            # POSITION - (x, y) position of tower to be placed
+        # UPGRADE_TOWER
+            # LOCATION
+            # UPGRADE_PATH
+        # CHANGE_TARGET
+            # LOCATION location of twoer
+            # TARGET - targget or targets
+            # TYPE - spike or regular
+            # DELAY - (optional) delay between each target change
+        # SET_STATIC_TARGET
+            # LOCATION
+            # TARGET LOCATION
+        # START - start the game
 
-            if self.DEBUG:
-                self.log("Tower placed:", instruction["TOWER"])
-            
-        else:
-            self.upgrade_tower(monkey_position, upgrade_path)
+        instruction_type = instruction["INSTRUCTION_TYPE"]
 
-            if self.DEBUG:
-                self.log("Upgrading {} to {}; change {}".format(instruction['TOWER'], instruction['UPGRADE'], instruction['UPGRADE_DIFF']))
+        if instruction_type == "PLACE_TOWER":
+            tower = instruction["ARGUMENTS"]["TOWER"]
+            position = instruction["ARGUMENTS"]["POSITION"]
 
-        # If target position is not None
-        # Special case for mortars and towers with static targeting
-        if instruction["TARGET_POS"]:
-            self.set_static_target(monkey_position, instruction["TARGET_POS"])
-            
-            if self.DEBUG:
-                self.log("Monkey static target change", instruction["TOWER"])
+            keybind = static.tower_keybinds[tower]
 
-        if instruction["ROUND_START"]:
-            self.log("Starting first round")
-            self.press_key("space", amount=2)
-            self.game_start_time = time.time()
+            self.place_tower(position, keybind)
 
-        # Change monkey to target (eg strong)
-        if target:
-            self.change_target(instruction["TOWER"], monkey_position, target)
-
-            if self.DEBUG:
-                self.log(f"{instruction['TOWER']} target change to {target}")
-
+            if self.DEBUG or self.VERBOSE:
+                self.log("Tower placed:", tower)
         
-        if self.DEBUG:
+        # Upgrade tower
+        if instruction_type == "UPGRADE_TOWER":
+            position = instruction["ARGUMENTS"]["POSITION"]
+            upgrade_path = instruction["ARGUMENTS"]["UPGRADE_PATH"]
+
+            self.upgrade_tower(position, upgrade_path)
+
+            if self.DEBUG or self.VERBOSE:
+                self.log("Tower upgraded:", instruction["TOWER"])
+        
+        # Change tower target
+        if instruction_type == "CHANGE_TARGET":
+            target_type = instruction["ARGUMENTS"]["TYPE"]
+            position = instruction["ARGUMENTS"]["LOCATION"]
+            target = instruction["ARGUMENTS"]["TARGET"]
+            delay = instruction["ARGUMENTS"]["DELAY"]
+
+            self.change_target(target_type, position, target, delay)
+
+        # Set static target of a tower
+        if instruction_type == "SET_STATIC_TARGET":
+            position = instruction["ARGUMENTS"]["LOCATION"]
+            target_position = instruction["ARGUMENTS"]["TARGET_LOCATION"]
+
+            self.set_static_target(position, target_position)
+        
+        if instruction_type == "START":
+            if instruction["ARGUMENTS"]["FASTFORWARD"]:
+                fastforward = True
+                
+            self.start_first_round(fastforward)
+
+            if self.DEBUG or self.VERBOSE:
+                self.log("First Round Started")
+
+        if self.DEBUG or self.VERBOSE:
             self.log(f"executed instruction:\n{instruction}")
 
 
@@ -204,7 +237,11 @@ class Bot(BotCore):
             m = 3
 
         return (time.time() - last_used) >= (cooldown / m)
-  
+
+    def start_first_round(self):
+        self.press_key("space", amount=2)
+        self.game_start_time = time.time()
+
     def check_for_collection_crates(self):
         if self.collection_event_check():
             if self.DEBUG:
