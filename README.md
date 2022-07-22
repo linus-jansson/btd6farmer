@@ -37,23 +37,8 @@ After installing tesseract the other requirments can be installed with\
 `python -m pip install -r requirements.txt`
 
 ## Running the bot
-1. Open up BTD 6 and run the main.py script in the command line with `py <location of script>/main.py <directory to gameplan>` or run `run.bat` to run with the default settings
+1. Open up BTD 6 and run the main.py script in the command line with `py <location of script>/main.py <directory to gameplan>` or run `run.bat` to run with the default settings and gameplan.
 2. Navigate to the homescreen of BTD 6 within 5 seconds of starting the script.
-
-## Ingame monkey requirments
-|Monkey|Upgrade|
-|--|--|
-|Monkey Submarine|2-0-3|
-|Dart Monkey|0-0-2|
-|Sniper| 4-0-2 |
-|Spike factory| 0-2-5 & 4-2-0|
-|Monkey village|2-0-2|
-|Boomerang|0-2-4|
-|Glue Gunner|0-2-3|
-|Mortar Monkey|0-0-4|
-|Alchemist|4-2-0|
-|Super|3-0-2|
-
 
 # Stats
 [Experience points per level](https://bloons.fandom.com/wiki/Experience_Point_Farming)
@@ -65,15 +50,199 @@ After installing tesseract the other requirments can be installed with\
 |3-80 (Hard)|126 150|138 765|151 380|163 995|
 |6-100 (Impoppable/CHIMPS)|231 150|254 265|277 380|300 495|
 
-## Dark Castle Hard Mode Standard
-|Stat|Data|
+## Issues
+If you find any bugs or have any suggestions for improvements please create an issue or pull request!
+
+## Creating your own gameplans
+You are really welcome to create your own gameplan using your stratergies. You are also welcome to make a pull request with that gameplan and I will add it to the repository after testing!
+
+__*NOTE: AS THIS IS STILL A WORK IN PROGRESS I MAY CHANGE THE GUIDE AND LAYOUT IN THE FUTURE FOR EASE OF USE.*__
+
+### setup.py
+The setup file is used for the bot to know which hero, map, difficulty and gamemode it should use.
+
+```json
+{
+    "VERSION": 1,
+    "HERO": "OBYN",
+    "MAP": "DARK_CASTLE",
+    "DIFFICULTY": "HARD_MODE",
+    "GAMEMODE": "STANDARD_GAME_MODE"
+}
+```
+
+
+### Creating the gameplan
+The gameplan is a json file that contains the round as a key and the value as an array with instructions. The instructions is also a json object:
+<!--
+May be used in the future to make it easier
+ ```json
+{
+    "INSTRUCTION": "MOVE_TO",
+    "ARGUMENTS": [
+        "x",
+        "y"
+    ]
+}
+``` -->
+#### instructions.json example
+```json
+{
+  "3": [
+    {
+      "TOWER": "TESTMONKEY",
+      "UPGRADE": "2-0-3",
+      "UPGRADE_DIFF": null,
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1454, 578],
+      "ROUND_START": false
+    },
+  ]
+}
+
+```
+>`3` - is the round number that the instruction is supposed to be executed on\
+> `TOWER` - Tower name in file \
+> `UPGRADE` - Which path to upgrade `top-middle-bottom` the monkey \
+> `TARGET` - What target the tower should use `[ "FIRST", "LAST", "CLOSE", "STRONG" ]` for regular towers and `[ "NORMAL", "CLOSE", "FAR", "SMART" ]` for the spike factory \
+> `TARGET_POS` - The position of a static target like a Mortar  \
+> `POSITION` - The position of the monkey is placed eg `[1454, 578]` \
+> `ROUND_START` - If the round should start with this instruction [can be `true` or `false`]
+
+An instruction array in a round can have multiple objects that will be executed after each other. for example:
+```json
+{
+...
+  "92": [
+    {
+      "TOWER": "GLUE",
+      "UPGRADE": null,
+      "UPGRADE_DIFF": null,
+      "TARGET": ["STRONG"],
+      "TARGET_POS": null,
+      "POSITION": [899, 481],
+      "ROUND_START": false
+    },
+    {
+      "TOWER": "GLUE",
+      "UPGRADE": "2-1-4",
+      "UPGRADE_DIFF": "2-1-4",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [899, 481],
+      "ROUND_START": false
+    }
+  ]
+...
+}
+
+```
+
+#### Getting the target position or the position of the placed tower.
+An easy way to get the position of the tower or the target you want, is to use the following code:
+```py
+import mouse, time
+
+while True:
+    print(mouse.get_position())
+    time.sleep(0.1)
+```
+
+#### Maps
+|Monkey|Keyword in file|
 |--|--|
-|Winrate|99.9% due to RNG|
-|Average Matchtime|14 Minutes|
-|Player XP per minute|11 713.9|
-|Monkey Money per hour| ~ 686 |
+|Monkey Meadow|MONKEY_MEADOW|
+|Tree Stump|TREE_STUMP|
+|Town Center|TOWN_CENTER|
+|Scrapyard|SCRAPYARD|
+|The Cabin|THE_CABIN|
+|Resort|RESORT|
+|Skates|SKATES|
+|Lotus Island|LOTUS_ISLAND|
+|Candy Falls|CANDY_FALLS|
+|Winter Park|WINTER_PARK|
+|Carved|CARVED|
+|Park Path|PARK_PATH|
+|Alpine Run|ALPINE_RUN|
+|Frozen Over|FROZEN_OVER|
+|In The Loop|IN_THE_LOOP|
+|Cubism|CUBISM|
+|Four Circles|FOUR_CIRCLES|
+|Hedge|HEDGE|
+|End Of The Road|END_OF_THE_ROAD|
+|Logs|LOGS|
+|Quiet Street|QUIET_STREET|
+|Bloonarius Prime|BLOONARIUS_PRIME|
+|Balance|BALANCE|
+|Encrypted|ENCRYPTED|
+|Bazaar|BAZAAR|
+|Adora's Temple|ADORAS_TEMPLE|
+|Spring Spring|SPRING_SPRING|
+|KartsNDarts|KARTSNDARTS|
+|Moon Landing|MOON_LANDING|
+|Haunted|HAUNTED|
+|Downstream|DOWNSTREAM|
+|Firing Range|FIRING_RANGE|
+|Cracked|CRACKED|
+|Streambed|STREAMBED|
+|Chutes|CHUTES|
+|Rake|RAKE|
+|Spice Islands|SPICE_ISLANDS|
+|Sunken Columns|SUNKEN_COLUMNS|
+|X Factor|XFACTOR|
+|Mesa|MESA|
+|Geared|GEARED|
+|Spillway|SPILLWAY|
+|Cargo|CARGO|
+|Pat's Pond|PATS_POND|
+|Peninsula|PENINSULA|
+|High Finance|HIGH_FINANCE|
+|Another Brick|ANOTHER_BRICK|
+|Off The Coast|OFF_THE_COAST|
+|Cornfield|CORNFIELD|
+|Underground|UNDERGROUND|
+|Sanctuary|SANCTUARY|
+|Ravine|RAVINE|
+|Flooded Valley|FLOODED_VALLEY|
+|Infernal|INFERNAL|
+|Bloody Puddles|BLOODY_PUDDLES|
+|Workshop|WORKSHOP|
+|Quad|QUAD|
+|Dark Castle|DARK_CASTLE|
+|Muddy Puddles|MUDDY_PUDDLES|
+|#Ouch||
 
-Other gameplans that will be added, will have the same stats like above
+#### Heros
+|Monkey|Keyword in setupfile|
+|--|--|
+|Obyn|OBYN|
+|Monkey|MONKEY|
+|Monkey|MONKEY|
+#### Monkeys
+|Monkey|Keyword in instruction|
+|--|--|
+|Hero|HERO|
+|Dart Monkey|DART|
+|Boomerang Monkey|BOOMERANG|
+|Bomb Shooter|BOMB|
+|Tack Shooter|TACK|
+|Ice Monkey|ICE|
+|Glue Gunner|GLUE|
+|Sniper Monkey|SNIPER|
+|Monkey Sub|SUBMARINE|
+|Monkey Buccaneer|BUCCANEER|
+|Monkey Ace|ACE|
+|Heli Pilot|HELI|
+|Mortar Monkey|MORTAR|
+|Dartling Gunner|DARTLING|
+|Wizard Monkey|WIZARD|
+|Super Monkey|SUPER|
+|Ninja Monkey|NINJA|
+|Alchemist|ALCHEMIST|
+|Druid|DRUID|
+|Banana Farm|BANANA|
+|Spike factory|SPIKE|
+|Monkey Village|VILLAGE|
+|Engineer Monkey|ENGINEER|
 
-*Note: The strat that is being used has RNG because of the Alchemist, so the results may differ to you from what I got*
-<>
