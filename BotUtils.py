@@ -17,6 +17,7 @@ import ctypes
 class BotUtils:
     def __init__(self):
         # Gets the main monitor resolution
+        # TODO: get monitor res for linux for linux support
         try:
             if sys.platform == "win32":
                 self.width, self.height = ctypes.windll.user32.GetSystemMetrics(0), ctypes.windll.user32.GetSystemMetrics(1)
@@ -24,17 +25,11 @@ class BotUtils:
                 raise Exception("Platform not supported yet")
         except Exception as e:
             raise Exception("Could not retrieve monitor resolution the system")
-        # finally: 
-        #     if self.DEBUG:
-        #         self.log(f"Monitor resolution: {self.width}x{self.height}")
-        
 
         self.Support_files_path = "Support_files\\" if sys.platform == "win32" else "Support_files/"
-        
         self.support_dir = self.get_resource_dir(self.Support_files_path)
 
         # Defing a lamda function that can be used to get a path to a specific image
-    
         self._image_path = lambda image, root_dir=self.support_dir, height=self.height : f"{root_dir}{height}_{image}.png" if sys.platform == "win32" else f"{root_dir}{height}_{image}.png"
 
         # Resolutions for for padding
@@ -103,10 +98,8 @@ class BotUtils:
             mouse.press(button='left')
             time.sleep(0.075) # https://www.reddit.com/r/AskTechnology/comments/4ne2tv/how_long_does_a_mouse_click_last/ TLDR; DONT CLICK TO FAST as shit will break
             mouse.release(button='left')
-            # mouse.click(button="left")
             
-
-        time.sleep(0.5)
+        time.sleep(0.075)
 
     def press_key(self, key, timeout=0.1, amount=1):
         for _ in range(amount):
