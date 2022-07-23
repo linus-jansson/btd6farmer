@@ -159,24 +159,16 @@ class Bot(BotCore):
 
         self.press_key("esc")
 
-    def v1_handleInstruction(self, instruction):
+    def remove_tower(self, position):
+        self.click(position)
+        self.press_key("backspace")
+        self.press_key("esc")
 
-        # instruction types 
-        # PLACE_TOWER
-            # TOWER_TYPE - Type of target
-            # POSITION - (x, y) position of tower to be placed
-        # UPGRADE_TOWER
-            # LOCATION
-            # UPGRADE_PATH
-        # CHANGE_TARGET
-            # LOCATION location of twoer
-            # TARGET - targget or targets
-            # TYPE - spike or regular
-            # DELAY - (optional) delay between each target change
-        # SET_STATIC_TARGET
-            # LOCATION
-            # TARGET LOCATION
-        # START - start the game
+    def v1_handleInstruction(self, instruction):
+        """
+            Handles instructions for version 1 of the game plan 
+            
+        """
 
         instruction_type = instruction["INSTRUCTION_TYPE"]
 
@@ -190,9 +182,15 @@ class Bot(BotCore):
 
             if self.DEBUG or self.VERBOSE:
                 self.log("Tower placed:", tower)
+            
+        elif instruction_type == "REMOVE_TOWER":
+            self.remove_tower(instruction["ARGUMENTS"]["POSITION"])
+            
+            if self.DEBUG or self.VERBOSE:
+                self.log("Tower removed on:", instruction["ARGUMENTS"]["POSITION"])
         
         # Upgrade tower
-        if instruction_type == "UPGRADE_TOWER":
+        elif instruction_type == "UPGRADE_TOWER":
             position = instruction["ARGUMENTS"]["POSITION"]
             upgrade_path = instruction["ARGUMENTS"]["UPGRADE_PATH"]
 
@@ -202,7 +200,7 @@ class Bot(BotCore):
                 self.log("Tower upgraded:", instruction["TOWER"])
         
         # Change tower target
-        if instruction_type == "CHANGE_TARGET":
+        elif instruction_type == "CHANGE_TARGET":
             target_type = instruction["ARGUMENTS"]["TYPE"]
             position = instruction["ARGUMENTS"]["LOCATION"]
             target = instruction["ARGUMENTS"]["TARGET"]
@@ -211,35 +209,44 @@ class Bot(BotCore):
             self.change_target(target_type, position, target, delay)
 
         # Set static target of a tower
-        if instruction_type == "SET_STATIC_TARGET":
+        elif instruction_type == "SET_STATIC_TARGET":
             position = instruction["ARGUMENTS"]["LOCATION"]
             target_position = instruction["ARGUMENTS"]["TARGET_LOCATION"]
 
             self.set_static_target(position, target_position)
         
-        if instruction_type == "START":
-            if instruction["ARGUMENTS"]["FASTFORWARD"]:
-                fastforward = True
+        elif instruction_type == "START":
+            if "ARGUMENTS" in instruction and "FAST_FORWARD " in instruction["ARGUMENTS"]:
+                self.fastforward = instruction["ARGUMENTS"]["FASTFORWARD"]
                 
-            self.start_first_round(fastforward)
+            self.start_first_round(self.fastforward)
 
             if self.DEBUG or self.VERBOSE:
                 self.log("First Round Started")
+        
+        else:
+            # Maybe raise exception or just ignore?
+            raise Exception("Instruction type {} is not a valid type".format(instruction_type))
 
         if self.DEBUG or self.VERBOSE:
             self.log(f"executed instruction:\n{instruction}")
 
 
-    def abilityAvaliabe(self, last_used, cooldown, fast_forward=True):
+    def abilityAvaliabe(self, last_used, cooldown):
         # TODO: Store if the game is speeded up or not. If it is use the constant (true by default)
         m = 1
-        if fast_forward:
+
+        if self.fastforward:
             m = 3
 
         return (time.time() - last_used) >= (cooldown / m)
 
     def start_first_round(self):
-        self.press_key("space", amount=2)
+        if self.fastforward:
+            self.press_key("space", amount=2)
+        else:
+            self.press_key("space", amount=1)
+
         self.game_start_time = time.time()
 
     def check_for_collection_crates(self):
