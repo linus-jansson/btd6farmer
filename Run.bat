@@ -1,1 +1,1 @@
-python main.py "\\Instructions\\Dark_Castle_Hard_Standard"
+python main.py --gameplan_path "Instructions/Dark_Castle_Hard_Standard"
