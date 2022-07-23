@@ -205,18 +205,18 @@ class BotUtils:
         """
         TODO
         """
-        # load images if given filename, or convert as needed to opencv
+        # load images if given Path, or convert as needed to opencv
         # Alpha layer just causes failures at this point, so flatten to RGB.
         # RGBA: load with -1 * cv2.CV_LOAD_IMAGE_COLOR to preserve alpha
         # to matchTemplate, need template and image to be the same wrt having alpha
         
-        if isinstance(img, (str)):
+        if isinstance(img, Path):
             # The function imread loads an image from the specified file and
             # returns it. If the image cannot be read (because of missing
             # file, improper permissions, unsupported or invalid format),
             # the function returns an empty matrix
             # http://docs.opencv.org/3.0-beta/modules/imgcodecs/doc/reading_and_writing_images.html
-            img_cv = cv2.imread(img, cv2.IMREAD_GRAYSCALE)
+            img_cv = cv2.imread(str(img), cv2.IMREAD_GRAYSCALE)
             if img_cv is None:
                 raise IOError(f"Failed to read {img} because file is missing, has improper permissions, or is an unsupported or invalid format")
         elif isinstance(img, np.ndarray):
