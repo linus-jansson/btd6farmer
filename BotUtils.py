@@ -4,6 +4,7 @@ import keyboard
 import mouse
 import static
 import os
+from pathlib import Path
 
 import numpy as np
 import cv2
@@ -29,11 +30,26 @@ class BotUtils:
         except Exception as e:
             raise Exception("Could not retrieve monitor resolution the system")
 
-        self.Support_files_path = "Support_files\\" if sys.platform == "win32" else "Support_files/"
-        self.support_dir = self.get_resource_dir(self.Support_files_path)
+        """
+        # Platform independent code to get monitor resolution?
+        # https://stackoverflow.com/a/66248631
+        import tkinter
+        def get_display_size():
+            root = tkinter.Tk()
+            root.update_idletasks()
+            root.attributes('-fullscreen', True)
+            root.state('iconic')
+            height = root.winfo_screenheight()
+            width = root.winfo_screenwidth()
+            root.destroy()
+            return height, width
+        self.width, self.height = get_display_size()
+        """
+
+        self.support_dir = self.get_resource_dir("Support_files")
 
         # Defing a lamda function that can be used to get a path to a specific image
-        self._image_path = lambda image, root_dir=self.support_dir, height=self.height : f"{root_dir}{height}_{image}.png" if sys.platform == "win32" else f"{root_dir}{height}_{image}.png"
+        self._image_path = lambda image, root_dir=self.support_dir, height=self.height : root_dir/f"{height}_{image}.png"
 
         # Resolutions for for padding
         self.reso_16 = [
@@ -44,7 +60,7 @@ class BotUtils:
         ]
 
     def get_resource_dir(self, path):
-        return os.path.join(os.path.dirname(__file__), path)
+        return Path(__file__).resolve().parent/path
 
     def getRound(self):
         # Change to https://stackoverflow.com/questions/66334737/pytesseract-is-very-slow-for-real-time-ocr-any-way-to-optimise-my-code 
@@ -205,18 +221,18 @@ class BotUtils:
         """
         TODO
         """
-        # load images if given filename, or convert as needed to opencv
+        # load images if given Path, or convert as needed to opencv
         # Alpha layer just causes failures at this point, so flatten to RGB.
         # RGBA: load with -1 * cv2.CV_LOAD_IMAGE_COLOR to preserve alpha
         # to matchTemplate, need template and image to be the same wrt having alpha
         
-        if isinstance(img, (str)):
+        if isinstance(img, Path):
             # The function imread loads an image from the specified file and
             # returns it. If the image cannot be read (because of missing
             # file, improper permissions, unsupported or invalid format),
             # the function returns an empty matrix
             # http://docs.opencv.org/3.0-beta/modules/imgcodecs/doc/reading_and_writing_images.html
-            img_cv = cv2.imread(img, cv2.IMREAD_GRAYSCALE)
+            img_cv = cv2.imread(str(img), cv2.IMREAD_GRAYSCALE)
             if img_cv is None:
                 raise IOError(f"Failed to read {img} because file is missing, has improper permissions, or is an unsupported or invalid format")
         elif isinstance(img, np.ndarray):

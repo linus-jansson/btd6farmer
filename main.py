@@ -1,23 +1,26 @@
-import os
 import time
 import sys
-import pathlib
+from pathlib import Path
 from Bot import Bot
  
 if __name__ == "__main__":
-    current_directory = ""
+
+    def usage():
+        raise Exception("No valid argument for directory.. 'python main.py <directory to gameplan>'")
 
     # Verify that a valid path was fed to the script to find instructions
-    if len(sys.argv) >= 1:
-        # Verify that one of the arguments is a directory
-        for arguments in sys.argv:
-            directory = str(pathlib.Path().resolve()) + arguments
-            if os.path.isdir(directory):
-                current_directory = directory
+    if len(sys.argv) != 1:
+        usage()
+    # Verify that the first argument is a directory
+    directory = Path(sys.argv[0])
+    # Verify that the first argument is a directory.
+    if not directory.is_dir():
+        usage()
+    # Verify directory exist.
+    if not directory.exists():
+        usage()
 
-    # Verify directory exist, if not close the program with Exception
-    if current_directory == "":
-        raise Exception("No valid argument for directory.. 'python main.py <directory to gameplan>'")
+    current_directory = directory
     
     # TODO: Move all these prints to verbose only mode
 
