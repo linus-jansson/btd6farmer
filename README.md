@@ -121,7 +121,7 @@ The gameplan is a json file that contains the round as a key and the value as an
             "INSTRUCTION_TYPE": "PLACE_TOWER",
             "ARGUMENTS": {
                 "TOWER": "TOWER_TYPE",
-                "POSITION": [ "x", "y" ]
+                "POSITION": [ x, y ]
             }
         },
         {
@@ -134,54 +134,36 @@ The gameplan is a json file that contains the round as a key and the value as an
 }
 
 ```
-    # PLACE_TOWER
-        # TOWER_TYPE - Type of target
-        # POSITION - (x, y) position of tower to be placed
-    # UPGRADE_TOWER
-        # LOCATION
-        # UPGRADE_PATH
-    # CHANGE_TARGET
-        # LOCATION location of twoer
-        # TARGET - targget or targets
-        # TYPE - spike or regular
-        # DELAY - (optional) delay between each target change
-    # SET_STATIC_TARGET
-        # LOCATION
-        # TARGET LOCATION
-    # START - start the game
-        # (optional) FAST_FORWARD - speed of the game
+##### instruction types
+- `START` - Indicates the game
+    - `FAST_FORWARD` - (true / false) Defaults to True. Should the bot play in fast forward mode?
+- `PLACE_TOWER` - Place a tower on the map
+    - `MONKEY` - Type of monkey to place 
+    - `POSITION` - [x, y] position of tower to be placed 
+- `UPGRADE_TOWER` - Upgrade a tower on the map
+    - `LOCATION` - [x, y]  position of tower to be upgraded
+    - `UPGRADE_PATH` - [top, middle, bottom] array of upgrades eg [1, 0, 1]
+- `CHANGE_TARGET` - changes target of a tower
+    - `LOCATION` - [x, y] location of the tower
+    - `TARGET` - target or targets eg [ "FIRST", "LAST", "STRONG" ]. Can be a string or a array of targets
+    - `TYPE` - (SPIKE or REGULAR) # TODO: add support for Heli targets
+    - `DELAY` - (optional) Defaults to 3 delay between each target change, can be one delay eg `2` for 2 seconds or multiple `[1, 3, 4]` to sleep for 1 second, 3 seconds and 4 seconds respectively for each target change.
+- `REMOVE_TOWER` - Removes a tower
+    - `LOCATION` - [x, y] location of the tower
+- `SET_STATIC_TARGET`
+    - `LOCATION` - [x, y] location of tower
+    - `TARGET_LOCATION` - [x, y] location of target
+- `END` - (OPTIONAL) Finished instructions
 
 
 An instruction array in a round can have multiple objects that will be executed after each other. for example:
 ```json
-{
-...
-  "92": [
-    {
-      "TOWER": "GLUE",
-      "UPGRADE": null,
-      "UPGRADE_DIFF": null,
-      "TARGET": ["STRONG"],
-      "TARGET_POS": null,
-      "POSITION": [899, 481],
-      "ROUND_START": false
-    },
-    {
-      "TOWER": "GLUE",
-      "UPGRADE": "2-1-4",
-      "UPGRADE_DIFF": "2-1-4",
-      "TARGET": null,
-      "TARGET_POS": null,
-      "POSITION": [899, 481],
-      "ROUND_START": false
-    }
-  ]
-...
-}
 
 ```
 
-#### Getting the position of a tower or the target position.
+#### Creating the gameplan in excel and converting to json
+TODO
+### Getting the position of a tower or the target position.
 An easy way to get the position of the tower or the target you want, is to use the following code:
 ```py
 import mouse, time
