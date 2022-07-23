@@ -4,7 +4,7 @@
             "INSTRUCTION_TYPE": "PLACE_TOWER",
             "ARGUMENTS": {
                 "MONKEY": "SUBMARINE",
-                "POSITION": [
+                "LOCATION": [
                     1454,
                     578
                 ]
@@ -14,10 +14,16 @@
             "INSTRUCTION_TYPE": "PLACE_TOWER",
             "ARGUMENTS": {
                 "MONKEY": "DART",
-                "POSITION": [
+                "LOCATION": [
                     773,
                     658
                 ]
+            }
+        },
+        {
+            "INSTRUCTION_TYPE": "START",
+            "ARGUMENTS": {
+                "FAST_FORWARD": true
             }
         },
         {
@@ -34,12 +40,6 @@
                 "TYPE": "REGULAR",
                 "DELAY": 3
             }
-        },
-        {
-            "INSTRUCTION_TYPE": "START",
-            "ARGUMENTS": {
-                "FAST_FORWARD": true
-            }
         }
     ],
     "4": [
@@ -47,7 +47,7 @@
             "INSTRUCTION_TYPE": "PLACE_TOWER",
             "ARGUMENTS": {
                 "MONKEY": "DART",
-                "POSITION": [
+                "LOCATION": [
                     785,
                     814
                 ]
@@ -70,7 +70,7 @@
             "INSTRUCTION_TYPE": "PLACE_TOWER",
             "ARGUMENTS": {
                 "MONKEY": "SUBMARINE",
-                "POSITION": [
+                "LOCATION": [
                     1452,
                     922
                 ]
@@ -82,7 +82,7 @@
             "INSTRUCTION_TYPE": "PLACE_TOWER",
             "ARGUMENTS": {
                 "MONKEY": "HERO",
-                "POSITION": [
+                "LOCATION": [
                     1345,
                     598
                 ]
@@ -174,7 +174,7 @@
             "INSTRUCTION_TYPE": "PLACE_TOWER",
             "ARGUMENTS": {
                 "MONKEY": "ALCHEMIST",
-                "POSITION": [
+                "LOCATION": [
                     1353,
                     901
                 ]
@@ -293,7 +293,7 @@
             "INSTRUCTION_TYPE": "PLACE_TOWER",
             "ARGUMENTS": {
                 "MONKEY": "SUPER",
-                "POSITION": [
+                "LOCATION": [
                     1216,
                     579
                 ]
@@ -305,7 +305,7 @@
             "INSTRUCTION_TYPE": "PLACE_TOWER",
             "ARGUMENTS": {
                 "MONKEY": "VILLAGE",
-                "POSITION": [
+                "LOCATION": [
                     1144,
                     358
                 ]
@@ -331,7 +331,7 @@
             "INSTRUCTION_TYPE": "PLACE_TOWER",
             "ARGUMENTS": {
                 "MONKEY": "VILLAGE",
-                "POSITION": [
+                "LOCATION": [
                     1007,
                     430
                 ]
@@ -419,7 +419,7 @@
             "INSTRUCTION_TYPE": "PLACE_TOWER",
             "ARGUMENTS": {
                 "MONKEY": "ALCHEMIST",
-                "POSITION": [
+                "LOCATION": [
                     1154,
                     468
                 ]
@@ -477,7 +477,7 @@
             "INSTRUCTION_TYPE": "PLACE_TOWER",
             "ARGUMENTS": {
                 "MONKEY": "SPIKE",
-                "POSITION": [
+                "LOCATION": [
                     2027,
                     684
                 ]
@@ -562,7 +562,7 @@
             "INSTRUCTION_TYPE": "PLACE_TOWER",
             "ARGUMENTS": {
                 "MONKEY": "VILLAGE",
-                "POSITION": [
+                "LOCATION": [
                     2078,
                     570
                 ]
@@ -588,7 +588,7 @@
             "INSTRUCTION_TYPE": "PLACE_TOWER",
             "ARGUMENTS": {
                 "MONKEY": "ALCHEMIST",
-                "POSITION": [
+                "LOCATION": [
                     2132,
                     691
                 ]
@@ -614,7 +614,7 @@
             "INSTRUCTION_TYPE": "PLACE_TOWER",
             "ARGUMENTS": {
                 "MONKEY": "SPIKE",
-                "POSITION": [
+                "LOCATION": [
                     2032,
                     785
                 ]
@@ -640,7 +640,7 @@
             "INSTRUCTION_TYPE": "PLACE_TOWER",
             "ARGUMENTS": {
                 "MONKEY": "SNIPER",
-                "POSITION": [
+                "LOCATION": [
                     1150,
                     207
                 ]
@@ -693,7 +693,7 @@
             "INSTRUCTION_TYPE": "PLACE_TOWER",
             "ARGUMENTS": {
                 "MONKEY": "BOOMERANG",
-                "POSITION": [
+                "LOCATION": [
                     1083,
                     578
                 ]
@@ -730,7 +730,7 @@
             "INSTRUCTION_TYPE": "PLACE_TOWER",
             "ARGUMENTS": {
                 "MONKEY": "BOOMERANG",
-                "POSITION": [
+                "LOCATION": [
                     981,
                     562
                 ]
@@ -767,7 +767,7 @@
             "INSTRUCTION_TYPE": "PLACE_TOWER",
             "ARGUMENTS": {
                 "MONKEY": "GLUE",
-                "POSITION": [
+                "LOCATION": [
                     899,
                     481
                 ]
@@ -804,7 +804,7 @@
             "INSTRUCTION_TYPE": "PLACE_TOWER",
             "ARGUMENTS": {
                 "MONKEY": "BOOMERANG",
-                "POSITION": [
+                "LOCATION": [
                     1257,
                     884
                 ]
@@ -841,7 +841,7 @@
             "INSTRUCTION_TYPE": "PLACE_TOWER",
             "ARGUMENTS": {
                 "MONKEY": "MORTAR",
-                "POSITION": [
+                "LOCATION": [
                     959,
                     244
                 ]
