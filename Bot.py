@@ -1,4 +1,6 @@
 import time
+
+from numpy import isin
 import static
 from BotCore import BotCore
 
@@ -117,12 +119,20 @@ class Bot(BotCore):
         
         self.press_key("esc")
 
-    def change_target(self, tower_type, tower_position, targets, delay=3):
+    def change_target(self, tower_type, tower_position, targets: str | list, delay: int | float | list | tuple = 3):
         # target_array = targets.split(", ")
         
         self.click(tower_position)
 
         current_target_index = 0
+
+        if not isinstance(targets, (tuple, list)):
+            targets = [targets]
+
+        if isinstance(targets, (list, tuple)) and isinstance(delay, (tuple, list)):
+            # check if delay and targets are the same length
+            if len(targets) != len(delay):
+                raise Exception("Number of targets and number of delays needs to be the same")
 
         # for each target in target list
         for i in targets:
@@ -139,10 +149,24 @@ class Bot(BotCore):
                 current_target_index = n
                 self.press_key("tab")
 
-            # Used for macroing if length of target array is longer than 1 
+            
+
+            # If delay is an int sleep for delay for each target
+            if isinstance(delay, (int, float)):
+                # If the bot is on the last target  in targets list, dont sleep
+                if targets[-1] != i: # 
+                    time.sleep(delay)   
+
+            # If delay is a list sleep for respective delay for each target
+            elif isinstance(delay, (list, tuple)):
+                time.sleep(delay.pop(-1))
+            
+            # Used for macroing if length of target array is greater than 1 
             # and the last item of the array is not == to current target
-            if len(targets) > 1 and targets[-1] != i:
-                time.sleep(delay)
+            # if isinstance(delay, (tuple, list)) and len(delay) > 1 and i != targets[-1]:
+            #     time.sleep(delay)
+            # if len(targets) > 1 and :
+            #     time.sleep(delay)
 
         self.press_key("esc")
 
