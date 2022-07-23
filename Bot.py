@@ -1,8 +1,5 @@
 import time
-from turtle import delay, pos, position
-
 import static
-
 from BotCore import BotCore
 
 class Bot(BotCore):
