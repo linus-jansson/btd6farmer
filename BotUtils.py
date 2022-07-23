@@ -30,6 +30,22 @@ class BotUtils:
         except Exception as e:
             raise Exception("Could not retrieve monitor resolution the system")
 
+        """
+        # Platform independent code to get monitor resolution?
+        # https://stackoverflow.com/a/66248631
+        import tkinter
+        def get_display_size():
+            root = tkinter.Tk()
+            root.update_idletasks()
+            root.attributes('-fullscreen', True)
+            root.state('iconic')
+            height = root.winfo_screenheight()
+            width = root.winfo_screenwidth()
+            root.destroy()
+            return height, width
+        self.width, self.height = get_display_size()
+        """
+
         self.support_dir = self.get_resource_dir("Support_files")
 
         # Defing a lamda function that can be used to get a path to a specific image
