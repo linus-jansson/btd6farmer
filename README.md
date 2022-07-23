@@ -64,11 +64,11 @@ or running `Install_Requirements.bat`
 1. Open up BTD 6 and run the main.py script in the command line with `py <location of script>/main.py <directory to gameplan>` or run `run.bat` to run with the default settings and gameplan.
 2. Navigate to the homescreen of BTD 6 within 5 seconds of starting the script.
 
-###### Launch options
+### Bot Launch options
 - `--debug` -
 - `--verbose` -
 - `--sandbox` -
-- `--gameplan_path` -
+- `--gameplan_path` - the path to the gameplan directory
 
 
 <a name="issues"/>
