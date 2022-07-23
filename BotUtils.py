@@ -92,13 +92,18 @@ class BotUtils:
             else:
                 return None
 
-    def _move_mouse(self, location):
+    def _move_mouse(self, location, move_timeout=0.1):
         mouse.move(x=location[0], y=location[1])
-        time.sleep(0.1)
+        time.sleep(move_timeout)
 
-    def click(self, location: tuple | tuple, amount=1, timeout=0.1, press_time=0.075):
+    def click(self, location: tuple | tuple, amount=1, timeout=0.1, move_timeout=0.1, press_time=0.075):        
         """
             Method to click on a specific location on the screen
+            @param location: The location to click on
+            @param amount: amount of clicks to be performed
+            @param timeout: time to wait between clicks
+            @param move_timeout: time to wait between move and click
+            @param press_time: time to wait between press and release
         """
 
         # If location is a string then assume that its a static button
@@ -106,14 +111,13 @@ class BotUtils:
             location = static.button_positions[location]
         
         # Move mouse to location
-        self._move_mouse(self._scaling(location))
+        self._move_mouse(self._scaling(location), move_timeout)
 
         for _ in range(amount):
             mouse.press(button='left')
             time.sleep(press_time) # https://www.reddit.com/r/AskTechnology/comments/4ne2tv/how_long_does_a_mouse_click_last/ TLDR; dont click too fast otherwise shit will break
             mouse.release(button='left')
-
-        time.sleep(timeout)
+            time.sleep(timeout)
 
     def press_key(self, key, timeout=0.1, amount=1):
         for _ in range(amount):

@@ -307,9 +307,9 @@ class Bot(BotCore):
     # select hero if not selected
     def hero_select(self):
         if not self.hero_check(self.settings["HERO"]):
-            self.log(f"Selecting {self.settings['hero']}")
+            self.log(f"Selecting {self.settings['HERO']}")
             self.click("HERO_SELECT")
-            self.click(self.settings["HERO"])
+            self.click(self.settings["HERO"], move_timeout=0.2)
             self.click("CONFIRM_HERO")
             self.press_key("esc")
 
@@ -336,7 +336,7 @@ class Bot(BotCore):
         self.click("BEGINNER_SELECTION") # goto first page
 
         # click to the right page
-        self.click("RIGHT_ARROW_SELECTION", amount=(map_page), timeout=0.1)
+        self.click("RIGHT_ARROW_SELECTION", amount=(map_page - 1), timeout=0.1)
 
         self.click("MAP_INDEX_" + str(map_index)) # Click correct map
         self.click(self.settings["DIFFICULTY"]) # Select Difficulty
