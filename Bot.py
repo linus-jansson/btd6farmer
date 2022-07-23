@@ -357,7 +357,7 @@ class Bot(BotCore):
             if self.DEBUG:
                 self.log("Waiting for loading screen..")
             
-            time.sleep(0.2)
+            time.sleep(0.2) # add a short timeout to avoid spamming the cpu
             still_loading = self.loading_screen_check()
 
 if __name__ == "__main__":
