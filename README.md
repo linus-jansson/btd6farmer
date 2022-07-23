@@ -64,6 +64,12 @@ or running `Install_Requirements.bat`
 1. Open up BTD 6 and run the main.py script in the command line with `py <location of script>/main.py <directory to gameplan>` or run `run.bat` to run with the default settings and gameplan.
 2. Navigate to the homescreen of BTD 6 within 5 seconds of starting the script.
 
+###### Launch options
+- `--debug` -
+- `--verbose` -
+- `--sandbox` -
+- `--gameplan_path` -
+
 
 <a name="issues"/>
 
@@ -139,7 +145,7 @@ The gameplan is a json file that contains the round as a key and the value as an
     - `FAST_FORWARD` - (true / false) Defaults to True. Should the bot play in fast forward mode?
 - `PLACE_TOWER` - Place a tower on the map
     - `MONKEY` - Type of monkey to place 
-    - `POSITION` - [x, y] position of tower to be placed 
+    - `LOCATION` - [x, y] position of tower to be placed 
 - `UPGRADE_TOWER` - Upgrade a tower on the map
     - `LOCATION` - [x, y]  position of tower to be upgraded
     - `UPGRADE_PATH` - [top, middle, bottom] array of upgrades eg [1, 0, 1]
