@@ -4,6 +4,7 @@ import keyboard
 import mouse
 import static
 import os
+from pathlib import Path
 
 import numpy as np
 import cv2
@@ -29,11 +30,10 @@ class BotUtils:
         except Exception as e:
             raise Exception("Could not retrieve monitor resolution the system")
 
-        self.Support_files_path = "Support_files\\" if sys.platform == "win32" else "Support_files/"
-        self.support_dir = self.get_resource_dir(self.Support_files_path)
+        self.support_dir = self.get_resource_dir("Support_files")
 
         # Defing a lamda function that can be used to get a path to a specific image
-        self._image_path = lambda image, root_dir=self.support_dir, height=self.height : f"{root_dir}{height}_{image}.png" if sys.platform == "win32" else f"{root_dir}{height}_{image}.png"
+        self._image_path = lambda image, root_dir=self.support_dir, height=self.height : root_dir/f"{height}_{image}.png"
 
         # Resolutions for for padding
         self.reso_16 = [
@@ -44,7 +44,7 @@ class BotUtils:
         ]
 
     def get_resource_dir(self, path):
-        return os.path.join(os.path.dirname(__file__), path)
+        return Path(__file__).resolve().parent/path
 
     def getRound(self):
         # Change to https://stackoverflow.com/questions/66334737/pytesseract-is-very-slow-for-real-time-ocr-any-way-to-optimise-my-code 
