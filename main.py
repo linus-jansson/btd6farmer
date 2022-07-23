@@ -5,26 +5,27 @@ from Bot import Bot
  
 if __name__ == "__main__":
 
-    def usage():
-        raise Exception("No valid argument for directory.. 'python main.py <directory to gameplan>'")
+    def no_gameplan_exception():
+        raise Exception("No valid argument for directory.. 'python main.py --gameplan_path <directory to gameplan>'")
 
-    # Verify that a valid path was fed to the script to find instructions
-    if len(sys.argv) != 1:
-        usage()
-    # Verify that the first argument is a directory
-    directory = Path(sys.argv[0])
-    # Verify that the first argument is a directory.
-    if not directory.is_dir():
-        usage()
+    gameplan_path = (Path(__file__).resolve().parent/sys.argv[sys.argv.index("--gameplan_path") + 1]) if "--gameplan_path" in sys.argv else no_gameplan_exception()
+    
+    print(gameplan_path)
+
     # Verify directory exist.
-    if not directory.exists():
-        usage()
+    if not gameplan_path.exists():
+        print("No directory found at: " + str(gameplan_path))
+        no_gameplan_exception()
+    # Verify that it is a directory
+    if not gameplan_path.is_dir():
+        print("Not a directory")
+        no_gameplan_exception()
 
-    current_directory = directory
+
     
     # TODO: Move all these prints to verbose only mode
 
-    bot = Bot(instruction_path=current_directory, debug_mode=("--debug" in sys.argv), verbose_mode=("--verbose" in sys.argv))
+    bot = Bot(instruction_path=gameplan_path, debug_mode=("--debug" in sys.argv), verbose_mode=("--verbose" in sys.argv))
 
     print("Setting up Bot...")
     
