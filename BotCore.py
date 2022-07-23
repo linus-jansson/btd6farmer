@@ -23,7 +23,7 @@ class BotCore(BotLog, BotUtils):
 
     def _load_json(self, path):
         """
-            Will read the @path as a json file load into a dictiinary
+            Will read the @path as a json file load into a dictionary.
         """
         data = {}
         with path.open('r', encoding="utf-8") as f:
