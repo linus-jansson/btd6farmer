@@ -1,0 +1,566 @@
+{
+  "3": [
+    {
+      "TOWER": "SUBMARINE",
+      "UPGRADE": null,
+      "UPGRADE_DIFF": null,
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1454, 578],
+      "ROUND_START": false
+    },
+    {
+      "TOWER": "DART",
+      "UPGRADE": null,
+      "UPGRADE_DIFF": null,
+      "TARGET": ["LAST", "STRONG"],
+      "TARGET_POS": null,
+      "POSITION": [773, 658],
+      "ROUND_START": true
+    }
+  ],
+  "4": [
+    {
+      "TOWER": "DART",
+      "UPGRADE": null,
+      "UPGRADE_DIFF": null,
+      "TARGET": ["STRONG"],
+      "TARGET_POS": null,
+      "POSITION": [785, 814],
+      "ROUND_START": false
+    }
+  ],
+  "9": [
+    {
+      "TOWER": "SUBMARINE",
+      "UPGRADE": null,
+      "UPGRADE_DIFF": null,
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1452, 922],
+      "ROUND_START": false
+    }
+  ],
+  "12": [
+    {
+      "TOWER": "HERO",
+      "UPGRADE": null,
+      "UPGRADE_DIFF": null,
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1345, 598],
+      "ROUND_START": false
+    }
+  ],
+  "14": [
+    {
+      "TOWER": "SUBMARINE",
+      "UPGRADE": "0-0-1",
+      "UPGRADE_DIFF": "0-0-1",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1452, 922],
+      "ROUND_START": false
+    }
+  ],
+  "15": [
+    {
+      "TOWER": "SUBMARINE",
+      "UPGRADE": "1-0-1",
+      "UPGRADE_DIFF": "1-0-0",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1452, 922],
+      "ROUND_START": false
+    }
+  ],
+  "17": [
+    {
+      "TOWER": "SUBMARINE",
+      "UPGRADE": "2-0-1",
+      "UPGRADE_DIFF": "1-0-0",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1452, 922],
+      "ROUND_START": false
+    }
+  ],
+  "21": [
+    {
+      "TOWER": "SUBMARINE",
+      "UPGRADE": "2-0-2",
+      "UPGRADE_DIFF": "0-0-1",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1452, 922],
+      "ROUND_START": false
+    }
+  ],
+  "22": [
+    {
+      "TOWER": "DART",
+      "UPGRADE": "0-0-2",
+      "UPGRADE_DIFF": "0-0-2",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [773, 658],
+      "ROUND_START": false
+    }
+  ],
+  "24": [
+    {
+      "TOWER": "ALCHEMIST",
+      "UPGRADE": null,
+      "UPGRADE_DIFF": null,
+      "TARGET": ["STRONG"],
+      "TARGET_POS": null,
+      "POSITION": [1353, 901],
+      "ROUND_START": false
+    }
+  ],
+  "28": [
+    {
+      "TOWER": "SUBMARINE",
+      "UPGRADE": "2-0-3",
+      "UPGRADE_DIFF": "0-0-1",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1452, 922],
+      "ROUND_START": false
+    }
+  ],
+  "29": [
+    {
+      "TOWER": "ALCHEMIST",
+      "UPGRADE": "2-0-0",
+      "UPGRADE_DIFF": "2-0-0",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1353, 901],
+      "ROUND_START": false
+    }
+  ],
+  "33": [
+    {
+      "TOWER": "ALCHEMIST",
+      "UPGRADE": "3-0-0",
+      "UPGRADE_DIFF": "1-0-0",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1353, 901],
+      "ROUND_START": false
+    }
+  ],
+  "35": [
+    {
+      "TOWER": "SUBMARINE",
+      "UPGRADE": "2-0-1",
+      "UPGRADE_DIFF": "2-0-1",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1454, 578],
+      "ROUND_START": false
+    }
+  ],
+  "36": [
+    {
+      "TOWER": "SUBMARINE",
+      "UPGRADE": "2-0-2",
+      "UPGRADE_DIFF": "0-0-1",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1454, 578],
+      "ROUND_START": false
+    }
+  ],
+  "38": [
+    {
+      "TOWER": "SUBMARINE",
+      "UPGRADE": "2-0-3",
+      "UPGRADE_DIFF": "0-0-1",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1454, 578],
+      "ROUND_START": false
+    }
+  ],
+  "39": [
+    {
+      "TOWER": "SUPER",
+      "UPGRADE": null,
+      "UPGRADE_DIFF": null,
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1216, 579],
+      "ROUND_START": false
+    }
+  ],
+  "41": [
+    {
+      "TOWER": "VILLAGE",
+      "UPGRADE": null,
+      "UPGRADE_DIFF": null,
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1144, 358],
+      "ROUND_START": false
+    },
+    {
+      "TOWER": "VILLAGE",
+      "UPGRADE": "0-0-2",
+      "UPGRADE_DIFF": "0-0-2",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1144, 358],
+      "ROUND_START": false
+    }
+  ],
+  "42": [
+    {
+      "TOWER": "VILLAGE",
+      "UPGRADE": null,
+      "UPGRADE_DIFF": null,
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1007, 430],
+      "ROUND_START": false
+    },
+    {
+      "TOWER": "VILLAGE",
+      "UPGRADE": "0-0-2",
+      "UPGRADE_DIFF": "0-0-2",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1007, 430],
+      "ROUND_START": false
+    }
+  ],
+  "45": [
+    {
+      "TOWER": "SUPER",
+      "UPGRADE": "0-0-1",
+      "UPGRADE_DIFF": "0-0-1",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1216, 579],
+      "ROUND_START": false
+    }
+  ],
+  "46": [
+    {
+      "TOWER": "SUPER",
+      "UPGRADE": "0-0-2",
+      "UPGRADE_DIFF": "0-0-1",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1216, 579],
+      "ROUND_START": false
+    }
+  ],
+  "47": [
+    {
+      "TOWER": "SUPER",
+      "UPGRADE": "1-0-2",
+      "UPGRADE_DIFF": "1-0-0",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1216, 579],
+      "ROUND_START": false
+    }
+  ],
+  "49": [
+    {
+      "TOWER": "SUPER",
+      "UPGRADE": "2-0-2",
+      "UPGRADE_DIFF": "1-0-0",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1216, 579],
+      "ROUND_START": false
+    },
+    {
+      "TOWER": "ALCHEMIST",
+      "UPGRADE": null,
+      "UPGRADE_DIFF": null,
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1154, 468],
+      "ROUND_START": false
+    }
+  ],
+  "50": [
+    {
+      "TOWER": "ALCHEMIST",
+      "UPGRADE": "4-2-0",
+      "UPGRADE_DIFF": "4-2-0",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1154, 468],
+      "ROUND_START": false
+    },
+    {
+      "TOWER": "VILLAGE",
+      "UPGRADE": "2-0-2",
+      "UPGRADE_DIFF": "2-0-0",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1144, 358],
+      "ROUND_START": false
+    }
+  ],
+  "61": [
+    {
+      "TOWER": "SUPER",
+      "UPGRADE": "3-0-2",
+      "UPGRADE_DIFF": "1-0-0",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1216, 579],
+      "ROUND_START": false
+    }
+  ],
+  "62": [
+    {
+      "TOWER": "SPIKE",
+      "UPGRADE": null,
+      "UPGRADE_DIFF": null,
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [2027, 684],
+      "ROUND_START": false
+    }
+  ],
+  "63": [
+    {
+      "TOWER": "SPIKE",
+      "UPGRADE": "0-0-3",
+      "UPGRADE_DIFF": "0-0-3",
+      "TARGET": ["CLOSE"],
+      "TARGET_POS": null,
+      "POSITION": [2027, 684],
+      "ROUND_START": false
+    }
+  ],
+  "65": [
+    {
+      "TOWER": "SPIKE",
+      "UPGRADE": "0-0-4",
+      "UPGRADE_DIFF": "0-0-1",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [2027, 684],
+      "ROUND_START": false
+    }
+  ],
+  "80": [
+    {
+      "TOWER": "SPIKE",
+      "UPGRADE": "0-0-5",
+      "UPGRADE_DIFF": "0-0-1",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [2027, 684],
+      "ROUND_START": false
+    },
+    {
+      "TOWER": "SPIKE",
+      "UPGRADE": "2-2-5",
+      "UPGRADE_DIFF": "0-2-0",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [2027, 684],
+      "ROUND_START": false
+    }
+  ],
+  "82": [
+    {
+      "TOWER": "VILLAGE",
+      "UPGRADE": null,
+      "UPGRADE_DIFF": null,
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [2078, 570],
+      "ROUND_START": false
+    },
+    {
+      "TOWER": "VILLAGE",
+      "UPGRADE": "2-0-0",
+      "UPGRADE_DIFF": "2-0-0",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [2078, 570],
+      "ROUND_START": false
+    }
+  ],
+  "83": [
+    {
+      "TOWER": "ALCHEMIST",
+      "UPGRADE": null,
+      "UPGRADE_DIFF": null,
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [2132, 691],
+      "ROUND_START": false
+    },
+    {
+      "TOWER": "ALCHEMIST",
+      "UPGRADE": "4-2-0",
+      "UPGRADE_DIFF": "4-2-0",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [2132, 691],
+      "ROUND_START": false
+    }
+  ],
+  "84": [
+    {
+      "TOWER": "SPIKE",
+      "UPGRADE": null,
+      "UPGRADE_DIFF": null,
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [2032, 785],
+      "ROUND_START": false
+    },
+    {
+      "TOWER": "SPIKE",
+      "UPGRADE": "3-2-0",
+      "UPGRADE_DIFF": "3-2-0",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [2032, 785],
+      "ROUND_START": false
+    }
+  ],
+  "85": [
+    {
+      "TOWER": "SNIPER",
+      "UPGRADE": null,
+      "UPGRADE_DIFF": null,
+      "TARGET": ["STRONG"],
+      "TARGET_POS": null,
+      "POSITION": [1150, 207],
+      "ROUND_START": false
+    },
+    {
+      "TOWER": "SNIPER",
+      "UPGRADE": "3-0-0",
+      "UPGRADE_DIFF": "3-0-0",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1150, 207],
+      "ROUND_START": false
+    }
+  ],
+  "86": [
+    {
+      "TOWER": "SNIPER",
+      "UPGRADE": "4-0-2",
+      "UPGRADE_DIFF": "1-0-2",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1150, 207],
+      "ROUND_START": false
+    }
+  ],
+  "88": [
+    {
+      "TOWER": "BOOMERANG",
+      "UPGRADE": null,
+      "UPGRADE_DIFF": null,
+      "TARGET": ["STRONG"],
+      "TARGET_POS": null,
+      "POSITION": [1083, 578],
+      "ROUND_START": false
+    },
+    {
+      "TOWER": "BOOMERANG",
+      "UPGRADE": "2-2-4",
+      "UPGRADE_DIFF": "2-2-4",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1083, 578],
+      "ROUND_START": false
+    }
+  ],
+  "91": [
+    {
+      "TOWER": "BOOMERANG",
+      "UPGRADE": null,
+      "UPGRADE_DIFF": null,
+      "TARGET": ["STRONG"],
+      "TARGET_POS": null,
+      "POSITION": [981, 562],
+      "ROUND_START": false
+    },
+    {
+      "TOWER": "BOOMERANG",
+      "UPGRADE": "2-2-4",
+      "UPGRADE_DIFF": "2-2-4",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [981, 562],
+      "ROUND_START": false
+    }
+  ],
+  "92": [
+    {
+      "TOWER": "GLUE",
+      "UPGRADE": null,
+      "UPGRADE_DIFF": null,
+      "TARGET": ["STRONG"],
+      "TARGET_POS": null,
+      "POSITION": [899, 481],
+      "ROUND_START": false
+    },
+    {
+      "TOWER": "GLUE",
+      "UPGRADE": "2-1-4",
+      "UPGRADE_DIFF": "2-1-4",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [899, 481],
+      "ROUND_START": false
+    }
+  ],
+  "93": [
+    {
+      "TOWER": "BOOMERANG",
+      "UPGRADE": null,
+      "UPGRADE_DIFF": null,
+      "TARGET": ["STRONG"],
+      "TARGET_POS": null,
+      "POSITION": [1257, 884],
+      "ROUND_START": false
+    },
+    {
+      "TOWER": "BOOMERANG",
+      "UPGRADE": "2-2-4",
+      "UPGRADE_DIFF": "2-2-4",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [1257, 884],
+      "ROUND_START": false
+    }
+  ],
+  "96": [
+    {
+      "TOWER": "MORTAR",
+      "UPGRADE": null,
+      "UPGRADE_DIFF": null,
+      "TARGET": null,
+      "TARGET_POS": [1011, 725],
+      "POSITION": [959, 244],
+      "ROUND_START": false
+    },
+    {
+      "TOWER": "MORTAR",
+      "UPGRADE": "0-0-4",
+      "UPGRADE_DIFF": "0-0-4",
+      "TARGET": null,
+      "TARGET_POS": null,
+      "POSITION": [959, 244],
+      "ROUND_START": false
+    }
+  ]
+}
