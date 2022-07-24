@@ -109,17 +109,20 @@ class BotUtils:
 
             # Get current round from screenshot with tesseract
             found_text = pytesseract.image_to_string(final_image,  config='--psm 7').replace("\n", "")
-            found_text = found_text.replace("|", "")            
+            
+            # TODO: REMOVE EVERYTHING THAT IS NOT A NUMBER OR A SLASH
+            # found_text = found_text.replace("|", "")            
 
-            if self.DEBUG:
-                self.log("Found text '{}' does not match regex requirements".format(found_text))
-                self.save_file(data=mss.tools.to_png(sct_image.rgb, sct_image.size), _file_name="get_current_round_failed.png")
-                self.log("Saved screenshot of what was found")
+
             
             if re.search(r"(\d+/\d+)", found_text):
                 return int(found_text.split("/")[0])
             else:
-
+                if self.DEBUG:
+                    self.log("Found text '{}' does not match regex requirements".format(found_text))
+                    self.save_file(data=mss.tools.to_png(sct_image.rgb, sct_image.size), _file_name="get_current_round_failed.png")
+                    self.log("Saved screenshot of what was found")
+                    
                 return None
     
     def save_file(self, data=format(0, 'b'), _file_name="noname", folder="DEBUG", ):
