@@ -32,6 +32,7 @@ class BotUtils:
         except Exception as e:
             raise Exception("Could not retrieve monitor resolution the system")
 
+
         """
         # Platform independent code to get monitor resolution?
         # https://stackoverflow.com/a/66248631
@@ -60,19 +61,38 @@ class BotUtils:
             { "width": 2560, "height": 1440 },
             { "width": 3840, "height": 2160 }
         ]
+        self.round_area = None
 
     def get_resource_dir(self, path):
         return Path(__file__).resolve().parent/path
 
     def getRound(self):
+        self.locate_round_area()
+
         # Change to https://stackoverflow.com/questions/66334737/pytesseract-is-very-slow-for-real-time-ocr-any-way-to-optimise-my-code 
         # or https://www.reddit.com/r/learnpython/comments/kt5zzw/how_to_speed_up_pytesseract_ocr_processing/
 
         # The screen part to capture
-        top, left = self._scaling([35, 1850])
-        width, length = [225, 65]
+
+        # If round area is not located yet
+        if self.round_area is None:
+            area = self.locate_round_area()
+            
+            # If it cant find anything
+            if area == None:
+                if self.DEBUG:
+                    self.log("Could not find round area, setting default values")
+                self.round_area = self._scaling([35, 1850]) # Use default values
+            else:
+                # set round area to the found area + offset
+                x, y, roundwidth, roundheight = area
+                
+                widthOffset, heightOffset = ((roundwidth + 35), int(roundheight * 2) - 15)
+                self.round_area = (x - widthOffset, y + heightOffset)
+
+        roundarea_width, roundarea_length = [225, 65]
         
-        monitor = {'top': top, 'left': left, 'width': width, 'height': length}
+        monitor = {'top': self.round_area[1], 'left': self.round_area[0], 'width': roundarea_width, 'height': roundarea_length}
         # print("region", monitor)
 
         # Take Screenshot
@@ -89,14 +109,16 @@ class BotUtils:
 
             # Get current round from screenshot with tesseract
             found_text = pytesseract.image_to_string(final_image,  config='--psm 7').replace("\n", "")
+            found_text = found_text.replace("|", "")            
 
+            if self.DEBUG:
+                self.log("Found text '{}' does not match regex requirements".format(found_text))
+                self.save_file(data=mss.tools.to_png(sct_image.rgb, sct_image.size), _file_name="get_current_round_failed.png")
+                self.log("Saved screenshot of what was found")
+            
             if re.search(r"(\d+/\d+)", found_text):
                 return int(found_text.split("/")[0])
             else:
-                if self.DEBUG:
-                    self.log("Found text '{}' does not match regex requirements".format(found_text))
-                    self.save_file(data=mss.tools.to_png(sct_image.rgb, sct_image.size), _file_name="get_current_round_failed.png")
-                    self.log("Saved screenshot of what was found")
 
                 return None
     
@@ -171,16 +193,22 @@ class BotUtils:
 
     def locate_static_target_button(self):
         return self._find(self._image_path("set_target_button"), return_cords=True)
+    
+    def locate_round_area(self):
+        return self._find(self._image_path("round_area"), return_cords=True, center_on_found=False)
 
     # Generic function to see if something is present on the screen
-    def _find(self, path, confidence=0.9, return_cords=False):
+    def _find(self, path, confidence=0.9, return_cords=False, center_on_found=True):
 
         try:
             if return_cords:
                 cords = self._locate(path, confidence=confidence)
                 if cords is not None:
                     left, top, width, height = cords
-                    return (left + width // 2, top + height // 2) # Return middle of found image   
+                    if center_on_found:
+                        return (left + width // 2, top + height // 2) # Return middle of found image   
+                    else:
+                        return (left, top, width, height)
                 else:
                     return None
             return True if self._locate(path, confidence=confidence) is not None else False
@@ -212,6 +240,9 @@ class BotUtils:
         y = pos_list[1]/1440
         y = y * self.height
         x = x + self._padding() # Add's the pad to to the curent x position variable
+
+        if self.DEBUG:
+            self.log("Scaling: {} -> {}".format(pos_list, (x, y)))
 
         return (int(x), int(y))
         # return (x,y)
