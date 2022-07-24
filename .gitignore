@@ -1,5 +1,6 @@
 _test*.py
 testscripts/*
+DEBUG/*
 
 stats.json
 # IDE

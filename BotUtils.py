@@ -22,6 +22,8 @@ class BotUtils:
     def __init__(self):
         # Gets the main monitor resolution
         # TODO: get monitor res for linux for linux support
+        # self.width, self.height = (5120, 1440) 
+
         try:
             if sys.platform == "win32":
                 self.width, self.height = ctypes.windll.user32.GetSystemMetrics(0), ctypes.windll.user32.GetSystemMetrics(1)
@@ -75,7 +77,8 @@ class BotUtils:
 
         # Take Screenshot
         with mss.mss() as sct:
-            screenshot = np.array(sct.grab(monitor), dtype=np.uint8)
+            sct_image = sct.grab(monitor)
+            screenshot = np.array(sct_image, dtype=np.uint8)
             
             # Load the image as a opencv object
             gray_scale_image = self._load_img(screenshot) 
@@ -90,7 +93,21 @@ class BotUtils:
             if re.search(r"(\d+/\d+)", found_text):
                 return int(found_text.split("/")[0])
             else:
+                if self.DEBUG:
+                    self.log("Found text '{}' does not match regex requirements".format(found_text))
+                    self.save_file(data=mss.tools.to_png(sct_image.rgb, sct_image.size), _file_name="get_current_round_failed.png")
+                    self.log("Saved screenshot of what was found")
+
                 return None
+    
+    def save_file(self, data=format(0, 'b'), _file_name="noname", folder="DEBUG", ):
+        directory = Path(__file__).resolve().parent/folder
+        
+        if not directory.exists():
+            Path.mkdir(directory)
+
+        with open(directory/_file_name, "wb") as output_file:
+            output_file.write(data)
 
     def _move_mouse(self, location, move_timeout=0.1):
         mouse.move(x=location[0], y=location[1])
