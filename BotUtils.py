@@ -33,6 +33,7 @@ class BotUtils:
         try:
             if sys.platform == "win32":
                 self.width, self.height = ctypes.windll.user32.GetSystemMetrics(0), ctypes.windll.user32.GetSystemMetrics(1)
+                # self.width, self.height = (1920, 1080)
             else:
                 raise Exception("Platform not supported yet")
         except Exception as e:
@@ -233,7 +234,8 @@ class BotUtils:
 
             do_padding -- this is used during start 
         """
-
+        # TODO: DIVIDING NY 1440 and 2560 PROBABLY NEEDING TO CHANGE TO self.settings["original resolution"] 
+        # for those how don't have a 2560x1440 resolution that create a gameplan
         reso_21 = False
         for x in self.reso_16: 
             if self.height == x['height']:
