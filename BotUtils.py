@@ -3,7 +3,6 @@ import time
 import keyboard
 import mouse
 import static
-import os
 from pathlib import Path
 
 import numpy as np
@@ -23,6 +22,13 @@ class BotUtils:
         # Gets the main monitor resolution
         # TODO: get monitor res for linux for linux support
         # self.width, self.height = (5120, 1440) 
+        # try:
+        #     mon = {mon: 1}
+        #     with mss.mss() as sct:
+        #         screen = sct.grab(mon)
+        #         print("mss screen size:", screen.size())
+        # except Exception as e:
+        #     print(e)
 
         try:
             if sys.platform == "win32":
@@ -49,10 +55,12 @@ class BotUtils:
         self.width, self.height = get_display_size()
         """
 
-        self.support_dir = self.get_resource_dir("Support_files")
+        self.support_dir = self.get_resource_dir("Support_files_Dev")
 
         # Defing a lamda function that can be used to get a path to a specific image
-        self._image_path = lambda image, root_dir=self.support_dir, height=self.height : root_dir/f"{height}_{image}.png"
+        # self._image_path = lambda image, root_dir=self.support_dir, height=self.height : root_dir/f"{height}_{image}.png"
+        self._image_path = lambda image, root_dir=self.support_dir : root_dir/f"{image}.png"
+
 
         # Resolutions for for padding
         self.reso_16 = [
@@ -113,8 +121,6 @@ class BotUtils:
             # TODO: REMOVE EVERYTHING THAT IS NOT A NUMBER OR A SLASH
             # found_text = found_text.replace("|", "")            
 
-
-            
             if re.search(r"(\d+/\d+)", found_text):
                 return int(found_text.split("/")[0])
             else:
@@ -122,7 +128,7 @@ class BotUtils:
                     self.log("Found text '{}' does not match regex requirements".format(found_text))
                     self.save_file(data=mss.tools.to_png(sct_image.rgb, sct_image.size), _file_name="get_current_round_failed.png")
                     self.log("Saved screenshot of what was found")
-                    
+
                 return None
     
     def save_file(self, data=format(0, 'b'), _file_name="noname", folder="DEBUG", ):
@@ -317,6 +323,9 @@ class BotUtils:
             credit: https://github.com/asweigart/pyscreeze/blob/b693ca9b2c964988a7e924a52f73e15db38511a8/pyscreeze/__init__.py#L184
 
             Returns a list of cordinates to where openCV found matches of the template on the screenshot taken
+
+            TODO: Resize image to match resolution of current screen if neeeded
+                - https://stackoverflow.com/questions/48121916/numpy-resize-rescale-image/48121983#48121983
         """
 
         monitor = {'top': 0, 'left': 0, 'width': self.width, 'height': self.height} if region is None else region
